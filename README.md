@@ -1,4 +1,4 @@
-#bash-forever
+#shell-forever
 
 Some Handy and Fun configuration of mine!
 
