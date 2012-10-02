@@ -1,4 +1,7 @@
-# Git setting
+### Git setting ###
+
+EDITOR="nano"
+
 
 function parse_git_branch {
 	git rev-parse --git-dir &> /dev/null
