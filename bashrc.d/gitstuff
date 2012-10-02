@@ -1,6 +1,6 @@
 ### Git setting ###
 
-EDITOR="nano"
+export GIT_EDITOR="nano"
 
 
 function parse_git_branch {
