@@ -1,8 +1,9 @@
 #my-config
 
-Some Handy and Fun configuration of mine!
+Some Handy and Fun configuration of mine, kinda backup!
 
-# bashrc
+## bashrc.d
+
 I really don't like working on my .bashrc too much so i break it playing
 so
 
@@ -15,9 +16,9 @@ I just add this line to your .bashrc and be happy
 		unset f
 	fi
 
-## cowfortune
+### cowfortune
 	 _____________________________________
-	/ its something like this in your      \
+	/ its something like this in your     \
 	\ terminal.                           /
 	 -------------------------------------
 	  \
@@ -28,6 +29,6 @@ I just add this line to your .bashrc and be happy
 	               ||----w |
 	               ||     ||
 
-## gitprompt
+### gitprompt
 
 	$ [bash-forever (master)‚☹]
