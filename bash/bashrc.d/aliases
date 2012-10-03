@@ -25,5 +25,10 @@ alias openports='netstat --all --numeric --programs --inet --inet6'
 alias dcpp='eiskaltdcpp'
 alias gsm='gnome-system-monitor'
 
+### Using sudo with alias ###
+# Neat trick
+#http://www.shellperson.net/using-sudo-with-an-alias/
+alias sudo='sudo '
+
 ### Archlinux ###
 alias pacman=pacman-color
