@@ -1,8 +1,8 @@
-#shell-forever
+#my-config
 
 Some Handy and Fun configuration of mine!
 
-# installation
+# bashrc
 I really don't like working on my .bashrc too much so i break it playing
 so
 
