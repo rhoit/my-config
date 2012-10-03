@@ -17,7 +17,7 @@ I just add this line to your .bashrc and be happy
 
 ## cowfortune
 	 _____________________________________
-	/ its somethig like this in your      \
+	/ its something like this in your      \
 	\ terminal.                           /
 	 -------------------------------------
 	  \
