@@ -48,15 +48,30 @@
 
 ;;----------------------------------------------------------------------
 ;; Arch pkg-build mode
-(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-(setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+  (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+  (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; Python mode
-(autoload 'python-mode "python-mode.el" "Python mode." t)
-(setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
+  (autoload 'python-mode "python-mode.el" "Python mode." t)
+  (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; php mode
-(autoload 'php-mode "php-mode.el" "Php mode." t)
-(setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+  (autoload 'php-mode "php-mode.el" "Php mode." t)
+  (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; ibus input method
+  (custom-set-variables '(ibus-python-shell-command-name "python2"))
+  (require 'ibus)
+  ;; Turn on ibus-mode automatically after loading .emacs
+  (add-hook 'after-init-hook 'ibus-mode-on)
+  ;; Choose your key to toggle input status:
+  (ibus-define-common-key ?\S-\s nil)
+  (global-set-key (kbd "S-SPC") 'ibus-toggle)
+  ;;(global-set-key (kbd "C-\\") 'ibus-toggle)
+  ;; Change cursor color depending on IBus status
+  (setq ibus-cursor-color '("red" "blue" "limegreen"))
+
+
