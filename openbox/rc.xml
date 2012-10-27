@@ -245,15 +245,6 @@
         </startupnotify>
       </action>
     </keybind>
-    <keybind key="A-F3">
-      <action name="Execute">
-        <command>dmenu</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-          <name>dmenu</name>
-        </startupnotify>
-      </action>
-    </keybind>
 
     <keybind key="C-A-T">
       <action name="Execute">
