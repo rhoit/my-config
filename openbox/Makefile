@@ -1,2 +1,0 @@
-all:
-	./menu-gen.sh
