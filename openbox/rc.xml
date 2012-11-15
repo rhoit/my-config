@@ -192,12 +192,6 @@
     <keybind key="C-A-Right">
       <action name="DesktopRight"/>
     </keybind>
-    <keybind key="C-A-Up">
-      <action name="GoToDesktop"/>
-    </keybind>
-    <keybind key="C-A-Down">
-      <action name="GoToDesktop"/>
-    </keybind>
     <keybind key="S-C-A-Left">
       <action name="SendToDesktopLeft"/>
     </keybind>

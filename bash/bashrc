@@ -18,7 +18,6 @@ function myprompt {
 function defprompt {
     PS1="[\[\033[01;32m\]\u@\h\[\033[01;34m\] \W\[\033[00m\]]\$ "
 }
-defprompt
 
 if [ -d ~/.bashrc.d ]; then
   for f in ~/.bashrc.d/*; do
@@ -27,6 +26,7 @@ if [ -d ~/.bashrc.d ]; then
   unset f
 fi
 
+git-prompt
 
 # START XLE BLOCK
 	# export XLEPATH="$HOME/xle" 

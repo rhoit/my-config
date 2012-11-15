@@ -62,6 +62,7 @@ function gitprompt {
 	PROMPT_COMMAND=prompt_func
 }
 
+#  PS1="[\[\033[01;32m\]\u@\h\[\033[01;34m\] \W\[\033[00m\]]\$ "
 function git-prompt {
-	 PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+	 PS1='[\[\033[01;32m\]\u@\h\[\033[01;34m\] \W\[\e[0;32m\]$(__git_ps1 " (%s)")\[\033[00m\]]\$ '
 }
