@@ -1,6 +1,6 @@
 ### Git setting ###
 
-export GIT_EDITOR="nano"
+#export GIT_EDITOR="nano"
 
 
 function parse_git_branch {
@@ -60,4 +60,8 @@ function gitprompt {
 	COLOR_NONE="\[\033[0m\]"
 
 	PROMPT_COMMAND=prompt_func
+}
+
+function git-prompt {
+	 PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 }

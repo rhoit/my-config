@@ -12,6 +12,10 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# find
+alias lgrep='ls | grep $1'
+alias lagrep='ls -a | grep $1'
+
 # cd 
 alias ..='cd ..'
 
