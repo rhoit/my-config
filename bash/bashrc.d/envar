@@ -1,0 +1,3 @@
+# Replacing the vi as default
+export EDITOR="emacs -nw"
+export VISUAL="emacs -nw"
