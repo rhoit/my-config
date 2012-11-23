@@ -26,12 +26,6 @@ alias diff='colordiff'
 alias hist='history | grep $1'
 alias openports='netstat --all --numeric --programs --inet --inet6'
 
-alias dcpp='eiskaltdcpp-gtk'
-alias gsm='gnome-system-monitor'
-
 ### Using sudo with alias ###
 # Neat trick - also given in arch-wiki
 alias sudo='sudo -E '
-
-### Archlinux ###
-alias pacman=pacman-color
