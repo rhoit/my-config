@@ -1,0 +1,2570 @@
+#!/usr/bin/perl -w
+
+#
+# xdg-menu for archlinux. based on suse xdg-menu written by <nadvornik@suse.cz>
+# Sergej Pupykin <pupykin.s@gmail.com>
+#
+
+# >> Copyright (c) 2003 SuSE Linux AG, Nuernberg, Germany. All rights reserved.
+# >> 
+# >> Author: nadvornik@suse.cz
+# >> 
+
+use strict;
+no warnings qw(uninitialized prototype);
+use Getopt::Long;
+use Encode;
+use I18N::Langinfo qw(langinfo CODESET);
+use POSIX qw(locale_h);
+use Digest::MD5 qw(md5_hex);
+
+my $Version = "0.7.5.5";
+
+my $DefaultAppDirs;
+my $DefaultDirectoryDirs;
+my @KDELegacyDirs;
+
+my $format = 'WindowMaker';
+my $desktop_name;
+my $language = '';
+my $charset = 'iso-8859-1';
+my $root_cmd = 'xdg_menu_su';
+
+my $die_on_error = 0;
+my $verbose = 0;
+my $fullmenu = 0;
+
+my @language_keys;
+
+my @accessed_files;
+my @save_ARGV = @ARGV;
+my $kdeconfig = get_kde_config();
+
+my %Desktop_entries;
+my %Directory_entries;
+
+sub check_file ($)
+{
+    my ($file) =@_;
+
+    unless (-e $file)
+    {
+        push @accessed_files, "X $file";
+        return '';
+    }
+
+    if (-d $file)
+    {
+        push @accessed_files, "D $file";
+        return 'D';
+    }
+    else
+    {
+        push @accessed_files, "F $file";
+        return 'F';
+    }
+}
+
+sub findicon
+{
+
+#       my $theme = "hicolor";
+
+        my $iconname = shift;
+
+
+        my $home = $ENV{"HOME"};
+        my $xdg_data_dirs = $ENV{"XDG_DATA_DIRS"};
+
+        my (@xdg_data_dirs);
+        @xdg_data_dirs = split(":",$xdg_data_dirs);
+
+        my (@icon_search_path);
+        push @icon_search_path, "/";
+
+        my (@categorylist);
+        @categorylist = ("apps", "places", "devices", "actions", "animations", "categories", "emblems", "emotes", "filesystems", "intl", "mimetypes", "status", "stock");
+
+        my (@sizelist);
+        @sizelist = (16, 22, 24, 26, 32, 36, 48, 64, 72, 128, 192, 256);
+
+        my $thisdir = $home."/.icons";
+        ( -d $thisdir ) && push @icon_search_path, $thisdir;
+        foreach my $dir (@xdg_data_dirs)
+        {
+                my $theme = "hicolor";
+                my $size;
+                my $category;
+                foreach $size (@sizelist)
+                {
+                        foreach $category (@categorylist)
+                        {
+                                $thisdir = $dir."/icons/".$theme."/".$size."x".$size."/".$category;
+                                ( -d $thisdir ) && push @icon_search_path, $thisdir;
+                        }
+                }
+                $thisdir = $dir."/icons/mini";
+                ( -d $thisdir ) && push @icon_search_path, $thisdir;
+                $thisdir = $dir."/icons";
+                ( -d $thisdir ) && push @icon_search_path, $thisdir;
+                $thisdir = $dir."/icons/large";
+                ( -d $thisdir ) && push @icon_search_path, $thisdir;
+                $theme = "gnome";
+                foreach $size (@sizelist)
+                {
+                        foreach $category (@categorylist)
+                        {
+                                $thisdir = $dir."/icons/".$theme."/".$size."x".$size."/".$category;
+                                ( -d $thisdir ) && push @icon_search_path, $thisdir;
+
+                        }
+                }
+        }
+
+        push @icon_search_path, "/usr/share/pixmaps";
+
+        my $filename;
+
+        #if ( -f $iconname )
+        #{
+        #        return $iconname;
+        #}
+        #else
+        {
+
+                foreach my $dir (@icon_search_path)
+                {
+                        foreach my $ext ('','.png','.xpm','.svg')
+                        {
+                                $filename = $dir."/".$iconname.$ext;
+                                ( -f $filename ) && return $filename;
+                        }
+                }
+        }
+}
+
+# sub add_png_extension_if_needed ($)
+# {
+#         my ($f) = @_;
+#         return $f =~ /\.(png|xpm|svg)$/ ? $f : "$f.png";
+# }
+
+sub scan_AppDir ($$;$)
+{
+    my ($pool, $dir, $topdir) = @_;
+
+    check_file($dir);
+    $topdir = $dir unless defined $topdir;
+
+    return if(check_file($dir) ne 'D');
+
+    my $DIR;
+
+    opendir($DIR, $dir) or return;
+
+    foreach my $entry (readdir($DIR))
+    {
+        if ( -f "$dir/$entry" && $entry =~ /\.desktop$/ )
+        {
+            read_desktop_entry($pool, "$dir/$entry", $topdir);
+        }
+        elsif ( -d "$dir/$entry" && $entry ne '.' && $entry ne '..' && $entry ne '.hidden')
+        {
+            scan_AppDir ($pool, "$dir/$entry", $topdir);
+        }
+    }
+    closedir $DIR;
+}
+
+sub scan_DirectoryDir ($$;$)
+{
+    my ($pool, $dir, $topdir) = @_;
+
+    check_file($dir);
+    $topdir = $dir unless defined $topdir;
+
+    opendir(DIR, $dir) or return;
+
+    foreach my $entry (readdir(DIR))
+    {
+        if ( -f "$dir/$entry" && $entry =~ /\.directory$/ )
+        {
+            read_directory_entry($pool, "$dir/$entry", $topdir);
+        }
+        elsif ( -d "$dir/$entry" && $entry ne '.' && $entry ne '..' && $entry ne '.hidden')
+        {
+            scan_DirectoryDir ($pool, "$dir/$entry", $topdir);
+        }
+    }
+
+    closedir DIR;
+}
+
+sub read_directory_entry
+{
+    my ($pool, $file, $topdir) = @_;
+
+    unless (defined $Directory_entries{$file})
+    {
+        check_file($file);
+
+        open(FILE, "<$file") or return;
+
+        my $in_desktop_entry = 0;
+        my %entry;
+        while (<FILE>)
+        {
+            if (/^\[/)
+            {
+                if (/^\[Desktop Entry\]/)
+                {
+                    $in_desktop_entry = 1;
+                }
+                elsif (/^\[.*\]/)
+                {
+                    $in_desktop_entry = 0;
+                }
+            }
+            elsif ($in_desktop_entry && /^([^=]*)=([^[:cntrl:]]*)/)
+            {
+                $entry{$1} = $2;
+            }
+        }
+        close(FILE);
+
+        my $id = $file;
+        $id =~ s/^$topdir//;
+        $id =~ s/^\/*//;
+        $id =~ s/\//-/g;
+        $entry{'id'} = $id;
+
+        $Directory_entries{$file} = \%entry;
+    }
+
+    my $entry = $Directory_entries{$file};
+
+    $pool->{'Directory_entries'}{$entry->{'id'}} = $entry;
+}
+
+sub check_show_in ($)
+{
+    my ($entry) = @_;
+
+    return 1 unless defined $entry;
+
+    my %OnlyShowIn;
+    my %NotShowIn;
+
+    if (defined $entry->{'OnlyShowIn'})
+    {
+        foreach my $showin (split /;/, $entry->{'OnlyShowIn'})
+    {
+      $OnlyShowIn{$showin} = 1;
+    }
+    return 0 unless defined $OnlyShowIn{$desktop_name};
+  }
+  if (defined $entry->{'NotShowIn'})
+  {
+    foreach my $showin (split /;/, $entry->{'NotShowIn'})
+    {
+      $NotShowIn{$showin} = 1;
+    }
+    return 0 if defined $NotShowIn{$desktop_name} ;
+  }
+
+  return 1;
+}
+
+sub read_desktop_entry
+{
+    my ($pool, $file, $topdir) = @_;
+
+    unless (defined $Desktop_entries{$file})
+    {
+        check_file($file);
+
+        open(FILE, "<$file") or return;
+
+        my $in_desktop_entry = 0;
+        my %entry;
+        while (<FILE>)
+        {
+            if (/^\[/)
+            {
+                if (/^\[Desktop Entry\]/)
+        {
+          $in_desktop_entry = 1;
+        }
+        elsif (/^\[.*\]/)
+        {
+          $in_desktop_entry = 0;
+        }
+      }
+      elsif ($in_desktop_entry && /^([^=]*)=([^[:cntrl:]]*)/)
+      {
+        $entry{$1} = $2;
+      }
+    }
+    close(FILE);
+
+    my $id = $file;
+    $id =~ s/^$topdir//;
+      $id =~ s/^\/*//;
+      $id =~ s/\//-/g;
+    $entry{'id'} = $id;
+
+    $entry{'refcount'} = 0;
+    $Desktop_entries{$file} = \%entry;
+  }
+
+  my $entry = $Desktop_entries{$file};
+
+  return unless defined $entry->{'Name'};
+  return unless defined $entry->{'Exec'};
+  return if $entry->{'Hidden'} eq 'true';
+  return if $entry->{'NoDisplay'} eq 'true';
+
+  return unless check_show_in($entry);
+
+  return if defined $entry->{'NotShowIn'} && $entry->{'NotShowIn'} eq $desktop_name;
+
+
+  if (defined $pool)
+  {
+    foreach my $category (split /;/, $entry->{'Categories'})
+                {
+                    $pool->{'Categories'}{$category} = [] unless defined $pool->{'Categories'}{$category};
+                    push @{$pool->{'Categories'}{$category}}, $entry;
+                }
+                $pool->{'Desktop_entries'}{$entry->{'id'}} = $entry;
+            }
+            return $entry;
+        }
+
+        my $cached_pool;
+
+        sub read_desktop_entries ($$)
+{
+    my ($directory_paths, $desktop_paths) = @_;
+
+    if ($cached_pool->{'Directory_paths'} eq $directory_paths &&
+        $cached_pool->{'Desktop_paths'} eq $desktop_paths) {
+
+        return $cached_pool;
+    }
+
+
+    my $pool = {'Desktop_entries' => {},
+                'Categories' => {},
+                'Directory_entries' => {},
+                'Directory_paths' => $directory_paths,
+                'Desktop_paths' => $desktop_paths
+    };
+
+    foreach my $dir (split /:/, $directory_paths) {
+        next if $dir =~ /^\s*$/;
+		scan_DirectoryDir($pool, $dir);
+	}
+
+	foreach my $dir (split /:/, $desktop_paths) {
+        next if $dir =~ /^\s*$/;
+		scan_AppDir($pool, $dir);
+	}
+
+	$cached_pool = $pool;
+
+	return $pool;
+}
+
+sub dump_entry_list ($)
+{
+    my ($list) = @_;
+
+    print "list: ";
+    foreach my $entry (@$list) {
+        print "$entry->{id} ";
+    }
+    print "\n";
+
+}
+
+sub get_directory_entry ($$)
+{
+    my ($entry, $pool) = @_;
+
+    return $pool->{'Directory_entries'}{$entry};
+}
+
+sub interpret_Include
+{
+    my ($tree, $entries, $pool) = @_;
+    my %exist;
+
+    my $i = 0;
+
+
+    my @list = interpret_entry_node($tree, 'Or', $pool);
+
+    foreach my $e (@$entries) {
+        if ($e->{type} eq 'desktop') {
+            $exist{$e->{desktop}} = 1;
+        }
+    }
+
+
+#	dump_entry_list(\@list);
+
+    foreach my $entry (@list) {
+
+        next if $exist{$entry};
+
+        push @$entries, {type => 'desktop', desktop => $entry};
+        $entry->{'refcount'}++;
+
+        $exist{$entry} = 1;
+
+    }
+}
+
+sub interpret_Exclude
+{
+    my ($tree, $entries, $pool) = @_;
+
+    my $i = 0;
+
+    my @list = interpret_entry_node($tree, 'Or', $pool);
+
+
+    foreach my $entry (@list) {
+
+        my $i = 0;
+        while (defined $entries->[$i]) {
+            my $exist = $entries->[$i];
+            if ($exist->{type} eq 'desktop' &&
+                $exist->{desktop} eq $entry) {
+                splice @$entries, $i, 1;
+                $entry->{'refcount'}--;
+            }
+            else {
+                $i++;
+            }
+        }
+    }
+}
+
+
+sub interpret_entry_node ($$$)
+{
+    my ($tree, $node, $pool) = @_;
+
+    my $i = 0;
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    my @subtree;
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Filename') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                my $entry = $tree->[$i][2];
+                if (defined $pool->{'Desktop_entries'}{$entry}) {
+                    push @subtree, [$pool->{'Desktop_entries'}{$entry}];
+                }
+                else {
+                    push @subtree, [];
+                }
+            }
+            else {
+                print STDERR "Filename\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Category') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                my $category = $tree->[$i][2];
+                if (defined $pool->{'Categories'}{$category}) {
+                    push @subtree, $pool->{'Categories'}{$category};
+                }
+                else {
+                    push @subtree, [];
+                }
+            }
+            else {
+                print STDERR "Category\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'All') {
+            $i++;
+            if (values %{$pool->{'Desktop_entries'}} > 0) {
+                push @subtree, [values %{$pool->{'Desktop_entries'}}];
+            }
+            else {
+                push @subtree, [];
+            }
+            $i++;
+        }
+        elsif ($tree->[$i] eq '0') {
+            $i++;
+            $i++;
+        }
+        else {
+            my @res = interpret_entry_node($tree->[$i+1], $tree->[$i], $pool);
+            push @subtree, \@res;
+            $i++; $i++;
+        }
+    }
+
+    if ($node eq 'Or')
+    {
+#		print "or - \n";
+
+        my %used;
+        my @res;
+        foreach my $st (@subtree) {
+#			print "  st: ";
+#			dump_entry_list($st);
+            foreach my $entry (@$st) {
+                if (! defined $used{$entry}) {
+                    push @res, $entry;
+                    $used{$entry} = 1;
+                }
+            }
+        }
+#		print " res: ";
+#		dump_entry_list(\@res);
+        return @res;
+    } elsif ($node eq 'And')
+    {
+        my %used;
+        my @res;
+#		print "and - \n";
+        my $cnt = @subtree;
+        my $min = @{$subtree[0]};
+        my $min_idx = 0;
+        my $idx = 0;
+
+        foreach my $st (@subtree) {
+#			print "  st: ";
+#			dump_entry_list($st);
+
+            my $num = @$st;
+            if ($num < $min) {
+                $min = $num;
+                $min_idx = $idx;
+            }
+
+            my %dupes;
+            foreach my $entry (@$st) {
+                next if $dupes{$entry};
+                $dupes{$entry} = 1;
+
+                if (! defined $used{$entry}) {
+                    $used{$entry} = 1;
+                }
+                else {
+                    $used{$entry} ++
+                }
+            }
+
+            $idx ++;
+        }
+        return () if $cnt == 0;
+        foreach my $entry (@{$subtree[$min_idx]}) {
+            push @res, $entry if $used{$entry} == $cnt;
+        }
+
+#		print " res: ";
+#		dump_entry_list(\@res);
+        return @res;
+    } elsif ($node eq 'Not')
+    {
+        my %used;
+        my @res;
+#		print "not - \n";
+        my $cnt = @subtree;
+        foreach my $st (@subtree) {
+#			print "  st: ";
+#			dump_entry_list($st);
+            foreach my $entry (@$st) {
+                $used{$entry} = 1;
+            }
+        }
+        return if $cnt == 0;
+        foreach my $entry (values %{$pool->{'Desktop_entries'}}) {
+            push @res, $entry if !defined $used{$entry};
+        }
+
+#		print " res: ";
+#		dump_entry_list(\@res);
+        return @res;
+    } else {
+        print STDERR "Can't use '$node' inside <Include> or <Exclude>\n";
+        exit 1 if $die_on_error;
+        return ();
+    }
+}
+
+sub interpret_root ($$)
+{
+    my ($tree, $topdir) = @_;
+    if ($tree->[0] eq 'Menu') {
+        return interpret_menu($tree->[1]);
+    }
+    else {
+        print STDERR "No toplevel Menu\n";
+        exit 1 if $die_on_error;
+        return;
+    }
+}
+
+
+sub interpret_menu ($;$$)
+{
+    my ($tree, $directory_paths, $desktop_paths) = @_;
+
+    $directory_paths = '' unless defined $directory_paths;
+    $desktop_paths = '' unless defined $desktop_paths;
+
+    my %menu = ('entries' => [],
+                'OnlyUnallocated' => 0,
+                'DontShowIfEmpty' => 0,
+                'Deleted' => 0);
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'AppDir') {
+            if (ref($tree->[$i + 1][0]) eq 'HASH' and $tree->[$i + 1][1] eq '0') {
+                $desktop_paths .= ':' . $tree->[$i + 1][2];
+                splice @$tree, $i, 2;
+            }
+            else {
+                print STDERR "wrong AppDir\n";
+                exit 1 if $die_on_error;
+                $i++;
+                $i++;
+            }
+        }
+        elsif ($tree->[$i] eq 'DefaultAppDirs') {
+            $desktop_paths .= ':' . $DefaultAppDirs;
+            splice @$tree, $i, 2;
+        }
+        elsif ($tree->[$i] eq 'DirectoryDir') {
+            if (ref($tree->[$i + 1][0]) eq 'HASH' and $tree->[$i + 1][1] eq '0') {
+                $directory_paths .= ':' . $tree->[$i + 1][2];
+                splice @$tree, $i, 2;
+            }
+            else {
+                print STDERR "wrong DirectoryDir\n";
+                exit 1 if $die_on_error;
+                $i++;
+                $i++;
+            }
+        }
+        elsif ($tree->[$i] eq 'DefaultDirectoryDirs') {
+            $directory_paths .= ':' . $DefaultDirectoryDirs;
+            splice @$tree, $i, 2;
+        }
+        else {
+            $i++;
+            $i++;
+        }
+    }
+
+
+    $menu{directory_paths} = $directory_paths;
+    $menu{desktop_paths} = $desktop_paths;
+
+    my $pool = read_desktop_entries($directory_paths, $desktop_paths);
+
+
+    $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Menu') {
+            $i++;
+            my $submenu = interpret_menu($tree->[$i], $directory_paths, $desktop_paths);
+            push @{$menu{'entries'}}, {type => 'menu', menu => $submenu};
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Name') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                $menu{'Name'} = $tree->[$i][2];
+            }
+            else {
+                print STDERR "wrong Name\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Directory') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                $menu{'Directory'} = get_directory_entry($tree->[$i][2], $pool);
+#				print "Directory " . $tree->[$i][2] . "\n";
+            }
+            else {
+                print STDERR "wrong Directory\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'OnlyUnallocated') {
+            $menu{'OnlyUnallocated'} = 1;
+            $i++;
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'DontShowIfEmpty') {
+            $menu{'DontShowIfEmpty'} = 1;
+            $i++;
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Deleted') {
+            $menu{'Deleted'} = 1;
+            $i++;
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'NotDeleted') {
+            $menu{'Deleted'} = 0;
+            $i++;
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Include') {
+            $i++;
+            interpret_Include($tree->[$i], $menu{'entries'}, $pool);
+            $i++;
+        }
+        elsif ($tree->[$i] eq 'Exclude') {
+            $i++;
+            interpret_Exclude($tree->[$i], $menu{'entries'}, $pool);
+            $i++;
+        }
+        elsif ($tree->[$i] eq '0') {
+            $i++;
+            if ($tree->[$i] !~ /^\s*$/) {
+                print STDERR "skip '$tree->[$i]'\n" ;
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        else {
+            print STDERR "Unknown '$tree->[$i]':\n";
+            $i++;
+            print STDERR "        '@{$tree->[$i]}'\n";
+            $i++;
+            exit 1 if $die_on_error;
+        }
+    }
+
+    return \%menu;
+}
+
+
+sub read_menu ($;$)
+{
+    my ($file, $basedir) = @_;
+
+
+    if ($file !~ /^\// && defined $basedir) {
+        $file = "$basedir/$file";
+    }
+
+    unless (defined $basedir) {
+        $basedir = $file;
+        $basedir =~ s/\/[^\/]*$//;
+    }
+
+    unless (check_file($file)) {
+        print STDERR "WARNING: '$file' does not exist\n";
+        return ['Menu', [{}]];
+    }
+
+    print STDERR "reading '$file'\n" if $verbose;
+
+    my $parser = new XML::Parser(Style => 'Tree');
+    my $tree = $parser->parsefile($file);
+
+    my $DefaultMergeDir = $file;
+    $DefaultMergeDir =~ s/^.*\///;
+    $DefaultMergeDir =~ s/\.menu$/-merged/;
+
+    read_includes($tree, $basedir, $DefaultMergeDir);
+
+    return $tree
+}
+
+sub read_menu_dir ($;$)
+{
+    my ($dir, $basedir) = @_;
+
+    my @out;
+
+    if ($dir !~ /^\// && defined $basedir) {
+        $dir = "$basedir/$dir";
+    }
+
+
+    if(check_file($dir) ne 'D')
+    {
+	return [];
+    }
+
+    opendir(DIR, $dir);
+
+    foreach my $entry (readdir(DIR)) {
+
+        if ( -f "$dir/$entry" && $entry =~ /\.menu$/ ) {
+            my $menu = read_menu("$dir/$entry");
+            $menu = remove_toplevel_Menu($menu);
+            push @out, @$menu;
+        }
+    }
+    closedir DIR;
+
+    return \@out;
+}
+
+sub quote_xml ($)
+{
+    my ($txt) = @_;
+
+    $txt =~ s/&/&amp;/g;
+    $txt =~ s/</&lt;/g;
+    $txt =~ s/>/&gt;/g;
+    return $txt;
+}
+
+sub read_legacy_dir ($;$)
+{
+    my ($dir,$basedir) = @_;
+    my $out;
+
+    $dir =~ s/\/*$//;
+
+    $basedir = $dir unless defined $basedir;
+
+    return "" if check_file($dir) ne 'D';
+
+    $out = "<Menu>\n";
+
+    if ($dir eq $basedir) {
+        my $xmldir = quote_xml($dir);
+
+        $out .= "<AppDir>$xmldir</AppDir>\n";
+        $out .= "<DirectoryDir>$xmldir</DirectoryDir>\n";
+    }
+    else {
+        my $name = $dir;
+        $name =~ s/\/*$//;
+        $name =~ s/^.*\///;
+
+        $name = quote_xml($name);
+
+        $out .= "<Name>$name</Name>\n";
+    }
+
+
+    if (-f "$dir/.directory") {
+
+        my $dir_id = "$dir/.directory";
+        $dir_id =~ s/^$basedir//;
+        $dir_id =~ s/^\///;
+        $dir_id = quote_xml($dir_id);
+
+        $out .= "<Directory>$dir_id</Directory>\n";
+    }
+
+    opendir(DIR, $dir);
+
+    foreach my $entry (readdir(DIR)) {
+
+        if ( -f "$dir/$entry" && $entry =~ /\.desktop$/ ) {
+            my $id = "$dir/$entry";
+            $id =~ s/^$basedir//;
+            $id =~ s/^\///;
+            $id =~ s/\//-/g;
+            $id = quote_xml($id);
+
+            my $desktop = read_desktop_entry(undef, "$dir/$entry", $basedir);
+            $out .= "<Include><Filename>$id</Filename></Include>\n" unless defined $desktop->{'Categories'}
+        }
+        elsif ( -d "$dir/$entry" && $entry ne '.' && $entry ne '..' && $entry ne '.hidden') {
+            $out .= read_legacy_dir("$dir/$entry", $basedir);
+        }
+    }
+    closedir DIR;
+    $out .= "</Menu>\n";
+    return $out;
+}
+
+sub remove_toplevel_Menu ($)
+{
+    my ($tree) = @_;
+    if ($tree->[0] eq 'Menu') {
+        shift @{$tree->[1]} if (ref($tree->[1][0]) eq 'HASH');
+        return $tree->[1];
+    }
+    else {
+        print STDERR "No toplevel Menu\n";
+        exit 1 if $die_on_error;
+        return;
+    }
+}
+
+sub read_includes ($$$)
+{
+    my ($tree, $basedir, $DefaultMergeDir) = @_;
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'MergeFile') {
+            if (ref($tree->[$i + 1][0]) eq 'HASH' and $tree->[$i + 1][1] eq '0') {
+                my $add_tree = read_menu($tree->[$i + 1][2], $basedir);
+                $add_tree = remove_toplevel_Menu($add_tree);
+
+                splice @$tree, $i, 2, @$add_tree;
+
+            }
+            else {
+                print STDERR "wrong MergeFile\n";
+                exit 1 if $die_on_error;
+                $i++;
+                $i++;
+            }
+
+        }
+        elsif ($tree->[$i] eq 'MergeDir') {
+            if (ref($tree->[$i + 1][0]) eq 'HASH' and $tree->[$i + 1][1] eq '0') {
+
+                my $add_tree = read_menu_dir($tree->[$i + 1][2], $basedir);
+
+                splice @$tree, $i, 2, @$add_tree;
+
+            }
+            else {
+                print STDERR "wrong MergeFile\n";
+                exit 1 if $die_on_error;
+                $i++;
+                $i++;
+            }
+        }
+        elsif ($tree->[$i] eq 'DefaultMergeDirs') {
+            my $add_tree = read_menu_dir($DefaultMergeDir, $basedir);
+            splice @$tree, $i, 2, @$add_tree;
+        }
+        elsif ($tree->[$i] eq 'LegacyDir') {
+            if (ref($tree->[$i + 1][0]) eq 'HASH' and $tree->[$i + 1][1] eq '0') {
+		if( -d $tree->[$i + 1][2])
+		{
+            	    my $xml = read_legacy_dir($tree->[$i + 1][2]);
+            	    print STDERR "reading legacy directory '" . $tree->[$i + 1][2] . "'\n" if $verbose;
+            	    my $parser = new XML::Parser(Style => 'Tree');
+            	    my $add_tree = $parser->parse($xml);
+            	    $add_tree = remove_toplevel_Menu($add_tree);
+            	    splice @$tree, $i, 2, @$add_tree;
+		}
+		else
+		{
+            	    print STDERR "legacy directory '" . $tree->[$i + 1][2] . "' not found\n" if $verbose;
+            	    splice @$tree, $i, 2, ();
+		}
+            }
+            else {
+                print STDERR "wrong LegacyDir\n";
+                exit 1 if $die_on_error;
+                $i++;
+                $i++;
+            }
+        }
+        elsif ($tree->[$i] eq 'KDELegacyDirs') {
+            my @out;
+            foreach my $dir (@KDELegacyDirs) {
+                my $xml = read_legacy_dir($dir);
+                print STDERR "reading legacy directory '$dir'\n" if $verbose;
+
+                my $parser = new XML::Parser(Style => 'Tree');
+                my $add_tree = $parser->parse($xml);
+                $add_tree = remove_toplevel_Menu($add_tree);
+                push @out, @$add_tree
+            }
+            splice @$tree, $i, 2, @out;
+        }
+        elsif ($tree->[$i] eq 'Menu') {
+            $i++;
+            read_includes($tree->[$i], $basedir, $DefaultMergeDir);
+            $i++;
+        }
+        else {
+            $i++;
+            $i++;
+        }
+    }
+}
+
+sub get_menu_name ($)
+{
+    my ($tree) = @_;
+    my $name;
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Name') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                $name = $tree->[$i][2];
+                last;
+            }
+            else {
+                print STDERR "wrong Name\n";
+            }
+            $i++;
+        }
+        else {
+            $i++;
+            $i++;
+        }
+    }
+
+    unless (defined $name) {
+        print STDERR "Menu has no name element\n";
+    }
+    return $name;
+}
+
+
+sub append_menu ($$)
+{
+    my ($target, $source) = @_;
+
+    my $i = 0;
+
+    $i++ if (ref($source->[$i]) eq 'HASH');
+
+    while (defined $source->[$i]) {
+        if ($source->[$i] ne 'Name') {
+            push @$target, $source->[$i];
+            push @$target, $source->[$i + 1];
+        }
+
+        $i++;
+        $i++;
+    }
+}
+
+
+sub merge_menus ($)
+{
+    my ($tree) = @_;
+
+    my %used; #menu name already used
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Menu') {
+            my $name = get_menu_name($tree->[$i + 1]);
+            if (defined $used{$name}) { #second menu with the same name
+                my $target = $used{$name};
+
+                append_menu($tree->[$target], $tree->[$i + 1]);
+
+                splice @$tree, $i, 2;
+            }
+            else { # first appearance
+                $used{$name} = $i + 1;
+                $i++;
+                $i++;
+            }
+        }
+        else {
+            $i++;
+            $i++;
+        }
+    }
+
+
+    $i = 0;
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Menu') {
+            merge_menus($tree->[$i + 1]);
+        }
+        $i++;
+        $i++;
+    }
+}
+
+sub read_Move ($$)
+{
+    my ($tree, $hash) = @_;
+
+    my $i = 0;
+
+    my $old = '';
+
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i]) {
+        if ($tree->[$i] eq 'Old') {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                $old = $tree->[$i][2];
+            }
+            else {
+                print STDERR "wrong Old\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        if ($tree->[$i] eq 'New')
+        {
+            $i++;
+            if (ref($tree->[$i][0]) eq 'HASH' and $tree->[$i][1] eq '0') {
+                $hash->{$old} = $tree->[$i][2];
+            }
+            else {
+                print STDERR "wrong New\n";
+                exit 1 if $die_on_error;
+            }
+            $i++;
+        }
+        else
+        {
+            $i++;
+            $i++;
+        }
+    }
+}
+
+sub find_menu_in_tree ($$)
+{
+    my ($path, $tree) = @_;
+
+    my $root = $path;
+    $root =~ s/\/.*$//;
+
+    my $subpath = $path;
+    $subpath =~ s/^[^\/]*\/*//;
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i])
+    {
+        if ($tree->[$i] eq 'Menu')
+        {
+            if ($root eq get_menu_name($tree->[$i + 1]))
+            {
+
+                if ($subpath eq '')
+                {
+                    return { 'parent' => $tree, 'index' => $i, 'menu' => $tree->[$i + 1]};
+                }
+                return find_menu_in_tree($subpath, $tree->[$i + 1]);
+            }
+        }
+
+        $i++;
+        $i++;
+    }
+
+    return undef;
+}
+
+sub copy_menu ($$)
+{
+    my ($path, $tree) = @_;
+
+    my $tail;
+    my $child;
+
+    foreach my $elem (reverse split(/\//, $path))
+    {
+        next if $elem eq '';
+
+        my $menu = [{}, 'Name', [{}, 0, $elem]];
+        push @$menu, ('Menu', $child) if defined $child;
+
+        $tail = $menu unless defined $tail;
+        $child = $menu;
+    }
+
+    append_menu($tail, $tree);
+
+    return $child;
+}
+
+sub move_menus ($)
+{
+    my ($tree) = @_;
+
+#	print "@$tree\n";
+    my %move;
+
+    my $i = 0;
+
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i])
+    {
+        if ($tree->[$i] eq 'Move')
+        {
+
+            read_Move($tree->[$i + 1], \%move);
+            splice @$tree, $i, 2;
+        }
+        else
+        {
+            $i++;
+            $i++;
+        }
+    }
+
+    foreach my $source (keys %move)
+    {
+        my $sourceinfo = find_menu_in_tree($source, $tree);
+
+        if (defined $sourceinfo) {
+            my $target = copy_menu($move{$source}, $sourceinfo->{'menu'});
+            splice @{$sourceinfo->{'parent'}}, $sourceinfo->{'index'}, 2;
+            push @$tree, ('Menu', $target);
+            merge_menus($tree);
+        }
+    }
+
+    $i = 0;
+    $i++ if (ref($tree->[$i]) eq 'HASH');
+
+    while (defined $tree->[$i])
+    {
+        if ($tree->[$i] eq 'Menu')
+        {
+            move_menus($tree->[$i + 1]);
+        }
+        $i++;
+        $i++;
+    }
+}
+
+sub remove_allocated ($)
+{
+    my ($menu) = @_;
+
+    my $i = 0;
+    while ($i < @{$menu->{'entries'}})
+    {
+        my $entry = $menu->{'entries'}[$i];
+
+        if ($entry->{type} eq 'menu')
+        {
+            remove_allocated($entry->{menu});
+            $i++;
+        }
+        elsif ($entry->{type} eq 'desktop' &&
+               $menu->{'OnlyUnallocated'} &&
+               $entry->{desktop}{'refcount'} > 1)
+        {
+
+            $entry->{desktop}{'refcount'}--;
+            splice @{$menu->{'entries'}}, $i, 1;
+        }
+        else
+        {
+            $i++;
+        }
+    }
+    return 0;
+}
+
+
+sub remove_empty_menus ($)
+{
+    my ($menu) = @_;
+
+
+    my $i = 0;
+    while ($i < @{$menu->{'entries'}})
+    {
+        my $entry = $menu->{'entries'}[$i];
+
+        if ($entry->{type} eq 'menu' && remove_empty_menus($entry->{menu}))
+        {
+            splice @{$menu->{'entries'}}, $i, 1;
+        }
+        else
+        {
+            $i++;
+        }
+    }
+
+    return 1 if @{$menu->{'entries'}} == 0; # && $menu->{'DontShowIfEmpty'}; #menu is empty
+
+    return 0;
+}
+
+
+sub prepare_exec ($$)
+{
+    my ($exec, $desktop) = @_;
+
+    $exec =~ s/%f//g;
+    $exec =~ s/%F//g;
+    $exec =~ s/%u//g;
+    $exec =~ s/%U//g;
+    $exec =~ s/%d//g;
+    $exec =~ s/%D//g;
+    $exec =~ s/%n//g;
+    $exec =~ s/%N//g;
+    $exec =~ s/%i//g;
+    $exec =~ s/%k//g;
+    $exec =~ s/%v//g;
+    $exec =~ s/%m//g;
+
+    my $caption = $desktop->{Name};
+
+    $exec =~ s/%c/$caption/g;
+
+    $exec =~ s/%%/%/g;
+
+    $exec = "xterm -e $exec" if $desktop->{Terminal} eq '1' || $desktop->{Terminal} eq 'true';
+
+    $exec = "$root_cmd $exec" if $desktop->{'X-KDE-SubstituteUID'} eq '1' || $desktop->{'X-KDE-SubstituteUID'} eq 'true';
+    return $exec;
+}
+
+sub get_loc_entry ($$)
+{
+    my ($desktop, $entry) = @_;
+
+    foreach my $key (@language_keys)
+    {
+        my $loc_entry = $entry . "[$key]";
+        return $desktop->{$loc_entry} if defined $desktop->{$loc_entry} && $desktop->{$loc_entry} !~ /^\s*$/;
+    }
+
+    return $desktop->{$entry};
+}
+
+sub preprocess_menu ($)
+{
+# localize, sort, prepare_exec
+    my ($menu) = @_;
+
+    return 0 if $menu->{'Deleted'};
+    return 0 unless check_show_in($menu->{'Directory'});
+    return 0 if defined $menu->{'Directory'} && $menu->{'Directory'}->{'NoDisplay'} eq 'true';
+
+    my $menu_name = $menu->{'Name'};
+
+    if (defined $menu->{'Directory'})
+    {
+        my $directory = $menu->{'Directory'};
+
+        my $directory_name = get_loc_entry($directory, 'Name');
+
+        if (defined $directory_name)
+        {
+            Encode::from_to($directory_name, "utf8", $charset)
+                if !defined $directory->{"Encoding"} || $directory->{"Encoding"} eq 'UTF-8';
+
+            $menu_name = $directory_name;
+        }
+    }
+
+    $menu->{'PrepName'} = $menu_name;
+    $menu->{'PrepIcon'} = $menu->{"Directory"}->{"Icon"};
+
+    my $i = 0;
+    while (defined $menu->{'entries'}[$i])
+    {
+        my $entry = $menu->{'entries'}[$i];
+        if ($entry->{'type'} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'id'};
+
+            my $desktop_name = get_loc_entry($desktop, 'Name');
+
+            if (defined $desktop_name)
+            {
+                Encode::from_to($desktop_name, "utf8", $charset)
+                    if !defined $desktop->{"Encoding"} || $desktop->{"Encoding"} eq 'UTF-8';
+
+                $name = $desktop_name;
+            }
+
+            $desktop->{'PrepName'} = $name;
+            $entry->{'Name'} = $name;
+            $entry->{'PrepName'} = $name;
+
+            $desktop->{'PrepExec'} = prepare_exec($desktop->{Exec}, $desktop);
+            $i++;
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            if (preprocess_menu ($entry->{'menu'}))
+            {
+                $entry->{'Name'} = $entry->{'menu'}{'Name'};
+                $entry->{'PrepName'} = $entry->{'menu'}{'PrepName'};
+                $i++;
+            }
+            else
+            {
+                splice @{$menu->{'entries'}}, $i, 1;
+            }
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+            exit 1 if $die_on_error;
+            splice @{$menu->{'entries'}}, $i, 1;
+        }
+    }
+
+    $menu->{'entries'} = [ sort {$b->{'type'} cmp $a->{'type'} || $a->{'PrepName'} cmp $b->{'PrepName'}} @{$menu->{'entries'}} ];
+
+    $i = 0;
+    my $prev_entry;
+    while (defined $menu->{'entries'}[$i])
+    {
+        my $entry = $menu->{'entries'}[$i];
+        if (defined $prev_entry &&
+            $entry->{'type'} eq 'desktop' &&
+            $prev_entry->{'type'} eq 'desktop' &&
+            $prev_entry->{'PrepName'} eq $entry->{'PrepName'} &&
+            $prev_entry->{'desktop'}->{'PrepExec'} eq $entry->{'desktop'}->{'PrepExec'})
+        {
+            splice @{$menu->{'entries'}}, $i, 1;
+        }
+        else
+        {
+            $prev_entry = $entry;
+            $i++;
+        }
+    }
+
+    return 1;
+}
+
+
+sub output_wmaker_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'PrepName'};
+
+    $output .= ' ' x $indent;
+    $output .= "\"$menu_name\" MENU\n";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+
+            $output .= ' ' x $indent;
+            $output .= " \"$name\" EXEC $exec\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_wmaker_menu ($entry->{'menu'}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+    $output .= "\"$menu_name\" END\n";
+
+    return $output;
+}
+
+sub output_fvwm2_menu ($;$$)
+{
+    my ($menu, $toplevel, $path) = @_;
+
+    my $output = '';
+
+    $path = '' unless defined $path;
+
+    $toplevel = 1 unless defined $toplevel;
+
+    my $menu_name = $menu->{'PrepName'};
+    my $menu_id = "$path-" . $menu->{'Name'};
+    $menu_id =~ s/\s/_/g;
+
+    $menu_id = 'xdg_menu' if $toplevel;
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'menu')
+        {
+            $output .= output_fvwm2_menu($entry->{'menu'}, 0, $menu_id);
+        }
+    }
+
+    $output .= "DestroyMenu \"$menu_id\"\n";
+    $output .= "AddToMenu \"$menu_id\" \"$menu_name\" Title\n";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+
+            $output .= "+		 \"$name\" Exec $exec\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            my $name = $entry->{'menu'}{'PrepName'};
+            my $id = "$menu_id-" . $entry->{'menu'}{'Name'};
+            $id =~ s/\s/_/g;
+
+            $output .= "+		 \"$name\" Popup \"$id\"\n";
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= "\n";
+
+    return $output;
+}
+
+sub output_blackbox_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $output .= "[begin] (Menu)\n";
+    $output .= "[exec] (xterm) {xterm}\n[separator]\n";
+    $output .= output_blackbox_inner_menu ($menu, $indent);
+    $output .= "[separator]\n";
+    $output .= '[config] (Configuration)
+                [workspaces] (Workspace)
+                [submenu] (System Styles) {Choose a style...}
+                        [stylesdir] (/usr/share/blackbox/styles)
+			[stylesdir] (/usr/share/fluxbox/styles)
+			[stylesdir] (/usr/share/openbox/styles)
+                [end]
+                [submenu] (User Styles) {Choose a style...}
+                        [stylesdir] (~/.blackbox/styles)
+			[stylesdir] (~/.fluxbox/styles)
+			[stylesdir] (~/.openbox/styles)
+                [end]
+        [separator]
+        [exec] (Run Command) {bbrun -a -w}
+        [exec] (Lock Screen) {xlock}
+        [restart] (Restart) {}
+        [exit] (Logout)
+[end]
+    ';
+  $output .= "[end]\n";
+  return $output;
+}
+
+
+sub output_blackbox_inner_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'PrepName'};
+
+    $output .= ' ' x $indent;
+    $output .= "[submenu] ($menu_name)\n";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+
+            $output .= ' ' x $indent;
+            $output .= "    [exec] ($name) {$exec}\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_blackbox_inner_menu ($entry->{'menu'}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+    $output .= "[end] # ($menu_name)\n";
+
+    return $output;
+}
+
+sub output_icewm_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'PrepName'};
+    #my $menu_icon = $menu->{'PrepIcon'} || "folder" ;
+    my $menu_icon = findicon($menu->{'PrepIcon'}) || "folder";
+
+    if($indent)
+    {
+	$output .= ' ' x $indent;
+	$output .= "menu \"$menu_name\" $menu_icon {\n";
+    }
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+            my $icon = findicon($desktop->{'Icon'}) || "-";
+
+            $output .= ' ' x $indent;
+            $output .= " prog \"$name\" $icon $exec\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_icewm_menu ($entry->{'menu'}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+
+    if($indent)
+    {
+	$output .= ' ' x $indent;
+	$output .= "}\n";
+    }
+
+    return $output;
+}
+
+
+
+sub output_ion3_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    my @pending_list = ();
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'PrepName'};
+
+    $output .= ' ' x $indent;
+    $output = "defmenu(\"".$menu_name."\", {\n";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+
+	    $exec =~ s/"/\\"/g;
+
+            $output .= ' ' x $indent;
+            $output .= "    menuentry(\"$name\", \"ioncore.exec_on(_, '$exec')\"),\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            push @pending_list, $entry;
+            $output .= "    submenu(\"".$entry->{'menu'}->{'PrepName'}."\", \"".$entry->{'menu'}->{'PrepName'}."\"),\n";
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+    $output .= "})\n";
+
+    foreach my $entry (@pending_list)
+    {
+        $output .= output_ion3_menu ($entry->{'menu'}, $indent + 1);
+    }
+
+    return $output;
+}
+
+sub output_awesome_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    my @pending_list = ();
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = "menu".md5_hex($menu->{'PrepName'});
+    if($indent == 0)
+    {
+        $menu_name = "xdgmenu";
+    }
+
+    #my $menu_icon = findicon($menu->{'PrepIcon'}) || "folder";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'menu')
+        {
+            push @pending_list, $entry;
+        }
+    }
+
+    foreach my $entry (@pending_list)
+    {
+        $output .= output_awesome_menu ($entry->{'menu'}, $indent + 1);
+    }
+
+    $output .= ' ' x $indent;
+    $output .= $menu_name." = {";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+            my $icon = findicon($desktop->{'Icon'}) || "-";
+
+            $exec =~ s/"/\\"/g;
+
+            $output .= ' ' x $indent;
+	    if ($icon eq "-") {
+              $output .= "    {\"$name\", \"$exec\"},\n";
+	    } else {
+              $output .= "    {\"$name\", \"$exec\", \"$icon\" },\n";
+	    }
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= "    {\"".$entry->{'menu'}->{'PrepName'}."\", "."menu".md5_hex($entry->{'menu'}->{'PrepName'})."},\n";
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+    $output .= "}\n\n";
+
+    return $output;
+}
+
+sub output_twm_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    my @pending_list = ();
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'PrepName'};
+
+    $output .= ' ' x $indent;
+    $output = "menu \"".$menu_name."\"\n{\n";
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+
+	    $exec =~ s/"/\\"/g;
+
+            $output .= ' ' x $indent;
+            $output .= "    \"$name\"  f.exec \"exec $exec &\"\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            push @pending_list, $entry;
+            $output .= "    \"".$entry->{'menu'}->{'PrepName'}."\"  f.menu \"".$entry->{'menu'}->{'PrepName'}."\"\n";
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+    $output .= "}\n";
+
+    foreach my $entry (@pending_list)
+    {
+        $output .= output_twm_menu ($entry->{'menu'}, $indent + 1);
+    }
+
+    return $output;
+}
+
+sub prepare_exec_xfce4 ($$)
+{
+    my ($exec, $desktop) = @_;
+
+    $exec =~ s/%f//g;
+    $exec =~ s/%F//g;
+    $exec =~ s/%u//g;
+    $exec =~ s/%U//g;
+    $exec =~ s/%d//g;
+    $exec =~ s/%D//g;
+    $exec =~ s/%n//g;
+    $exec =~ s/%N//g;
+    $exec =~ s/%i//g;
+    $exec =~ s/%k//g;
+    $exec =~ s/%v//g;
+    $exec =~ s/%m//g;
+
+    my $caption = $desktop->{Name};
+
+    $exec =~ s/%c/$caption/g;
+
+    $exec =~ s/%%/%/g;
+
+    $exec =~ s/\"/&quot;/g;
+
+    $exec = "$root_cmd $exec" if $desktop->{'X-KDE-SubstituteUID'} eq '1' || $desktop->{'X-KDE-SubstituteUID'} eq 'true';
+    return $exec;
+}
+
+
+
+sub output_xfce4_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+
+    if ($indent == 0)
+    {
+        $output .= '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $output .= '<!DOCTYPE xfdesktop-menu [' . "\n";
+        $output .= '	<!ENTITY menu2 SYSTEM "menu2.xml">' . "\n";
+        $output .= ']>' . "\n\n";
+    }
+
+    my $menu_name = $menu->{'PrepName'};
+
+    $output .= ' ' x $indent;
+
+    if ($indent == 0)
+    {
+        $output .= "<xfdesktop-menu>\n"
+    }
+    else
+    {
+        $output .= "<menu name=\"" . quote_xml($menu_name) ."\" visible=\"yes\">\n";
+    }
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = prepare_exec_xfce4($desktop->{Exec}, $desktop);
+            my $term = ($desktop->{Terminal} eq '1' || $desktop->{Terminal} eq 'true') ? "yes" : "no";
+
+            $output .= ' ' x $indent;
+            $output .= " <app name=\"" . quote_xml($name) ."\" cmd=\"$exec\" term=\"$term\"/>\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_xfce4_menu ($entry->{'menu'}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+    $output .= ' ' x $indent;
+
+    if ($indent == 0)
+    {
+        $output .= "</xfdesktop-menu>\n";
+    }
+    else
+    {
+        $output .= "</menu>\n";
+    }
+
+    return $output;
+}
+
+sub output_openbox3_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $output .= '<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://openbox.org/
+                file:///usr/share/openbox/menu.xsd">';
+    $output .= "<menu id=\"xdg\" label=\"xdg\">\n";
+    $output .= output_openbox3_inner_menu ($menu, $indent);
+    $output .= "</menu>\n";
+    $output .= '    <menu id="root-menu" label="Openbox 3">
+ <item label="xterm">
+ <action name="Execute"><execute>xterm</execute></action> </item>
+ <separator />
+ <menu id="KDE Menu" label="KDE Menu" />
+ <separator />
+ <menu id="client-list-menu" />
+ <separator />
+ <menu id="ob-menu" label="openbox3">
+     <item label="ob conf"><action name="Execute"><execute>obconf</execute></action></item>
+     <item label="reconfigure"><action name="Reconfigure" /></item>
+ </menu>
+ <separator />
+ <item label="lock screen"><action name="Execute"><execute>xlock -remote -nice 19 -mode blank -geometry 1x1 -enablesaver</execute></action></item>
+ <separator />
+ <item label="Exit"><action name="Exit" /></item>
+ </menu>';
+    $output .= "</openbox_menu>\n";
+    return $output;
+}
+
+sub output_openbox3_pipe_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $output .= "<openbox_pipe_menu>\n";
+    $output .= output_openbox3_inner_menu ($menu, $indent);
+    $output .= "</openbox_pipe_menu>\n";
+    return $output;
+}
+
+sub output_openbox3_inner_menu ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+    my $menu_name = $menu->{'PrepName'};
+    my $menu_icon = findicon($menu->{'PrepIcon'});
+
+    if($indent != 0)
+    {
+	$output .= ' ' x $indent;
+
+        if ($menu_icon eq "")
+        {
+            $output .= "<menu id=\"" . quote_xml($menu_name) . "\" label=\"".quote_xml($menu_name) . "\">\n";
+        }
+        else
+        {
+            $output .= "<menu id=\"" . quote_xml($menu_name) . "\" label=\"".quote_xml($menu_name) . "\" icon=\"" . quote_xml($menu_icon) . "\">\n";
+        }
+
+#       $output .= "<menu label=\"".quote_xml($menu_name) . "\">\n";
+    }
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop')
+        {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{'PrepName'};
+            my $exec = $desktop->{'PrepExec'};
+            my $icon = findicon($desktop->{'Icon'});
+
+            $output .= ' ' x $indent;
+
+            if ($icon eq "")
+            {
+                $output .= "     <item label=\"". quote_xml($name)."\">\n";
+            }
+            else
+            {
+                $output .= "     <item label=\"". quote_xml($name)."\" icon=\"" . quote_xml($icon) . "\">\n";
+            }
+
+            $output .= "       <action name=\"Execute\"><execute>$exec</execute></action>\n";
+            $output .= "     </item>\n";
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_openbox3_inner_menu ($entry->{'menu'}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+    }
+
+    if($indent != 0)
+    {
+	$output .= ' ' x $indent;
+	$output .= "</menu> <!-- $menu_name -->\n";
+    }
+
+    return $output;
+}
+
+
+sub output_readable ($;$)
+{
+    my ($menu, $indent) = @_;
+
+    my $output = '';
+
+    $indent = 0 unless defined $indent;
+
+    my $menu_name = $menu->{'Name'};
+
+    $output .= "\t" x $indent;
+    $output .= "\"$menu_name\" MENU\n";
+
+
+    foreach my $entry (@{$menu->{'entries'}})
+    {
+        if ($entry->{type} eq 'desktop') {
+            my $desktop = $entry->{desktop};
+
+            my $name = $desktop->{Name};
+
+            $output .= "\t" x $indent;
+            $output .= "\t\"$name\"\n";
+
+
+            my @v = %$desktop;
+            $output .= "@v\n" if $name  eq '';
+        }
+        elsif ($entry->{type} eq 'menu')
+        {
+            $output .= output_readable ($entry->{menu}, $indent + 1);
+        }
+        else
+        {
+            print STDERR "wrong menu entry type: $entry->{type}";
+        }
+
+    }
+
+    return $output;
+}
+
+sub get_root_menu
+{
+    foreach my $dir (split(/:/, $ENV{XDG_CONFIG_DIRS}), "/etc/xdg")
+    {
+        check_file("$dir/menus/applications.menu");
+        return "$dir/menus/applications.menu" if -f "$dir/menus/applications.menu";
+    }
+    return "";
+}
+
+sub get_kde_config
+{
+    my $ret = 'true';
+    if(-x '/usr/bin/kde4-config')
+    {
+        $ret = '/usr/bin/kde4-config';
+    }
+    elsif(-x '/opt/kde/bin/kde-config')
+    {
+        $ret = '/opt/kde/bin/kde-config';
+    }
+    return $ret;
+}
+
+sub get_app_dirs
+{
+    my %used;
+    my $ret = '';
+
+
+    my @kde_xdgdata = split(/:/, `$kdeconfig --path xdgdata-apps`);
+
+    foreach $_ (@kde_xdgdata)
+    {
+        s/\/applications\/*\s*$//;
+    };
+
+    foreach my $d (split(/:/, $ENV{XDG_DATA_DIRS}), @kde_xdgdata, "/usr/share", "/opt/gnome/share")
+    {
+        my $dir = $d;
+        $dir =~ s/\/*$//;
+        next if defined $used{$dir};
+        next if check_file("$dir/applications") ne 'D';
+        $ret .= ':' if $ret ne '';
+        $ret .= "$dir/applications";
+        $used{$dir} = 1;
+    }
+    return $ret;
+}
+
+sub get_desktop_dirs
+{
+    my %used;
+    my $ret = '';
+    foreach my $dir (split(/:/, $ENV{XDG_DATA_DIRS}), "/usr/share", "/opt/kde3/share", "/opt/gnome/share")
+    {
+        next if defined $used{$dir};
+        next if check_file("$dir/desktop-directories") ne 'D';
+        $ret .= ':' if $ret ne '';
+        $ret .= "$dir/desktop-directories";
+        $used{$dir} = 1;
+    }
+    return $ret;
+}
+
+sub get_KDE_legacy_dirs
+{
+    my %used;
+    my @ret;
+    foreach my $d ("/etc/opt/kde3/share/applnk", "/opt/kde3/share/applnk", reverse(split(/:/, `$kdeconfig --path apps`)))
+    {
+        my $dir = $d;
+        chomp $dir;
+        $dir =~ s/\/*$//;
+        next if defined $used{$dir};
+        next if check_file("$dir") ne 'D';
+        $used{$dir} = 1;
+        push @ret, $dir;
+    }
+    return @ret;
+}
+
+sub prepare_language_keys ($)
+{
+    my ($language) = @_;
+
+    my @keys;
+
+    $language =~ s/\.[^@]*//;  # remove .ENCODING
+
+    if ($language =~ /^([^_]*)_([^@]*)@(.*)$/)
+    { # LANG_COUNTRY@MODIFIER
+        push @keys, $1 . '_' . $2 . '@' . $3;
+        push @keys, $1 . '_' . $2;
+        push @keys, $1 . '@' . $3;
+        push @keys, $1;
+    }
+    elsif ($language =~ /^([^_]*)_([^@]*)$/)
+    { # LANG_COUNTRY
+        push @keys, $1 . '_' . $2;
+        push @keys, $1;
+    }
+    elsif ($language =~ /^([^_]*)@(.*)$/)
+    { # LANG@MODIFIER
+        push @keys, $1 . '@' . $2;
+        push @keys, $1;
+    }
+    elsif ($language =~ /^([^_@]*)$/)
+    { # LANG
+        push @keys, $1;
+    }
+
+    return @keys;
+}
+
+sub check_cache
+{
+    my $cachedir = $ENV{HOME};
+
+    return unless -d $cachedir;
+
+    $cachedir .= "/.xdg_menu_cache";
+
+    return unless -f "$cachedir/inputs" && -f "$cachedir/output";
+
+    my @st = stat "$cachedir/output";
+    my $ref_time = $st[10]; #ctime
+
+    open(FILE, "<$cachedir/inputs");
+
+    my $num_opts = 0;
+
+    while (<FILE>)
+    {
+        chomp;
+        next if /^\s*$/;
+        next if /^#/;
+
+            if (/^[FD] (.*)$/)
+        {
+            my $file = $1;
+            my @st = stat $file;
+            my $time = $st[10]; #ctime
+
+            if (!defined $time || $time >= $ref_time)
+            {
+#				print STDERR "$file: is newer\n";
+                return;
+            }
+        }
+        elsif (/^X (.*)$/)
+        {
+            my $file = $1;
+
+            if (-e $file) {
+#				print STDERR "$file: exists\n";
+                return;
+            }
+        }
+        elsif (/^ENV ([^ ]+) (.*)$/)
+        {
+            my $var = $1;
+            my $val = $2;
+
+            if ($ENV{$var} ne $val)
+            {
+#				print STDERR "$var: differs\n";
+                return;
+            }
+        }
+        elsif (/^OPT ([0-9]+) (.*)$/)
+        {
+            my $optidx = $1;
+            my $val = $2;
+
+            $num_opts ++;
+            if ($save_ARGV[$optidx] ne $val)
+            {
+#				print STDERR "$optidx: differs\n";
+                return;
+            }
+        }
+        elsif (/^CHARSET (.*)$/)
+        {
+            my $charset = $1;
+
+            if ($charset ne langinfo(CODESET))
+            {
+#				print STDERR "charset $charset differs\n";
+                return;
+            }
+        }
+        elsif (/^LANGUAGE (.*)$/)
+        {
+            my $language = $1;
+
+            if ($language ne setlocale(LC_MESSAGES))
+            {
+#				print STDERR "language $language differs\n";
+                return;
+            }
+        }
+        elsif (/^VERSION (.*)$/)
+        {
+            my $v = $1;
+
+            if ($v ne $Version) {
+#				print STDERR "Version differs\n";
+                return;
+            }
+        }
+        else {
+            print STDERR "Wrong cache inputs list\n";
+            return;
+        }
+
+
+    }
+
+    return if $num_opts != @save_ARGV;
+
+    open(FILE, "<$cachedir/output") or return;
+
+    print STDERR "Using cached output\n" if $verbose;
+
+    my $buf;
+    while(read(FILE, $buf, 4096))
+    {
+        print $buf;
+    }
+    close(FILE);
+
+    exit 0;
+}
+
+sub write_cache ($)
+{
+    my ($output) = @_;
+
+    my $cachedir = $ENV{HOME};
+
+    return unless -d $cachedir;
+
+    $cachedir .= "/.xdg_menu_cache";
+
+    mkdir $cachedir;
+    unlink "$cachedir/output";
+
+    open(FILE, ">$cachedir/inputs") or return;
+    print FILE "# this file contains list of inputs xdg_menu\n";
+    print FILE "VERSION $Version\n";
+    print FILE "\n\n";
+    print FILE join("\n",  @accessed_files);
+    print FILE "\n\n";
+
+    for (my $i = 0; $i < @save_ARGV; $i++)
+    {
+        print FILE "OPT $i $save_ARGV[$i]\n";
+    }
+
+    print FILE "ENV XDG_CONFIG_DIRS $ENV{XDG_CONFIG_DIRS}\n";
+    print FILE "ENV XDG_DATA_DIRS $ENV{XDG_DATA_DIRS}\n";
+
+    print FILE "CHARSET " . langinfo(CODESET) . "\n";
+    print FILE "LANGUAGE " . setlocale(LC_MESSAGES) . "\n";
+
+    close(FILE);
+    open(FILE, ">$cachedir/output") or return;
+    print FILE $output;
+    close(FILE);
+}
+
+
+#
+# ################################################
+#
+
+check_cache();
+
+use XML::Parser;
+
+$DefaultAppDirs = get_app_dirs();
+$DefaultDirectoryDirs = get_desktop_dirs();
+
+my $root_menu = get_root_menu();
+
+@KDELegacyDirs = get_KDE_legacy_dirs();
+
+$charset = langinfo(CODESET);
+$language = setlocale(LC_MESSAGES);
+
+$root_cmd = "/opt/gnome/bin/gnomesu" if -x '/opt/gnome/bin/gnomesu';
+$root_cmd = "/opt/kde3/bin/kdesu" if -x '/opt/kde3/bin/kdesu';
+
+my $help;
+
+GetOptions("format=s" => \$format,
+           "fullmenu" => \$fullmenu,
+           "desktop=s" => \$desktop_name,
+           "charset=s" => \$charset,
+           "language=s" => \$language,
+           "root-menu=s" => \$root_menu,
+           "die-on-error" => \$die_on_error,
+           "verbose" => \$verbose,
+           "help" => \$help
+    );
+
+@language_keys = prepare_language_keys($language);
+
+$desktop_name = $format unless defined $desktop_name;
+
+if ($help)
+{
+    print <<"EOF";
+
+    xdg-menu - XDG menus for WindowMaker and other window managers
+      http://freedesktop.org/Standards/menu-spec
+
+
+    Usage:
+      xdg_menu [--format <format>] [--desktop <desktop>]
+      [--charset <charset>] [--language <language>]
+      [--root-menu <root-menu>] [--die-on-error]
+      [--fullmenu] [--help]
+
+      format - output format
+
+      possible formats: twm, WindowMaker, fvwm2, icewm,  ion3,
+                        blackbox, fluxbox, openbox,
+                        xfce4, openbox3, openbox3-pipe, awesome
+                        readable
+                        default: WindowMaker
+
+      fullmenu  - output a full menu and not only a submenu
+
+      desktop - desktop name for NotShowIn and OnlyShowIn
+                default: the same as format
+
+      charset - output charset
+                default: $charset
+
+      language - output language
+                 default: $language
+
+      root-menu - location of root menu file
+                  default: $root_menu
+
+      die-on-error - abort execution on any error,
+                     default: try to continue
+
+      verbose - print debugging information
+
+      help - print this text
+
+EOF
+ exit 0;
+}
+
+
+unless ( -f $root_menu)
+{
+    print STDERR "Can't find root menu file.\n";
+    exit 1;
+}
+
+my $tree = read_menu($root_menu);
+
+merge_menus($tree);
+move_menus($tree);
+
+my $menu = interpret_root($tree, '');
+
+remove_allocated($menu);
+preprocess_menu($menu);
+remove_empty_menus($menu);
+
+my $output;
+
+if ($format eq 'WindowMaker')
+{
+    $output = output_wmaker_menu($menu)
+}
+elsif ($format eq 'fvwm2')
+{
+    $output = output_fvwm2_menu($menu)
+}
+elsif ($format eq 'icewm')
+{
+    $output = output_icewm_menu($menu)
+}
+elsif ($format eq 'ion3')
+{
+    $output = output_ion3_menu($menu);
+}
+elsif ($format eq 'awesome')
+{
+    $output = output_awesome_menu($menu);
+}
+elsif ($format eq 'twm')
+{
+    $output = output_twm_menu($menu);
+}
+elsif ($format eq 'xfce4')
+{
+    $output = output_xfce4_menu($menu)
+}
+elsif ($format eq 'blackbox' || ($format eq 'openbox') || ($format eq 'fluxbox') )
+{
+    if ($fullmenu)
+    {
+        $output = output_blackbox_menu($menu)
+    }
+    else
+    {
+        $output = output_blackbox_inner_menu($menu)
+    }
+}
+elsif ($format eq 'openbox3')
+{
+    if ($fullmenu)
+    {
+        $output = output_openbox3_menu($menu)
+    }
+    else
+    {
+        $output = output_openbox3_inner_menu($menu)
+    }
+}
+elsif ($format eq 'openbox3-pipe')
+{
+    $output = output_openbox3_pipe_menu($menu)
+}
+elsif ($format eq 'readable')
+{
+    $output = output_readable($menu)
+}
+else
+{
+    print STDERR "Unknown format $format\n";
+    exit 1;
+}
+
+print $output;
+write_cache($output);
+
+exit 0;
