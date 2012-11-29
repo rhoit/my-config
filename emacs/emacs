@@ -74,4 +74,9 @@
   ;; Change cursor color depending on IBus status
   (setq ibus-cursor-color '("red" "blue" "limegreen"))
 
-
+;;----------------------------------------------------------------------
+;; markdown mode
+   (autoload 'markdown-mode "markdown-mode.el"
+   	     "Major mode for editing Markdown files" t)
+   (setq auto-mode-alist
+   	 (cons '("\.md" . markdown-mode) auto-mode-alist))
