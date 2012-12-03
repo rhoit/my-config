@@ -69,7 +69,7 @@
   (add-hook 'after-init-hook 'ibus-mode-on)
   ;; Choose your key to toggle input status:
   (ibus-define-common-key ?\S-\s nil)
-  (global-set-key (kbd "S-SPC") 'ibus-toggle)
+  (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
   ;;(global-set-key (kbd "C-\\") 'ibus-toggle)
   ;; Change cursor color depending on IBus status
   (setq ibus-cursor-color '("red" "blue" "limegreen"))
