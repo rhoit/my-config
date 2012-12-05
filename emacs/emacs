@@ -9,12 +9,12 @@
 ;;  (global-unset-key [C-z])
 ;;  (global-unset-key [C-Z])
 
-;;----------------------------------------------------------------------
-;; Plugins
-  ;; AUCTeX
-    (load "auctex.el" nil t t)
-    ;; preview-latex
-      (load "preview-latex.el" nil t t)
+
+;;------------------------------PLUGINS---------------------------------
+
+;; AUCTeX
+  ;; (load "auctex.el" nil t t)
+  ;; (load "preview-latex.el" nil t t)
 
   ;; Interactively Do Things [IDO]
     (require 'ido)  
