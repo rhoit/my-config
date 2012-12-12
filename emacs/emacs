@@ -1,0 +1,91 @@
+;;----------------------------------------------------------------------
+;; Settings
+  (setq make-backup-files nil)
+
+;; line-number
+   (add-hook 'find-file-hook (lambda() (linum-mode 1)))
+   (global-linum-mode 1)
+
+;; remove startup screen
+   (custom-set-variables '(inhibit-startup-screen t))
+   (custom-set-faces)
+
+;; color current line 'http://raebear.net/comp/emacscolors.html'
+   (global-hl-line-mode 1)
+   (set-face-background 'hl-line "#8b8682")
+   (set-face-background 'region' "#4169e1")
+
+;;----------------------------------------------------------------------
+;; Shortcut Keys
+  (global-set-key [C-f8] 'compile)
+  (global-set-key (kbd "C-z") 'undo)
+
+;;##############################PLUGINS#################################
+
+;;----------------------------------------------------------------------
+;; AUCTeX
+;; (load "auctex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
+
+;;----------------------------------------------------------------------
+;; Interactively Do Things [IDO]
+   (require 'ido)  
+   (ido-mode t)
+   (setq ido-enable-flex-matching t) ;; enable fuzzy matching
+
+;;----------------------------------------------------------------------
+;; auto-complete
+    (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
+    (require 'auto-complete-config)
+    (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
+    (ac-config-default)
+
+;;----------------------------------------------------------------------
+;; gnuplot-mode
+;;   (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+;;   (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+;;   (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+;;   (global-set-key [(f9)] 'gnuplot-make-buffer)
+
+;;----------------------------------------------------------------------
+;; LFG mode
+;; (load-library "/home/rho/xle/emacs/lfg-mode")
+
+;;----------------------------------------------------------------------
+;; Arch pkg-build mode
+   (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+   (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; Python mode
+  (autoload 'python-mode "python-mode.el" "Python mode." t)
+  (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; php mode
+   (autoload 'php-mode "php-mode.el" "Php mode." t)
+   (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; ibus input method
+   (custom-set-variables '(ibus-python-shell-command-name "python2"))
+   (require 'ibus)
+   ;; Turn on ibus-mode automatically after loading .emacs
+   ;; (add-hook 'after-init-hook 'ibus-mode-on)
+   ;; Choose your key to toggle input status:
+   ;; (ibus-define-common-key ?\S-\s nil)
+   ;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
+   ;; (global-set-key (kbd "C-\\") 'ibus-toggle)
+   ;; Change cursor color depending on IBus status
+   (setq ibus-cursor-color '("red" "blue" "limegreen"))
+
+;;----------------------------------------------------------------------
+;; markdown mode
+   (autoload 'markdown-mode "markdown-mode.el"
+   	     "Major mode for editing Markdown files" t)
+   (setq auto-mode-alist
+   	 (cons '("\.md" . markdown-mode) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; color-themes
+   (require 'color-theme)
