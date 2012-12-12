@@ -178,6 +178,11 @@
     <keybind key="C-A-Left">
       <action name="DesktopLeft"/>
     </keybind>
+    <keybind key="W-o">
+      <action name="Execute">
+        <command>xset dpms force off</command>
+      </action>
+    </keybind>
     <keybind key="XF86PowerOff">
       <action name="Execute">
         <command>oblogout</command>
