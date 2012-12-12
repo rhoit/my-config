@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <resistance>
     <strength>10</strength>
@@ -178,6 +177,11 @@
     <chainQuitKey>C-g</chainQuitKey>
     <keybind key="C-A-Left">
       <action name="DesktopLeft"/>
+    </keybind>
+    <keybind key="W-o">
+      <action name="Execute">
+        <command>xset dpms force off</command>
+      </action>
     </keybind>
     <keybind key="Print">
       <action name="Execute">
