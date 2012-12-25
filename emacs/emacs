@@ -15,6 +15,17 @@
    (set-face-background 'hl-line "#8b8682")
    (set-face-background 'region' "#4169e1")
 
+;; change fonts
+;;   (set-default-font "Terminus-9")
+
+;; ansi-color sequence for complitaion mode
+   (require 'ansi-color)
+   (defun colorize-compilation-buffer ()
+     (toggle-read-only)
+     (ansi-color-apply-on-region (point-min) (point-max))
+     (toggle-read-only))
+   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
 ;;----------------------------------------------------------------------
 ;; Shortcut Keys
   (global-set-key [C-f8] 'compile)
@@ -24,7 +35,7 @@
 
 ;;----------------------------------------------------------------------
 ;; AUCTeX
-;; (load "auctex.el" nil t t)
+   (load "auctex.el" nil t t)
 ;; (load "preview-latex.el" nil t t)
 
 ;;----------------------------------------------------------------------
