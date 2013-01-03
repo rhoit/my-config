@@ -12,8 +12,8 @@
 
 ;; color current line 'http://raebear.net/comp/emacscolors.html'
    (global-hl-line-mode 1)
-   (set-face-background 'hl-line "#8b8682")
-   (set-face-background 'region' "#4169e1")
+   (set-face-background 'hl-line "#e0e0f0")
+   (set-face-background 'region' "#a1a9c1")
 
 ;; change fonts
 ;;   (set-default-font "Terminus-9")
@@ -100,3 +100,9 @@
 ;;----------------------------------------------------------------------
 ;; color-themes
    (require 'color-theme)
+
+;;----------------------------------------------------------------------
+;; yasnippet
+   (add-to-list 'load-path "/usr/share/emacs/site-lisp/yas")
+   (require 'yasnippet) ;; not yasnippet-bundle
+   (yas/global-mode 1) ;; or manually load it with yas-global-mode
