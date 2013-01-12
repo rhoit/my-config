@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+	<menu id="root-menu" label="OpenBox 3">
+		<menu id="1" label="Development">
+			<item label="FlameRobin"> <action name="Execute">
+				<execute>flamerobin</execute>
+			</action> </item>
+			<item label="Fluid"> <action name="Execute">
+				<execute>fluid</execute>
+			</action> </item>
+			<item label="GNU Octave"> <action name="Execute">
+				<execute>xterm -e octave</execute>
+			</action> </item>
+			<item label="IDLE"> <action name="Execute">
+				<execute>idle</execute>
+			</action> </item>
+			<item label="OpenJDK Monitoring &amp; Management Console"> <action name="Execute">
+				<execute>jconsole</execute>
+			</action> </item>
+			<item label="OpenJDK Policy Tool"> <action name="Execute">
+				<execute>policytool</execute>
+			</action> </item>
+			<item label="Python"> <action name="Execute">
+				<execute>xterm -e python</execute>
+			</action> </item>
+			<item label="Qt Assistant"> <action name="Execute">
+				<execute>assistant</execute>
+			</action> </item>
+			<item label="Qt Designer"> <action name="Execute">
+				<execute>designer</execute>
+			</action> </item>
+			<item label="Qt Linguist"> <action name="Execute">
+				<execute>linguist</execute>
+			</action> </item>
+		</menu>
+		<menu id="2" label="Editors">
+			<item label="AA Fire"> <action name="Execute">
+				<execute>xterm -e aafire -driver slang</execute>
+			</action> </item>
+			<item label="Emacs"> <action name="Execute">
+				<execute>xterm -e emacs</execute>
+			</action> </item>
+			<item label="Leafpad"> <action name="Execute">
+				<execute>leafpad</execute>
+			</action> </item>
+			<item label="Nano"> <action name="Execute">
+				<execute>xterm -e nano</execute>
+			</action> </item>
+			<item label="Rain"> <action name="Execute">
+				<execute>xterm -e rain</execute>
+			</action> </item>
+			<item label="Vi"> <action name="Execute">
+				<execute>xterm -e vi</execute>
+			</action> </item>
+			<item label="Worms"> <action name="Execute">
+				<execute>xterm -e worms</execute>
+			</action> </item>
+		</menu>
+		<menu id="8" label="Education">
+			<item label="Arithmetic Quiz"> <action name="Execute">
+				<execute>xterm -e arithmetic</execute>
+			</action> </item>
+			<item label="Artha"> <action name="Execute">
+				<execute>artha</execute>
+			</action> </item>
+			<item label="Klavaro"> <action name="Execute">
+				<execute>klavaro</execute>
+			</action> </item>
+		</menu>
+		<menu id="18" label="Games">
+			<menu id="9" label="Adventure">
+				<item label="Adventure"> <action name="Execute">
+					<execute>xterm -e adventure</execute>
+				</action> </item>
+				<item label="Battlestar"> <action name="Execute">
+					<execute>xterm -e battlestar</execute>
+				</action> </item>
+				<item label="Hunt the Wumpus"> <action name="Execute">
+					<execute>xterm -e wump</execute>
+				</action> </item>
+				<item label="Phantasia"> <action name="Execute">
+					<execute>xterm -e phantasia</execute>
+				</action> </item>
+				<item label="Sclient"> <action name="Execute">
+					<execute>sclient</execute>
+				</action> </item>
+				<item label="ScummVM"> <action name="Execute">
+					<execute>scummvm</execute>
+				</action> </item>
+			</menu>
+			<menu id="10" label="Arcade">
+				<item label="PacMan"> <action name="Execute">
+					<execute>pacman</execute>
+				</action> </item>
+				<item label="Robots"> <action name="Execute">
+					<execute>xterm -e robots</execute>
+				</action> </item>
+				<item label="Snake"> <action name="Execute">
+					<execute>xterm -e snake</execute>
+				</action> </item>
+				<item label="Star Trek"> <action name="Execute">
+					<execute>xterm -e trek</execute>
+				</action> </item>
+				<item label="Worm"> <action name="Execute">
+					<execute>xterm -e worm</execute>
+				</action> </item>
+			</menu>
+			<menu id="11" label="Board">
+				<item label="Backgammon"> <action name="Execute">
+					<execute>xterm -e backgammon -pb</execute>
+				</action> </item>
+				<item label="Gomoku"> <action name="Execute">
+					<execute>xterm -e gomoku</execute>
+				</action> </item>
+			</menu>
+			<menu id="12" label="Card">
+				<item label="Canfield"> <action name="Execute">
+					<execute>xterm -e canfield</execute>
+				</action> </item>
+				<item label="Cribbage"> <action name="Execute">
+					<execute>xterm -e cribbage</execute>
+				</action> </item>
+				<item label="Mille Bournes"> <action name="Execute">
+					<execute>xterm -e mille</execute>
+				</action> </item>
+			</menu>
+			<menu id="13" label="Puzzle">
+				<item label="Boggle"> <action name="Execute">
+					<execute>xterm -e boggle</execute>
+				</action> </item>
+				<item label="Bsd Tetris"> <action name="Execute">
+					<execute>xterm -e tetris-bsd</execute>
+				</action> </item>
+				<item label="Hangman"> <action name="Execute">
+					<execute>xterm -e hangman</execute>
+				</action> </item>
+			</menu>
+			<menu id="14" label="Simulation">
+				<item label="Sail"> <action name="Execute">
+					<execute>xterm -e sail</execute>
+				</action> </item>
+			</menu>
+		</menu>
+		<menu id="6" label="Graphics">
+			<item label="Alchemy"> <action name="Execute">
+				<execute>alchemy</execute>
+			</action> </item>
+			<item label="Blender"> <action name="Execute">
+				<execute>blender</execute>
+			</action> </item>
+			<item label="Dia Diagram Editor"> <action name="Execute">
+				<execute>dia</execute>
+			</action> </item>
+			<item label="E-book Viewer"> <action name="Execute">
+				<execute>ebook-viewer</execute>
+			</action> </item>
+			<item label="GNU Image Manipulation Program"> <action name="Execute">
+				<execute>gimp-2.8</execute>
+			</action> </item>
+			<item label="Image Viewer"> <action name="Execute">
+				<execute>eog</execute>
+			</action> </item>
+			<item label="Inkscape"> <action name="Execute">
+				<execute>inkscape</execute>
+			</action> </item>
+			<item label="KeyMon"> <action name="Execute">
+				<execute>key-mon</execute>
+			</action> </item>
+			<item label="Krita"> <action name="Execute">
+				<execute>krita</execute>
+			</action> </item>
+			<item label="LRF Viewer"> <action name="Execute">
+				<execute>lrfviewer</execute>
+			</action> </item>
+			<item label="MyPaint"> <action name="Execute">
+				<execute>mypaint</execute>
+			</action> </item>
+			<item label="scanimage"> <action name="Execute">
+				<execute>xterm -e scanimage</execute>
+			</action> </item>
+			<item label="The GIMP"> <action name="Execute">
+				<execute>gimp</execute>
+			</action> </item>
+			<item label="Xchm"> <action name="Execute">
+				<execute>xchm</execute>
+			</action> </item>
+			<item label="Xfig"> <action name="Execute">
+				<execute>xfig</execute>
+			</action> </item>
+			<item label="XGlyph"> <action name="Execute">
+				<execute>xglyph</execute>
+			</action> </item>
+		</menu>
+		<menu id="7" label="Multimedia">
+			<item label="ALSA mixer"> <action name="Execute">
+				<execute>xterm -e alsamixer</execute>
+			</action> </item>
+			<item label="Audacity"> <action name="Execute">
+				<execute>audacity</execute>
+			</action> </item>
+			<item label="EasyTag"> <action name="Execute">
+				<execute>easytag</execute>
+			</action> </item>
+			<item label="Rhythmbox"> <action name="Execute">
+				<execute>rhythmbox</execute>
+			</action> </item>
+			<item label="VLC media player"> <action name="Execute">
+				<execute>vlc</execute>
+			</action> </item>
+		</menu>
+		<menu id="5" label="Network">
+			<item label="Avahi SSH Server Browser"> <action name="Execute">
+				<execute>bssh</execute>
+			</action> </item>
+			<item label="Avahi VNC Server Browser"> <action name="Execute">
+				<execute>bvnc</execute>
+			</action> </item>
+			<item label="EiskaltDC++ Gtk"> <action name="Execute">
+				<execute>eiskaltdcpp-gtk</execute>
+			</action> </item>
+			<item label="FireFox"> <action name="Execute">
+				<execute>firefox</execute>
+			</action> </item>
+			<item label="FTP"> <action name="Execute">
+				<execute>xterm -e ftp</execute>
+			</action> </item>
+			<item label="Gwget Download Manager"> <action name="Execute">
+				<execute>gwget</execute>
+			</action> </item>
+			<item label="iptux"> <action name="Execute">
+				<execute>iptux</execute>
+			</action> </item>
+			<item label="Mail"> <action name="Execute">
+				<execute>xterm -e mail</execute>
+			</action> </item>
+			<item label="Pidgin Internet Messenger"> <action name="Execute">
+				<execute>pidgin</execute>
+			</action> </item>
+			<item label="Talk"> <action name="Execute">
+				<execute>xterm -e talk</execute>
+			</action> </item>
+			<item label="Telnet"> <action name="Execute">
+				<execute>xterm -e telnet</execute>
+			</action> </item>
+			<item label="Thunderbird"> <action name="Execute">
+				<execute>thunderbird</execute>
+			</action> </item>
+			<item label="TkVNC"> <action name="Execute">
+				<execute>xterm -e tkvnc</execute>
+			</action> </item>
+			<item label="Transmission"> <action name="Execute">
+				<execute>transmission-gtk</execute>
+			</action> </item>
+			<item label="uGet"> <action name="Execute">
+				<execute>uget-gtk</execute>
+			</action> </item>
+			<item label="Zenmap"> <action name="Execute">
+				<execute>zenmap</execute>
+			</action> </item>
+			<item label="Zenmap (as root)"> <action name="Execute">
+				<execute>/usr/share/zenmap/su-to-zenmap.sh</execute>
+			</action> </item>
+		</menu>
+		<menu id="3" label="Office">
+			<item label="Evince"> <action name="Execute">
+				<execute>evince</execute>
+			</action> </item>
+			<item label="LibreOffice Impress"> <action name="Execute">
+				<execute>libreoffice</execute>
+			</action> </item>
+			<item label="PostgreSQL Database"> <action name="Execute">
+				<execute>xterm -e psql template1</execute>
+			</action> </item>
+			<item label="WordNet"> <action name="Execute">
+				<execute>wnb</execute>
+			</action> </item>
+		</menu>
+		<menu id="39" label="Other">
+			<item label="Calibre"> <action name="Execute">
+				<execute>calibre</execute>
+			</action> </item>
+			<item label="Help"> <action name="Execute">
+				<execute>khelpcenter</execute>
+			</action> </item>
+			<item label="IBus Preferences"> <action name="Execute">
+				<execute>ibus-setup</execute>
+			</action> </item>
+			<item label="PDF-Shuffler"> <action name="Execute">
+				<execute>pdfshuffler</execute>
+			</action> </item>
+			<item label="QT V4L2 test Utility"> <action name="Execute">
+				<execute>qv4l2</execute>
+			</action> </item>
+			<item label="System Profiler and Benchmark"> <action name="Execute">
+				<execute>hardinfo</execute>
+			</action> </item>
+		</menu>
+		<menu id="4" label="Science">
+			<item label="bc"> <action name="Execute">
+				<execute>xterm -e bc</execute>
+			</action> </item>
+			<item label="dc"> <action name="Execute">
+				<execute>xterm -e dc</execute>
+			</action> </item>
+			<item label="Gnuplot"> <action name="Execute">
+				<execute>xterm -e gnuplot</execute>
+			</action> </item>
+			<item label="R"> <action name="Execute">
+				<execute>xterm -e R</execute>
+			</action> </item>
+		</menu>
+		<menu id="19" label="Shells">
+			<item label="GIT"> <action name="Execute">
+				<execute>xterm -e git</execute>
+			</action> </item>
+			<item label="Oracle VM VirtualBox"> <action name="Execute">
+				<execute>VirtualBox</execute>
+			</action> </item>
+			<item label="Root Terminal"> <action name="Execute">
+				<execute>gksu -l gnome-terminal</execute>
+			</action> </item>
+			<item label="Terminal"> <action name="Execute">
+				<execute>gnome-terminal</execute>
+			</action> </item>
+			<item label="urxvt"> <action name="Execute">
+				<execute>urxvt</execute>
+			</action> </item>
+			<item label="urxvt (client)"> <action name="Execute">
+				<execute>urxvtc</execute>
+			</action> </item>
+			<item label="urxvt (tabbed)"> <action name="Execute">
+				<execute>urxvt-tabbed</execute>
+			</action> </item>
+			<item label="UXTerm"> <action name="Execute">
+				<execute>uxterm</execute>
+			</action> </item>
+			<item label="Xterm"> <action name="Execute">
+				<execute>xterm</execute>
+			</action> </item>
+		</menu>
+		<menu id="37" label="System">
+			<menu id="36" label="Settings">
+				<menu id="21" label="GNOME">
+					<item label="Adobe Flash Player"> <action name="Execute">
+						<execute>flash-player-properties</execute>
+					</action> </item>
+					<item label="Privilege granting"> <action name="Execute">
+						<execute>gksu-properties</execute>
+					</action> </item>
+				</menu>
+				<menu id="35" label="Xfce">
+					<item label="Notifications"> <action name="Execute">
+						<execute>xfce4-notifyd-config</execute>
+					</action> </item>
+				</menu>
+				<item label="Manage Printing"> <action name="Execute">
+					<execute>xdg-open http://localhost:631/</execute>
+				</action> </item>
+				<item label="Openbox Configuration Manager"> <action name="Execute">
+					<execute>obconf</execute>
+				</action> </item>
+				<item label="Panel tint2"> <action name="Execute">
+					<execute>tint2conf</execute>
+				</action> </item>
+				<item label="Xfontsel"> <action name="Execute">
+					<execute>xfontsel</execute>
+				</action> </item>
+			</menu>
+			<item label="Avahi Zeroconf Browser"> <action name="Execute">
+				<execute>avahi-discover</execute>
+			</action> </item>
+			<item label="dconf Editor"> <action name="Execute">
+				<execute>dconf-editor</execute>
+			</action> </item>
+			<item label="GDM Setup"> <action name="Execute">
+				<execute>gksu gdmsetup</execute>
+			</action> </item>
+			<item label="GParted"> <action name="Execute">
+				<execute>gparted-pkexec</execute>
+			</action> </item>
+			<item label="IBus"> <action name="Execute">
+				<execute>ibus-daemon --xim</execute>
+			</action> </item>
+			<item label="Nepomuk Backup"> <action name="Execute">
+				<execute>nepomukbackup</execute>
+			</action> </item>
+			<item label="Nepomuk File Indexing Controller"> <action name="Execute">
+				<execute>nepomukcontroller</execute>
+			</action> </item>
+			<item label="pstree"> <action name="Execute">
+				<execute>xterm -e pstree.x11</execute>
+			</action> </item>
+			<item label="pstree"> <action name="Execute">
+				<execute>xterm -e pstree</execute>
+			</action> </item>
+			<item label="pstree"> <action name="Execute">
+				<execute>xterm -e /usr/bin/pstree.x11</execute>
+			</action> </item>
+			<item label="Top"> <action name="Execute">
+				<execute>xterm -e top</execute>
+			</action> </item>
+			<item label="Wireshark"> <action name="Execute">
+				<execute>wireshark</execute>
+			</action> </item>
+		</menu>
+		<menu id="38" label="Utilities">
+			<item label="7-Zip FM"> <action name="Execute">
+				<execute>7zFM</execute>
+			</action> </item>
+			<item label="About Xfce"> <action name="Execute">
+				<execute>xfce4-about</execute>
+			</action> </item>
+			<item label="Archive Manager"> <action name="Execute">
+				<execute>file-roller</execute>
+			</action> </item>
+			<item label="CellWriter"> <action name="Execute">
+				<execute>cellwriter</execute>
+			</action> </item>
+			<item label="Files"> <action name="Execute">
+				<execute>nautilus</execute>
+			</action> </item>
+			<item label="Font Viewer"> <action name="Execute">
+				<execute>gnome-font-viewer</execute>
+			</action> </item>
+			<item label="Help"> <action name="Execute">
+				<execute>yelp</execute>
+			</action> </item>
+			<item label="Info"> <action name="Execute">
+				<execute>xterm -e info</execute>
+			</action> </item>
+			<item label="WordNet"> <action name="Execute">
+				<execute>xterm -e wn</execute>
+			</action> </item>
+			<item label="Xclock (analog)"> <action name="Execute">
+				<execute>xclock -analog</execute>
+			</action> </item>
+			<item label="Xclock (digital)"> <action name="Execute">
+				<execute>xclock -digital -update 1</execute>
+			</action> </item>
+			<item label="Xclock (digital)"> <action name="Execute">
+				<execute>xclock -digital</execute>
+			</action> </item>
+			<item label="Xkill"> <action name="Execute">
+				<execute>xkill</execute>
+			</action> </item>
+		</menu>
+		<separator/>
+		<menu id="40" label="OpenBox">
+			<menu id="client-list-menu"/>
+			<item label="Reconfigure"> <action name="Reconfigure"/> </item>
+			<separator/>
+			<item label="Exit"> <action name="Exit"/> </item>
+		</menu>
+	</menu>
+</openbox_menu>
