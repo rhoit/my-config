@@ -1,6 +1,6 @@
 ;;----------------------------------------------------------------------
 ;; Settings
-  (setq make-backup-files nil)
+   (setq make-backup-files nil)
 
 ;; line-number
    (add-hook 'find-file-hook (lambda() (linum-mode 1)))
@@ -12,19 +12,49 @@
 
 ;; color current line 'http://raebear.net/comp/emacscolors.html'
    (global-hl-line-mode 1)
-   (set-face-background 'hl-line "#4169e1")
-   (set-face-background 'region' "#8b8682")
+   (set-face-background 'hl-line "#e0e0f0")
+   (set-face-background 'region' "#a1a9c1")
+
+;; change fonts
+;; (set-default-font "Terminus-9")
+
+;; column mode
+   (column-number-mode 1)   
+   
+;; ansi-color sequence for complitaion mode
+   (require 'ansi-color)
+   (defun colorize-compilation-buffer ()
+     (toggle-read-only)
+     (ansi-color-apply-on-region (point-min) (point-max))
+     (toggle-read-only))
+   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;;----------------------------------------------------------------------
 ;; Shortcut Keys
-  (global-set-key [C-f8] 'compile)
-  (global-set-key (kbd "C-z") 'undo)
+   (global-set-key [C-f8] 'compile)
+   (global-set-key (kbd "C-z") 'undo)
+
+;;----------------------------------------------------------------------
+;; Duplicate lines
+   (defun duplicate-current-line ()
+     (interactive)
+     (beginning-of-line nil)
+     (let ((b (point)))
+       (end-of-line nil)
+       (copy-region-as-kill b (point)))
+     (beginning-of-line 2)
+     (open-line 1)
+     (yank)
+     (back-to-indentation))
+
+   (global-set-key (kbd "C-`") 'duplicate-current-line)
+
 
 ;;##############################PLUGINS#################################
 
 ;;----------------------------------------------------------------------
 ;; AUCTeX
-;; (load "auctex.el" nil t t)
+   (load "auctex.el" nil t t)
 ;; (load "preview-latex.el" nil t t)
 
 ;;----------------------------------------------------------------------
@@ -35,9 +65,9 @@
 
 ;;----------------------------------------------------------------------
 ;; auto-complete
-    (add-to-list 'load-path "~/.emacs.d/plugins/auto-complete/")
+    (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
     (require 'auto-complete-config)
-    (add-to-list 'ac-dictionary-directories "~/.emacs.d/plugins/auto-complete//ac-dict")
+    (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
     (ac-config-default)
 
 ;;----------------------------------------------------------------------
@@ -58,8 +88,8 @@
 
 ;;----------------------------------------------------------------------
 ;; Python mode
-  (autoload 'python-mode "python-mode.el" "Python mode." t)
-  (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
+   (autoload 'python-mode "python-mode.el" "Python mode." t)
+   (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; php mode
@@ -89,3 +119,9 @@
 ;;----------------------------------------------------------------------
 ;; color-themes
    (require 'color-theme)
+
+;;----------------------------------------------------------------------
+;; yasnippet
+   (add-to-list 'load-path "/usr/share/emacs/site-lisp/yas")
+   (require 'yasnippet) ;; not yasnippet-bundle
+   (yas/global-mode 1) ;; or manually load it with yas-global-mode
