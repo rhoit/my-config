@@ -1,0 +1,1 @@
+alias dcadmin='telnet localhost 53696'
