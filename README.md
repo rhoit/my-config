@@ -1,22 +1,24 @@
-#bash-forever
+#my-config
 
-Some Handy and Fun configuration of mine!
+Some Handy and Fun configuration of mine, kinda backup!
 
-# installation
+## bashrc.d
+
 I really don't like working on my .bashrc too much so i break it playing
 so
 
 I just add this line to your .bashrc and be happy
+
 	if [ -d /your/bashrc.d/location ]; then
-	  for f in /your/bashrc.d/location/*; do
-	     . "$f"
-	  done
-	  unset f
+		for f in /your/bashrc.d/location/*; do
+			. "$f"
+		done
+		unset f
 	fi
 
-## cowfortune
+### cowfortune
 	 _____________________________________
-	/ its somethig like this in your      \
+	/ its something like this in your     \
 	\ terminal.                           /
 	 -------------------------------------
 	  \
@@ -27,6 +29,6 @@ I just add this line to your .bashrc and be happy
 	               ||----w |
 	               ||     ||
 
-## gitprompt
+### gitprompt
 
 	$ [bash-forever (master)‚☹]
