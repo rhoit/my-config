@@ -1,115 +1,139 @@
-;;----------------------------------------------------------------------
-;; Settings
-   (setq make-backup-files nil)
+;;#############################SETTINGS#################################
+;; backupfile
+(setq make-backup-files nil)
 
 ;; line-number
-   (add-hook 'find-file-hook (lambda() (linum-mode 1)))
-   (global-linum-mode 1)
+(add-hook 'find-file-hook (lambda() (linum-mode 1)))
+(global-linum-mode 1)
 
 ;; remove startup screen
-   (custom-set-variables '(inhibit-startup-screen t))
-   (custom-set-faces)
+(custom-set-variables '(inhibit-startup-screen t))
+(custom-set-faces)
+
+;; Remove unused UI elements
+;;(tool-bar-mode 0)
+;;(menu-bar-mode 0)
+(scroll-bar-mode 0)
 
 ;; color current line 'http://raebear.net/comp/emacscolors.html'
-   (global-hl-line-mode 1)
-   (set-face-background 'hl-line "#b4eeb4")
-   (set-face-background 'region' "#a1a9c1")
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#b4eeb4")
+(set-face-background 'region' "#a1a9c1")
 
 ;; column mode
-   (column-number-mode 1)   
+(column-number-mode 1)
+
+;; show matching parens
+(show-paren-mode 1)   
    
 ;; ansi-color sequence for complitaion mode
-   (require 'ansi-color)
-   (defun colorize-compilation-buffer ()
-     (toggle-read-only)
-     (ansi-color-apply-on-region (point-min) (point-max))
-     (toggle-read-only))
-   (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;;----------------------------------------------------------------------
 ;; Shortcut Keys
-   (global-set-key [C-f8] 'compile)
-   (global-set-key (kbd "C-z") 'undo)
+(global-set-key [C-f8] 'compile)
+(global-set-key (kbd "C-z") 'undo)
 
 ;;----------------------------------------------------------------------
 ;; Duplicate Lines
-   (defun duplicate-current-line ()
-     (interactive)
-     (beginning-of-line nil)
-     (let ((b (point)))
-       (end-of-line nil)
-       (copy-region-as-kill b (point)))
-     (beginning-of-line 2)
-     (open-line 1)
-     (yank)
-     (back-to-indentation))
+(defun duplicate-current-line()
+  (interactive)
+  (beginning-of-line nil)
+  (let ((b (point)))
+    (end-of-line nil)
+    (copy-region-as-kill b (point)))
+  (beginning-of-line 2)
+  (open-line 1)
+  (yank)
+  (back-to-indentation))
+(global-set-key (kbd "C-`") 'duplicate-current-line)
 
-   (global-set-key (kbd "C-`") 'duplicate-current-line)
+;;----------------------------------------------------------------------
+;; word-sort
+;; http://www.emacswiki.org/emacs/SortWords
+(defun sort-words (reverse beg end)
+  "Sort words in region alphabetically, in REVERSE if negative.
+Prefixed with negative \\[universal-argument], sorts in reverse.
+
+The variable `sort-fold-case' determines whether alphabetic case
+affects the sort order.
+
+See `sort-regexp-fields'."
+  (interactive "*P\nr")
+  (sort-regexp-fields reverse "\\w+" "\\&" beg end))
+
+;;----------------------------------------------------------------------
+;; lisp-mode auto-load for .emacs
+(setq auto-mode-alist (append '((".emacs" . lisp-mode)) auto-mode-alist))
 
 
 ;;##############################PLUGINS#################################
-
 (add-to-list 'load-path  "~/.emacs.d/plug-ins/")
 
 ;;----------------------------------------------------------------------
 ;; AUCTeX
-   (load "auctex.el" nil t t)
+(load "auctex.el" nil t t)
 ;; (load "preview-latex.el" nil t t)
 
 ;;----------------------------------------------------------------------
 ;; Interactively Do Things [IDO]
-   (require 'ido)  
-   (ido-mode t)
-   (setq ido-enable-flex-matching t) ;; enable fuzzy matching
+(require 'ido)  
+(ido-mode t)
+(setq ido-enable-flex-matching t) ;; enable fuzzy matching
 
 ;;----------------------------------------------------------------------
 ;; auto-complete
-   (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
-   (require 'auto-complete-config)
-   (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
-   (ac-config-default)
+;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
+;; (require 'auto-complete-config)
+;; (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
+;; (ac-config-default)
 
 ;;----------------------------------------------------------------------
 ;; gnuplot-mode
-   (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-   (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
-   (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
-   (global-set-key [(f9)] 'gnuplot-make-buffer)
+(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+(autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+(global-set-key [(f9)] 'gnuplot-make-buffer)
 
 ;;----------------------------------------------------------------------
 ;; Arch pkg-build mode
-   (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-   (setq auto-mode-alist (append '(("/PKGBUILD.*" . pkgbuild-mode)) auto-mode-alist))
+(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+(setq auto-mode-alist (append '(("/PKGBUILD.*" . pkgbuild-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; python mode
-   (autoload 'python-mode "python-mode.el" "Python mode." t)
-   (setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
+(autoload 'python-mode "python-mode.el" "Python mode." t)
+(setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; php mode
-   (autoload 'php-mode "php-mode.el" "Php mode." t)
-   (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+(autoload 'php-mode "php-mode.el" "Php mode." t)
+(setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; ibus input method
-   (custom-set-variables '(ibus-python-shell-command-name "python2"))
-   (require 'ibus)
-   ;; Turn on ibus-mode automatically after loading .emacs
-   ;; (add-hook 'after-init-hook 'ibus-mode-on)
-   ;; Choose your key to toggle input status:
-   ;; (ibus-define-common-key ?\S-\s nil)
-   ;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
-   ;; (global-set-key (kbd "C-\\") 'ibus-toggle)
-   ;; Change cursor color depending on IBus status
-   (setq ibus-cursor-color '("red" "blue" "limegreen"))
+(custom-set-variables '(ibus-python-shell-command-name "python2"))
+(require 'ibus)
+;; Turn on ibus-mode automatically after loading .emacs
+;; (add-hook 'after-init-hook 'ibus-mode-on)
+;; Choose your key to toggle input status:
+;; (ibus-define-common-key ?\S-\s nil)
+;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
+;; (global-set-key (kbd "C-\\") 'ibus-toggle)
+;; Change cursor color depending on IBus status
+(setq ibus-cursor-color '("red" "blue" "limegreen"))
 
 ;;----------------------------------------------------------------------
 ;; markdown mode
-   (autoload 'markdown-mode "markdown-mode.el"
-   	     "Major mode for editing Markdown files" t)
-   (setq auto-mode-alist
-   	 (cons '("\.md" . markdown-mode) auto-mode-alist))
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\.md" . markdown-mode) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; color-themes
@@ -117,47 +141,80 @@
 
 ;;----------------------------------------------------------------------
 ;; yasnippet
-   (add-to-list 'load-path "/usr/share/emacs/site-lisp/yas")
-   (require 'yasnippet) ;; not yasnippet-bundle
-   (yas/global-mode 1) ;; or manually load it with yas-global-mode
-
-;;----------------------------------------------------------------------
-;; Emacs Lisp Screen (elscreen)
-;;   (load "elscreen" "ElScreen" t)
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/yas")
+(require 'yasnippet)
+(yas/global-mode 1)
 
 ;;----------------------------------------------------------------------
 ;; emoji-git
 ;; http://d.hatena.ne.jp/tomoya/20090706/1246874191
-   ;; (add-to-list 'load-path  "~/.emacs.d/emoji-git/")
-   ;; (require 'emoji)
+;; (add-to-list 'load-path  "~/.emacs.d/emoji-git/")
+;; (require 'emoji)
 
 ;;----------------------------------------------------------------------
-;; tabbar mode
-;; http://emacswiki.org/emacs/TabBarMode
-   (require 'tabbar)
-   (define-key global-map [(control tab)] 'tabbar-forward)
-   (define-key global-map (kbd "C-S-<iso-lefttab>") 'tabbar-backward)
-   (tabbar-mode 1)
+;; nyan-mode-git
+(add-to-list 'load-path  "~/.emacs.d/nyan-mode-git/")
+(require 'nyan-mode)
+(nyan-mode 1)
+
+;;----------------------------------------------------------------------
+;; custom mode line
+;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
+(load-library "~/.emacs.d/plug-ins/customodline")
 
 ;;----------------------------------------------------------------------
 ;; smooth-scroll
 ;; http://www.emacswiki.org/emacs/SmoothScrolling
-   (require 'smooth-scroll)
-   (smooth-scroll-mode t)
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
 
 ;;----------------------------------------------------------------------
-;; nyan-mode-git
-   (add-to-list 'load-path  "~/.emacs.d/nyan-mode-git/")
-   (require 'nyan-mode)
-   (nyan-mode 1)
+;; tabbar mode
+;; http://emacswiki.org/emacs/TabBarMode
+(require 'tabbar)
+(define-key global-map [(control tab)] 'tabbar-forward)
+(define-key global-map (kbd "C-S-<iso-lefttab>") 'tabbar-backward)
+(tabbar-mode 1)
 
 ;;----------------------------------------------------------------------
+;; window-number
+;; http://emacswiki.org/emacs/window-number.el
+(require 'window-number)
+;;(window-number-mode)
+;;(window-number-meta-mode)
 
-;; custom mode line
-;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
-   (load-library "~/.emacs.d/plug-ins/customodline")
+;;----------------------------------------------------------------------
+;; Emacs Speaks Statistics
+;; http://ess.r-project.org/
+(setq load-path (cons "/usr/share/emacs/site-lisp/ess" load-path))
+(require 'ess-site)
+
+;;----------------------------------------------------------------------
+;; CC-mode
+;; http://www.gnu.org/software/emacs/manual/html_mono/ccmode.html
+(defun my-make-CR-do-indent ()
+  (define-key c-mode-base-map "\C-m" 'c-context-line-break))
+(add-hook 'c-initialization-hook 'my-make-CR-do-indent)
+
+;;----------------------------------------------------------------------
+;; ide-skel  
+;; (require 'ide-skel)
+;; (global-set-key [f4] 'ide-skel-proj-find-files-by-regexp)
+;; (global-set-key [f5] 'ide-skel-proj-grep-files-by-regexp)
+;; (global-set-key [f10] 'ide-skel-toggle-left-view-window)
+;; (global-set-key [f11] 'ide-skel-toggle-bottom-view-window)
+;; (global-set-key [f12] 'ide-skel-toggle-right-view-window)
+
+;;----------------------------------------------------------------------
+;; optional, but useful - see Emacs Manual
+;; (partial-completion-mode)
+;; (icomplete-mode)
 
 ;;----------------------------------------------------------------------
 ;; emoji
 ;;   (add-to-list 'load-path  "~/.emacs.d/emoji/")
 ;;   (require 'emoji)
+
+;;----------------------------------------------------------------------
+;; nuke trailing whitespaces when writing to a file
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
