@@ -16,21 +16,7 @@
 #
 #xfce-mcs-manager &
 
-xset -b # remove irritating beeps
+#xset -b # remove irritating beeps
 
-nitrogen --restore &
 tint2 &
-volwheel &
-artha &
-
 # xcompmgr -c -t-5 -l-5 -r4.2 -o.55 &
-
-setxkbmap -option compose:caps
-# setxkbmap -option grp:switch,grp:alt_shit_toggle,grp_led:scroll us,dvorak
-
-# workrave &
-sleep 1 && bash .rconky 
-
-xrandr --output default --mode 1366x768 --pos 0x0 --rotate normal
-
-#/usr/lib/notification-daemon-1.0/notification-daemon &

@@ -17,6 +17,7 @@ setxkbmap -layout "dvorak, us" -option "grp:ralt_rshift_toggle,grp_led:caps,comp
 case $1 in
     gnome) exec gnome-session;;
     kde) exec startkde;;
+    box) exec openbox-session;;
     xfce);;
     *) exec startxfce4;;
 esac
