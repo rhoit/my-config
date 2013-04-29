@@ -1,31 +1,25 @@
-;;#############################SETTINGS#################################
-;; backupfile
-(setq make-backup-files nil)
-
-;; line-number
-(add-hook 'find-file-hook (lambda() (linum-mode 1)))
-(global-linum-mode 1)
+;;======================================================================
+;; (dot)emacs file
+;; my-config for emacs
+;; --rho
+;;======================================================================
 
 ;; remove startup screen
 (custom-set-variables '(inhibit-startup-screen t))
 (custom-set-faces)
 
+;;----------------------------------------------------------------------
 ;; Remove unused UI elements
 ;;(tool-bar-mode 0)
 ;;(menu-bar-mode 0)
 (scroll-bar-mode 0)
+(global-visual-line-mode t)
 
-;; color current line 'http://raebear.net/comp/emacscolors.html'
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#b4eeb4")
-(set-face-background 'region' "#a1a9c1")
+;;----------------------------------------------------------------------
+;; backupfile
+(setq make-backup-files nil)
 
-;; column mode
-(column-number-mode 1)
-
-;; show matching parens
-(show-paren-mode 1)   
-   
+;;----------------------------------------------------------------------
 ;; ansi-color sequence for complitaion mode
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
@@ -38,6 +32,30 @@
 ;; Shortcut Keys
 (global-set-key [C-f8] 'compile)
 (global-set-key (kbd "C-z") 'undo)
+
+;;----------------------------------------------------------------------
+;; nuke trailing whitespaces when writing to a file
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+
+;;----------------------------------------------------------------------
+;; line-number
+(add-hook 'find-file-hook (lambda() (linum-mode 1)))
+(global-linum-mode 1)
+
+;;----------------------------------------------------------------------
+;; color current line
+;; 'http://raebear.net/comp/emacscolors.html'
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#b4eeb4")
+(set-face-background 'region' "#a1a9c1")
+
+;;----------------------------------------------------------------------
+;; column mode
+(column-number-mode 1)
+
+;;----------------------------------------------------------------------
+;; show matching parens
+(show-paren-mode 1)
 
 ;;----------------------------------------------------------------------
 ;; Duplicate Lines
@@ -71,10 +89,12 @@ See `sort-regexp-fields'."
 ;; lisp-mode auto-load for .emacs
 (setq auto-mode-alist (append '((".emacs" . lisp-mode)) auto-mode-alist))
 
+;;----------------------------------------------------------------------
+;; server start
+;; M-x server-start
+(and window-system (server-start))
 
-;;##############################PLUGINS#################################
-(add-to-list 'load-path  "~/.emacs.d/plug-ins/")
-
+;;============================= PLUGINS ================================
 ;;----------------------------------------------------------------------
 ;; AUCTeX
 (load "auctex.el" nil t t)
@@ -82,7 +102,7 @@ See `sort-regexp-fields'."
 
 ;;----------------------------------------------------------------------
 ;; Interactively Do Things [IDO]
-(require 'ido)  
+(require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; enable fuzzy matching
 
@@ -146,16 +166,34 @@ See `sort-regexp-fields'."
 (yas/global-mode 1)
 
 ;;----------------------------------------------------------------------
-;; emoji-git
-;; http://d.hatena.ne.jp/tomoya/20090706/1246874191
-;; (add-to-list 'load-path  "~/.emacs.d/emoji-git/")
-;; (require 'emoji)
+;; CC-mode
+;; http://www.gnu.org/software/emacs/manual/html_mono/ccmode.html
+(defun my-make-CR-do-indent ()
+  (define-key c-mode-base-map "\C-m" 'c-context-line-break))
+(add-hook 'c-initialization-hook 'my-make-CR-do-indent)
 
 ;;----------------------------------------------------------------------
-;; nyan-mode-git
-(add-to-list 'load-path  "~/.emacs.d/nyan-mode-git/")
-(require 'nyan-mode)
-(nyan-mode 1)
+;; Emacs Speaks Statistics
+;; http://ess.r-project.org/
+;; (setq load-path (cons "/usr/share/emacs/site-lisp/ess" load-path))
+;; (require 'ess-site)
+
+;;----------------------------------------------------------------------
+;; ide-skel
+;; (require 'ide-skel)
+;; (global-set-key [f4] 'ide-skel-proj-find-files-by-regexp)
+;; (global-set-key [f5] 'ide-skel-proj-grep-files-by-regexp)
+;; (global-set-key [f10] 'ide-skel-toggle-left-view-window)
+;; (global-set-key [f11] 'ide-skel-toggle-bottom-view-window)
+;; (global-set-key [f12] 'ide-skel-toggle-right-view-window)
+
+;;----------------------------------------------------------------------
+;; optional, but useful - see Emacs Manual
+;; (partial-completion-mode)
+;; (icomplete-mode)
+
+;;========================== FROZEN-PLUGINS ============================
+(add-to-list 'load-path  "~/.emacs.d/plug-ins/")
 
 ;;----------------------------------------------------------------------
 ;; custom mode line
@@ -183,38 +221,21 @@ See `sort-regexp-fields'."
 ;;(window-number-mode)
 ;;(window-number-meta-mode)
 
+;;========================== ROLLING PLUGINS ===========================
 ;;----------------------------------------------------------------------
-;; Emacs Speaks Statistics
-;; http://ess.r-project.org/
-(setq load-path (cons "/usr/share/emacs/site-lisp/ess" load-path))
-(require 'ess-site)
+;; emoji-git
+;; http://d.hatena.ne.jp/tomoya/20090706/1246874191
+;; (add-to-list 'load-path  "~/.emacs.d/emoji-git/")
+;; (require 'emoji)
 
 ;;----------------------------------------------------------------------
-;; CC-mode
-;; http://www.gnu.org/software/emacs/manual/html_mono/ccmode.html
-(defun my-make-CR-do-indent ()
-  (define-key c-mode-base-map "\C-m" 'c-context-line-break))
-(add-hook 'c-initialization-hook 'my-make-CR-do-indent)
+;; nyan-mode-git
+(add-to-list 'load-path  "~/.emacs.d/nyan-mode-git/")
+(require 'nyan-mode)
+(nyan-mode 1)
 
-;;----------------------------------------------------------------------
-;; ide-skel  
-;; (require 'ide-skel)
-;; (global-set-key [f4] 'ide-skel-proj-find-files-by-regexp)
-;; (global-set-key [f5] 'ide-skel-proj-grep-files-by-regexp)
-;; (global-set-key [f10] 'ide-skel-toggle-left-view-window)
-;; (global-set-key [f11] 'ide-skel-toggle-bottom-view-window)
-;; (global-set-key [f12] 'ide-skel-toggle-right-view-window)
-
-;;----------------------------------------------------------------------
-;; optional, but useful - see Emacs Manual
-;; (partial-completion-mode)
-;; (icomplete-mode)
-
-;;----------------------------------------------------------------------
-;; emoji
-;;   (add-to-list 'load-path  "~/.emacs.d/emoji/")
-;;   (require 'emoji)
-
-;;----------------------------------------------------------------------
-;; nuke trailing whitespaces when writing to a file
-(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+;;---------------------------------------------------------------------
+;; elpy
+;; https://github.com/jorgenschaefer/elpy
+(package-initialize)
+(elpy-enable)
