@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+
+ZSH=$HOME/Documents/oh-my-zsh  # oh-my-zsh config
+
+# Look in /path/to/oh-my-zsh/themes/
+# "random", will load a random theme each time
+ZSH_THEME="rho"
+
+plugins=(git colored-man-pages zsh-syntax-highlighting)
+
+source $ZSH/oh-my-zsh.sh
+
+source ~/.shellrc  # unified shell config
