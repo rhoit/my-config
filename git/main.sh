@@ -24,7 +24,3 @@ fi
 git config --global core.editor "nano"
 git config --global color.ui true
 git config --global push.default simple # git 2.0 fix warnings
-
-cp /usr/share/git/git-prompt.sh ~/.bashrc.d/git-prompt
-chmod +x ~/.bashrc.d/git-prompt
-

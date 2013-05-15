@@ -1,0 +1,10 @@
+#
+# shellrc - common rc file for {zsh,bash}
+#
+
+if [[ -d ~/.shellrc.d ]]; then
+  for f in ~/.shellrc.d/*; do
+     source "$f"
+  done
+  unset f
+fi
