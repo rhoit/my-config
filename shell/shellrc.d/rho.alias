@@ -3,6 +3,7 @@ alias edit="emacs -nw"
 export EDITOR="emacs -nw"
 export VISUAL="emacs -nw"
 export screen="tmux"
+#set -o emacs
 
 # My ways
 alias startx='startx &> ~/.xlog'
@@ -15,3 +16,6 @@ alias offtouch='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch off'
 
 # touchpad
 alias 3tap="~/Documents/my-config/synaptics/main.sh"
+
+# ibus
+export XMODIFIERS=@im=ibus

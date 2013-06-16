@@ -33,6 +33,16 @@
 ;; Shortcut Keys
 (global-set-key [C-f8] 'compile)
 (global-set-key (kbd "C-z") 'undo)
+;; Invoke M-x without the Alt key
+;; https://sites.google.com/site/steveyegge2/effective-emacs#item2
+(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-c\C-m" 'execute-extended-command)
+;; Resize Windows
+;; http://www.emacswiki.org/emacs/WindowResize
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "S-C-<down>") 'shrink-window)
+(global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
 ;;----------------------------------------------------------------------
 ;; nuke trailing whitespaces when writing to a file
@@ -120,11 +130,10 @@ See `sort-regexp-fields'."
 (setq auto-mode-alist (append '(("/PKGBUILD.*" . pkgbuild-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
-;; python mode
-(autoload 'python-mode "python-mode.el" "Python mode." t)
-(setq auto-mode-alist (append '(("/*.\.py$" . python-mode)) auto-mode-alist))
-;; highlight indentation for python from elpy
-(add-to-list 'load-path  "~/.emacs.d/elpa/highlight-indentation-0.5.0")
+;; python mode using emacs in-bulit
+;; https://github.com/antonj/Highlight-Indentation-for-Emacs
+
+(add-to-list 'load-path  "~/.emacs.d/highlight-indentation")
 (autoload 'highlight-indentation "highlight-indentation.el" "Highlight indentation." t)
 (add-hook 'python-mode-hook 'highlight-indentation)
 (custom-set-faces
@@ -153,6 +162,17 @@ See `sort-regexp-fields'."
   "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\.md" . markdown-mode) auto-mode-alist))
+
+(custom-set-faces
+ '(markdown-header-delimiter-face ((t (:inherit font-lock-function-name-face :underline t :weight bold))) t)
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.5))) t)
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.3))) t)
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :underline t :height 1.2))) t)
+ '(markdown-header-face-4 ((t (:inherit markdown-header-face :underline t :height 1.1))) t)
+ '(markdown-header-face-5 ((t (:inherit markdown-header-face :underline t))) t)
+ '(markdown-header-face-6 ((t (:inherit markdown-header-face :underline t))) t))
+(put 'set-goal-column 'disabled nil)
+
 
 ;;----------------------------------------------------------------------
 ;; yasnippet
@@ -218,7 +238,6 @@ See `sort-regexp-fields'."
 ;;----------------------------------------------------------------------
 ;; hideshowvis mode
 ;; http://www.emacswiki.org/emacs/hideshowvis.el
-
 (autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
 (autoload 'hideshowvis-minor-mode
   "hideshowvis"
@@ -253,10 +272,18 @@ See `sort-regexp-fields'."
 ;;========================== ROLLING PLUGINS ===========================
 
 ;;----------------------------------------------------------------------
-;; python-info-look
+;; python-info-look [C-h S]
 (add-to-list 'load-path "~/.emacs.d/pydoc-info")
 (require 'pydoc-info)
 (require 'info-look)
+
+;;----------------------------------------------------------------------
+;; json-mode
+(add-to-list 'load-path "~/.emacs.d/json-mode")
+(autoload 'json-mode "json-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\.json" . json-mode) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
 ;; emoji-git
@@ -281,4 +308,4 @@ See `sort-regexp-fields'."
 ;;       (delq 'ac-source-nropemacs-dot
 ;;             (delq 'ac-source-nropemacs
 ;;                   ac-sources)))
-(setq load-home-init-file t) ; don't load init file from ~/.xemacs/init.el
+;;(setq load-home-init-file t) ; don't load init file from ~/.xemacs/init.el
