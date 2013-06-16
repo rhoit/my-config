@@ -1,0 +1,6 @@
+ - Interface to install all configuration
+ - Dectect the program installed
+ - Backup old configuration and compress
+ - GUI selector
+ - terminal selector
+ 
