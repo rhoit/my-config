@@ -5,9 +5,7 @@
 ;;======================================================================
 
 ;; remove startup screen
-(custom-set-variables
- '(ibus-python-shell-command-name "python2")
- '(inhibit-startup-screen t))
+(custom-set-variables '(inhibit-startup-screen t))
 
 ;;----------------------------------------------------------------------
 ;; Remove unused UI elements
@@ -47,11 +45,6 @@
 ;;----------------------------------------------------------------------
 ;; nuke trailing whitespaces when writing to a file
 (add-hook 'write-file-hooks 'delete-trailing-whitespace)
-
-;;----------------------------------------------------------------------
-;; line-number
-(add-hook 'find-file-hook (lambda() (linum-mode 1)))
-(global-linum-mode 1)
 
 ;;----------------------------------------------------------------------
 ;; color current line
@@ -146,7 +139,7 @@ See `sort-regexp-fields'."
 
 ;;----------------------------------------------------------------------
 ;; ibus input method
-(require 'ibus)
+;; (require 'ibus)
 ;; Turn on ibus-mode automatically after loading .emacs
 ;; (add-hook 'after-init-hook 'ibus-mode-on)
 ;; Choose your key to toggle input status:
@@ -154,7 +147,7 @@ See `sort-regexp-fields'."
 ;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
 ;; (global-set-key (kbd "C-\\") 'ibus-toggle)
 ;; Change cursor color depending on IBus status
-(setq ibus-cursor-color '("red" "blue" "limegreen"))
+;; (setq ibus-cursor-color '("red" "blue" "limegreen"))
 
 ;;----------------------------------------------------------------------
 ;; markdown mode
@@ -212,6 +205,7 @@ See `sort-regexp-fields'."
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
 (ac-config-default)
+(ac-linum-workaround)
 
 ;;========================== FROZEN-PLUGINS ============================
 (add-to-list 'load-path  "~/.emacs.d/plug-ins/")
@@ -220,6 +214,13 @@ See `sort-regexp-fields'."
 ;; tty-colors
 ;; http://www.opensource.apple.com/source/emacs/emacs-56/emacs/lisp/term/tty-colors.el?txt
 ;;(require 'tty-colors)
+
+;;----------------------------------------------------------------------
+;; line-number
+;; http://www.emacswiki.org/LineNumbers
+;; http://elpa.gnu.org/packages/nlinum-1.1.el
+(require 'nlinum)
+(add-hook 'find-file-hook (lambda () (nlinum-mode 1)))
 
 ;;----------------------------------------------------------------------
 ;; smooth-scroll
