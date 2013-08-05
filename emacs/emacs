@@ -233,7 +233,9 @@ See `sort-regexp-fields'."
 ;; http://emacswiki.org/emacs/TabBarMode
 (require 'tabbar)
 (define-key global-map [(control tab)] 'tabbar-forward)
+(define-key global-map (kbd "C-<next>") 'tabbar-forward)
 (define-key global-map (kbd "C-S-<iso-lefttab>") 'tabbar-backward)
+(define-key global-map (kbd "C-<prior>") 'tabbar-backward)
 (tabbar-mode 1)
 
 ;;----------------------------------------------------------------------
