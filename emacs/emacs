@@ -63,38 +63,16 @@
 ;;----------------------------------------------------------------------
 ;; tabbar mode
 ;; http://emacswiki.org/emacs/TabBarMode
-(require 'tabbar)
+(load "tabbar.cfg.el")
 (tabbar-mode 1)
-(load "tabbar.cfg")
 
-(setq tabbar-buffer-groups-function
-      (lambda ()
+(setq tabbar-ruler-global-tabbar t) ; If you want tabbar
+(require 'tabbar-ruler)
 
-      (let ((dir (expand-file-name default-directory)))
-        (cond ((member (buffer-name) '("*Completions*"
-                       "*scratch*"
-                       "*Messages*"
-                       "*Ediff Registry*"))
-           (list "#misc"))
-          (
-           (string-match-p "/.emacs.d/" dir)
-           '".emacs.d"
-           )
-          (t (list dir))
-          )
-        )
-      )
-    )
-
-
-
-;;(add-to-list 'load-path  "~/.emacs.d/repo/tabbar-ruler")
-;;(setq tabbar-ruler-global-tabbar t) ; If you want tabbar
-;; (setq tabbar-ruler-global-ruler t) ; if you want a global ruler
-;; (setq tabbar-ruler-popup-menu t) ; If you want a popup menu. # bug small
-;; (setq tabbar-ruler-popup-toolbar t) ; If you want a popup toolbar
-;; (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the scroll bar when your mouse is moving.
-;;(require 'tabbar-ruler)
+;;----------------------------------------------------------------------
+;; emacs-pills
+(load "~/.emacs.d/repo/emacs-pills/config/global-zoom.cfg.el")
+(load "~/.emacs.d/repo/emacs-pills/config/compile.cfg.el")
 
 ;;----------------------------------------------------------------------
 ;; hideshowvis mode
@@ -115,7 +93,6 @@
 
 ;;----------------------------------------------------------------------
 ;; Shortcut Keys
-(global-set-key [C-f8] 'compile)
 (global-set-key (kbd "C-z") 'undo)
 ;; Invoke M-x without the Alt key
 ;; https://sites.google.com/site/steveyegge2/effective-emacs#item2
@@ -166,7 +143,7 @@ See `sort-regexp-fields'."
   (sort-regexp-fields reverse "\\w+" "\\&" beg end))
 
 
-; Associate nfo file suffix with ;IBM codepage 437 encoding
+;; Associate nfo file suffix with ;IBM codepage 437 encoding
 (setq auto-coding-alist (cons '("\\.nfo\\'" . cp437-dos) auto-coding-alist))
 
 
@@ -235,7 +212,6 @@ See `sort-regexp-fields'."
 (setq auto-mode-alist
       (cons '("\.markdown" . markdown-mode) auto-mode-alist))
 
-
 (custom-set-faces
  '(markdown-header-delimiter-face ((t (:inherit font-lock-function-name-face :underline t :weight bold))) t)
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.5))) t)
@@ -245,6 +221,35 @@ See `sort-regexp-fields'."
  '(markdown-header-face-5 ((t (:inherit markdown-header-face :underline t))) t)
  '(markdown-header-face-6 ((t (:inherit markdown-header-face :underline t))) t))
 (put 'set-goal-column 'disabled nil)
+
+;;----------------------------------------------------------------------
+;; python-info-look [C-h S]
+(add-to-list 'load-path "~/.emacs.d/pydoc-info")
+(require 'pydoc-info)
+(require 'info-look)
+;; turn off word-wrap
+(add-hook 'python-mode-hook 'toggle-truncate-lines)
+;; http://pedrokroger.net/2010/07/configuring-emacs-as-a-python-ide-2/
+;; (require 'python-pep8)
+;; (require 'python-pylint)
+
+;;----------------------------------------------------------------------
+;; json-mode
+(add-to-list 'load-path "~/.emacs.d/repo/json-mode")
+(autoload 'json-mode "json-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\.json" . json-mode) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; highlight indentation
+(add-to-list 'load-path  "~/.emacs.d/repo/pyindent")
+(autoload 'pyindent "highlight-indentation.el" t)
+;;(custom-set-faces '(highlight-indent-face ((t (:inherit fringe :background "light green")))))
+;;(set-face-background 'highlight-indentation-face "#e3e3d3")
+;;(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
+(add-hook 'python-mode-hook 'pyindent)
+
 
 ;;----------------------------------------------------------------------
 ;; gnuplot-mode
@@ -279,35 +284,6 @@ See `sort-regexp-fields'."
 ;; (global-set-key [f10] 'ide-skel-toggle-left-view-window)
 ;; (global-set-key [f11] 'ide-skel-toggle-bottom-view-window)
 ;; (global-set-key [f12] 'ide-skel-toggle-right-view-window)
-
-;;----------------------------------------------------------------------
-;; python-info-look [C-h S]
-(add-to-list 'load-path "~/.emacs.d/pydoc-info")
-(require 'pydoc-info)
-(require 'info-look)
-;; turn off word-wrap
-(add-hook 'python-mode-hook 'toggle-truncate-lines)
-;; http://pedrokroger.net/2010/07/configuring-emacs-as-a-python-ide-2/
-;; (require 'python-pep8)
-;; (require 'python-pylint)
-
-;----------------------------------------------------------------------
-;; json-mode
-(add-to-list 'load-path "~/.emacs.d/repo/json-mode")
-(autoload 'json-mode "json-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\.json" . json-mode) auto-mode-alist))
-
-;;----------------------------------------------------------------------
-;; highlight indentation
-(add-to-list 'load-path  "~/.emacs.d/repo/pyindent")
-(autoload 'pyindent "highlight-indentation.el" t)
-;;(custom-set-faces '(highlight-indent-face ((t (:inherit fringe :background "light green")))))
-;;(set-face-background 'highlight-indentation-face "#e3e3d3")
-;;(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
-(add-hook 'python-mode-hook 'pyindent)
-
 
 ;;----------------------------------------------------------------------
 ;; color-themes
