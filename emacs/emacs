@@ -1,31 +1,117 @@
-;;======================================================================
-;; (dot)emacs file
-;; my-config for emacs
-;; --rho
-;;======================================================================
+(setq user-full-name    "Rhoit Man Amatya"
+      user-mail-address "rho.rhoit@gmail.com")
+
+(and window-system (server-start))
+(add-to-list 'load-path  "~/.emacs.d/plug-ins/") ; FROZEN-PLUGINS
 
 ;; remove startup screen
 (custom-set-variables '(inhibit-startup-screen t))
 
 ;;----------------------------------------------------------------------
+;; fonts
+;; (set-default-font "Inconsolata-12")
+;; (set-default-font "monofur-12")
+;; (set-default-font "Source Code Pro Light-12")
+;; (set-face-attribute 'default (selected-frame) :height 108)
+
+;;----------------------------------------------------------------------
+;; color current line
+;; 'http://raebear.net/comp/emacscolors.html'
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#b4eeb4")
+(set-face-background 'region' "#a1a9c1")
+
+;;----------------------------------------------------------------------
 ;; Remove unused UI elements
-;;(tool-bar-mode 0)
-;;(menu-bar-mode 0)
+(tool-bar-mode 0)
+(menu-bar-mode 0)
 (scroll-bar-mode 0)
 (global-visual-line-mode t)
 
-;;----------------------------------------------------------------------
-;; backupfile
-(setq make-backup-files nil)
+(defun expand-view-bind()
+  (interactive)
+  (if tool-bar-mode (tool-bar-mode 0) (tool-bar-mode 1))
+  (if menu-bar-mode (menu-bar-mode 0) (menu-bar-mode 1))
+)
+
+;; (global-set-key [f4] 'ide-skel-proj-find-files-by-regexp)
+(global-set-key [f5] 'expand-view-bind)
 
 ;;----------------------------------------------------------------------
-;; ansi-color sequence for complitaion mode
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; text settings
+(column-number-mode 1)
+(show-paren-mode 1)
+
+;;----------------------------------------------------------------------
+;; file settings
+(setq make-backup-files nil)
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+
+;;----------------------------------------------------------------------
+;; line-number
+;; http://www.emacswiki.org/LineNumbers
+;; http://elpa.gnu.org/packages/nlinum-1.1.el
+(require 'nlinum)
+(add-hook 'find-file-hook (lambda () (nlinum-mode 1)))
+
+;;----------------------------------------------------------------------
+;; smooth-scroll
+;; http://www.emacswiki.org/emacs/SmoothScrolling
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
+
+;;----------------------------------------------------------------------
+;; tabbar mode
+;; http://emacswiki.org/emacs/TabBarMode
+(require 'tabbar)
+(tabbar-mode 1)
+(load "tabbar.cfg")
+
+(setq tabbar-buffer-groups-function
+      (lambda ()
+
+      (let ((dir (expand-file-name default-directory)))
+        (cond ((member (buffer-name) '("*Completions*"
+                       "*scratch*"
+                       "*Messages*"
+                       "*Ediff Registry*"))
+           (list "#misc"))
+          (
+           (string-match-p "/.emacs.d/" dir)
+           '".emacs.d"
+           )
+          (t (list dir))
+          )
+        )
+      )
+    )
+
+
+
+;;(add-to-list 'load-path  "~/.emacs.d/repo/tabbar-ruler")
+;;(setq tabbar-ruler-global-tabbar t) ; If you want tabbar
+;; (setq tabbar-ruler-global-ruler t) ; if you want a global ruler
+;; (setq tabbar-ruler-popup-menu t) ; If you want a popup menu. # bug small
+;; (setq tabbar-ruler-popup-toolbar t) ; If you want a popup toolbar
+;; (setq tabbar-ruler-popup-scrollbar t) ; If you want to only show the scroll bar when your mouse is moving.
+;;(require 'tabbar-ruler)
+
+;;----------------------------------------------------------------------
+;; hideshowvis mode
+;; http://www.emacswiki.org/emacs/hideshowvis.el
+(autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
+(autoload 'hideshowvis-minor-mode
+  "hideshowvis"
+  "Will indicate regions foldable with hideshow in the fringe."
+  'interactive)
+
+(dolist (hook (list 'emacs-lisp-mode-hook
+                    'c++-mode-hook
+		    'python-mode-hook))
+  (add-hook hook 'hideshowvis-enable))
+
+(add-hook 'hideshowvis-minor-mode-hook 'hideshowvis-symbols)
+
 
 ;;----------------------------------------------------------------------
 ;; Shortcut Keys
@@ -42,24 +128,14 @@
 (global-set-key (kbd "S-C-<down>") 'shrink-window)
 (global-set-key (kbd "S-C-<up>") 'enlarge-window)
 
-;;----------------------------------------------------------------------
-;; nuke trailing whitespaces when writing to a file
-(add-hook 'write-file-hooks 'delete-trailing-whitespace)
-
-;;----------------------------------------------------------------------
-;; color current line
-;; 'http://raebear.net/comp/emacscolors.html'
-(global-hl-line-mode 1)
-(set-face-background 'hl-line "#b4eeb4")
-(set-face-background 'region' "#a1a9c1")
-
-;;----------------------------------------------------------------------
-;; column mode
-(column-number-mode 1)
-
-;;----------------------------------------------------------------------
-;; show matching parens
-(show-paren-mode 1)
+;; utf-8
+;; (set-language-environment 'utf-8)
+;; (prefer-coding-system 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (setq locale-coding-system 'utf-8)
+;; (set-selection-coding-system 'utf-8)
+;; (set-input-method nil)
 
 ;;----------------------------------------------------------------------
 ;; Duplicate Lines
@@ -89,83 +165,30 @@ See `sort-regexp-fields'."
   (interactive "*P\nr")
   (sort-regexp-fields reverse "\\w+" "\\&" beg end))
 
-;;----------------------------------------------------------------------
-;; lisp-mode auto-load for .emacs
+
+; Associate nfo file suffix with ;IBM codepage 437 encoding
+(setq auto-coding-alist (cons '("\\.nfo\\'" . cp437-dos) auto-coding-alist))
+
+
+;;============================== MODES =================================
 (setq auto-mode-alist (append '((".emacs" . lisp-mode)) auto-mode-alist))
+(setq auto-mode-alist (append '((".org$" . org-mode)) auto-mode-alist))
 
 ;;----------------------------------------------------------------------
-;; server start
-;; M-x server-start
-(and window-system (server-start))
+;; ansi-color sequence for complitaion mode
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;;============================= PLUGINS ================================
-;;----------------------------------------------------------------------
-;; AUCTeX
-(load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
 
 ;;----------------------------------------------------------------------
 ;; Interactively Do Things [IDO]
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t) ;; enable fuzzy matching
-
-;;----------------------------------------------------------------------
-;; gnuplot-mode
-(autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
-(autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
-(setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
-(global-set-key [(f9)] 'gnuplot-make-buffer)
-
-;;----------------------------------------------------------------------
-;; Arch pkg-build mode
-(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
-(setq auto-mode-alist (append '(("/PKGBUILD.*" . pkgbuild-mode)) auto-mode-alist))
-
-;;----------------------------------------------------------------------
-;; python mode using emacs in-bulit
-;; https://github.com/antonj/Highlight-Indentation-for-Emacs
-
-(add-to-list 'load-path  "~/.emacs.d/highlight-indentation")
-(autoload 'highlight-indentation "highlight-indentation.el" "Highlight indentation." t)
-(add-hook 'python-mode-hook 'highlight-indentation)
-(custom-set-faces
- '(highlight-indent-face ((t (:inherit fringe :background "light green")))))
-
-;;----------------------------------------------------------------------
-;; php mode
-(autoload 'php-mode "php-mode.el" "Php mode." t)
-(setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
-
-;;----------------------------------------------------------------------
-;; ibus input method
-;; (require 'ibus)
-;; Turn on ibus-mode automatically after loading .emacs
-;; (add-hook 'after-init-hook 'ibus-mode-on)
-;; Choose your key to toggle input status:
-;; (ibus-define-common-key ?\S-\s nil)
-;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
-;; (global-set-key (kbd "C-\\") 'ibus-toggle)
-;; Change cursor color depending on IBus status
-;; (setq ibus-cursor-color '("red" "blue" "limegreen"))
-
-;;----------------------------------------------------------------------
-;; markdown mode
-(autoload 'markdown-mode "markdown-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\.md" . markdown-mode) auto-mode-alist))
-
-(custom-set-faces
- '(markdown-header-delimiter-face ((t (:inherit font-lock-function-name-face :underline t :weight bold))) t)
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.5))) t)
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.3))) t)
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :underline t :height 1.2))) t)
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :underline t :height 1.1))) t)
- '(markdown-header-face-5 ((t (:inherit markdown-header-face :underline t))) t)
- '(markdown-header-face-6 ((t (:inherit markdown-header-face :underline t))) t))
-(put 'set-goal-column 'disabled nil)
-
 
 ;;----------------------------------------------------------------------
 ;; yasnippet
@@ -181,8 +204,66 @@ See `sort-regexp-fields'."
 (add-hook 'c-initialization-hook 'my-make-CR-do-indent)
 
 ;;----------------------------------------------------------------------
-;; color-themes
-;;(require 'color-theme)
+;; auto-complete
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
+(ac-config-default)
+(ac-linum-workaround)
+
+;;----------------------------------------------------------------------
+;; AUCTeX
+(load "auctex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
+
+;;----------------------------------------------------------------------
+;; Arch pkg-build mode
+(autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
+(setq auto-mode-alist (append '(("/PKGBUILD.*" . pkgbuild-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; php mode
+(autoload 'php-mode "php-mode.el" "Php mode." t)
+(setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; markdown mode
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\.md" . markdown-mode) auto-mode-alist))
+(setq auto-mode-alist
+      (cons '("\.markdown" . markdown-mode) auto-mode-alist))
+
+
+(custom-set-faces
+ '(markdown-header-delimiter-face ((t (:inherit font-lock-function-name-face :underline t :weight bold))) t)
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.5))) t)
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.3))) t)
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :underline t :height 1.2))) t)
+ '(markdown-header-face-4 ((t (:inherit markdown-header-face :underline t :height 1.1))) t)
+ '(markdown-header-face-5 ((t (:inherit markdown-header-face :underline t))) t)
+ '(markdown-header-face-6 ((t (:inherit markdown-header-face :underline t))) t))
+(put 'set-goal-column 'disabled nil)
+
+;;----------------------------------------------------------------------
+;; gnuplot-mode
+;; (autoload 'gnuplot-mode "gnuplot" "gnuplot major mode" t)
+;; (autoload 'gnuplot-make-buffer "gnuplot" "open a buffer in gnuplot mode" t)
+;; (setq auto-mode-alist (append '(("\\.gp$" . gnuplot-mode)) auto-mode-alist))
+;; (global-set-key [(f9)] 'gnuplot-make-buffer)
+
+;;----------------------------------------------------------------------
+;; ibus input method
+;; (require 'ibus)
+;; Turn on ibus-mode automatically after loading .emacs
+;; (add-hook 'after-init-hook 'ibus-mode-on)
+;; Choose your key to toggle input status:
+;; (ibus-define-common-key ?\S-\s nil)
+;; (global-set-key (kbd "C-S-SPC") 'ibus-toggle)
+;; (global-set-key (kbd "C-\\") 'ibus-toggle)
+;; Change cursor color depending on IBus status
+;; (setq ibus-cursor-color '("red" "blue" "limegreen"))
 
 ;;----------------------------------------------------------------------
 ;; Emacs Speaks Statistics
@@ -200,15 +281,37 @@ See `sort-regexp-fields'."
 ;; (global-set-key [f12] 'ide-skel-toggle-right-view-window)
 
 ;;----------------------------------------------------------------------
-;; auto-complete
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/auto-complete")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/usr/share/emacs/site-lisp/auto-complete/ac-dict")
-(ac-config-default)
-(ac-linum-workaround)
+;; python-info-look [C-h S]
+(add-to-list 'load-path "~/.emacs.d/pydoc-info")
+(require 'pydoc-info)
+(require 'info-look)
+;; turn off word-wrap
+(add-hook 'python-mode-hook 'toggle-truncate-lines)
+;; http://pedrokroger.net/2010/07/configuring-emacs-as-a-python-ide-2/
+;; (require 'python-pep8)
+;; (require 'python-pylint)
 
-;;========================== FROZEN-PLUGINS ============================
-(add-to-list 'load-path  "~/.emacs.d/plug-ins/")
+;----------------------------------------------------------------------
+;; json-mode
+(add-to-list 'load-path "~/.emacs.d/repo/json-mode")
+(autoload 'json-mode "json-mode.el"
+  "Major mode for editing Markdown files" t)
+(setq auto-mode-alist
+      (cons '("\.json" . json-mode) auto-mode-alist))
+
+;;----------------------------------------------------------------------
+;; highlight indentation
+(add-to-list 'load-path  "~/.emacs.d/repo/pyindent")
+(autoload 'pyindent "highlight-indentation.el" t)
+;;(custom-set-faces '(highlight-indent-face ((t (:inherit fringe :background "light green")))))
+;;(set-face-background 'highlight-indentation-face "#e3e3d3")
+;;(set-face-background 'highlight-indentation-current-column-face "#c3b3b3")
+(add-hook 'python-mode-hook 'pyindent)
+
+
+;;----------------------------------------------------------------------
+;; color-themes
+;;(require 'color-theme)
 
 ;;----------------------------------------------------------------------
 ;; tty-colors
@@ -216,94 +319,32 @@ See `sort-regexp-fields'."
 ;;(require 'tty-colors)
 
 ;;----------------------------------------------------------------------
-;; line-number
-;; http://www.emacswiki.org/LineNumbers
-;; http://elpa.gnu.org/packages/nlinum-1.1.el
-(require 'nlinum)
-(add-hook 'find-file-hook (lambda () (nlinum-mode 1)))
-
-;;----------------------------------------------------------------------
-;; smooth-scroll
-;; http://www.emacswiki.org/emacs/SmoothScrolling
-(require 'smooth-scroll)
-(smooth-scroll-mode t)
-
-;;----------------------------------------------------------------------
-;; tabbar mode
-;; http://emacswiki.org/emacs/TabBarMode
-(require 'tabbar)
-(define-key global-map [(control tab)] 'tabbar-forward)
-(define-key global-map (kbd "C-<next>") 'tabbar-forward)
-(define-key global-map (kbd "C-S-<iso-lefttab>") 'tabbar-backward)
-(define-key global-map (kbd "C-<prior>") 'tabbar-backward)
-(tabbar-mode 1)
-
-;;----------------------------------------------------------------------
-;; hideshowvis mode
-;; http://www.emacswiki.org/emacs/hideshowvis.el
-(autoload 'hideshowvis-enable "hideshowvis" "Highlight foldable regions")
-(autoload 'hideshowvis-minor-mode
-  "hideshowvis"
-  "Will indicate regions foldable with hideshow in the fringe."
-  'interactive)
-
-(dolist (hook (list 'emacs-lisp-mode-hook
-                    'c++-mode-hook
-		    'python-mode-hook))
-  (add-hook hook 'hideshowvis-enable))
-
-(add-hook 'hideshowvis-minor-mode-hook 'hideshowvis-symbols)
-
-;;----------------------------------------------------------------------
-;; python stuff
-;; http://pedrokroger.net/2010/07/configuring-emacs-as-a-python-ide-2/
-;; (require 'python-pep8)
-;; (require 'python-pylint)
-
-;;----------------------------------------------------------------------
 ;; custom mode line
 ;; http://amitp.blogspot.com/2011/08/emacs-custom-mode-line.html
 ;; (load-library "~/.emacs.d/plug-ins/customodline")
 
 ;;----------------------------------------------------------------------
-;; window-number
-;; http://emacswiki.org/emacs/window-number.el
-;; (require 'window-number)
-;; (window-number-mode)
-;; (window-number-meta-mode)
-
-;;========================== ROLLING PLUGINS ===========================
+;; button-lock
+;; (add-to-list 'load-path "~/.emacs.d/button-lock")
+;; (require 'wiki-nav)
+;; (global-wiki-nav-mode 1)
+;; (button-lock-set-button "http://google.com" 'browse-url-at-mouse)
 
 ;;----------------------------------------------------------------------
-;; python-info-look [C-h S]
-(add-to-list 'load-path "~/.emacs.d/pydoc-info")
-(require 'pydoc-info)
-(require 'info-look)
-
-;;----------------------------------------------------------------------
-;; json-mode
-(add-to-list 'load-path "~/.emacs.d/json-mode")
-(autoload 'json-mode "json-mode.el"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\.json" . json-mode) auto-mode-alist))
-
-;;----------------------------------------------------------------------
-;; emoji-git
+;; emoji
 ;; http://d.hatena.ne.jp/tomoya/20090706/1246874191
-;; (add-to-list 'load-path  "~/.emacs.d/emoji-git/")
+;; (add-to-list 'load-path  "~/.emacs.d/repo/emoji/")
 ;; (require 'emoji)
 
 ;;----------------------------------------------------------------------
-;; nyan-mode-git
-;; (add-to-list 'load-path  "~/.emacs.d/nyan-mode-git/")
+;; nyan-mode
+;; (add-to-list 'load-path  "~/.emacs.d/repo/nyan-mode/")
 ;; (require 'nyan-mode)
 ;; (nyan-mode 1)
 
-;;========================== EMACS'S PLUGINS ===========================
 ;;---------------------------------------------------------------------
 ;; elpy
-;; https://github.com/jorgenschaefer/elpy
+;; https://hub.com/jorgenschaefer/elpy
 ;; (package-initialize)
 ;; (elpy-enable)
 ;; ;;(auto-complete-mode 0)
