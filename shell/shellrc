@@ -2,6 +2,11 @@
 # shellrc - common rc file for {zsh,bash}
 #
 
+# cheesy fix
+source /etc/profile.d/vte.sh
+chpwd_functions+=(__vte_osc7)
+cd $PWD
+
 if [[ -d ~/.shellrc.d ]]; then
   for f in ~/.shellrc.d/*; do
      source "$f"
