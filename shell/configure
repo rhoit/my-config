@@ -1,0 +1,17 @@
+#!/bin/bash
+
+link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
+if [[ ! -e /usr/share/git/git-prompt.sh ]]; then
+    mkdir tmp
+    wget -c tmp/$link
+fi
+
+list="cowsay fortune git"
+
+for item in $list; do
+    if [[ -e /usr/bin/$item ]]; then result="OK"
+    else result="FAIL"
+    fi
+
+    echo Checking for \"$item\" $result
+done

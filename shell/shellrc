@@ -3,13 +3,15 @@
 #
 
 # cheesy fix
-source /etc/profile.d/vte.sh
-chpwd_functions+=(__vte_osc7)
-cd $PWD
+if [[ -e /etc/profile.d/vte.sh ]]; then
+    source /etc/profile.d/vte.sh
+    chpwd_functions+=(__vte_osc7)
+    cd $PWD
+fi
 
 if [[ -d ~/.shellrc.d ]]; then
-  for f in ~/.shellrc.d/*; do
-     source "$f"
-  done
-  unset f
+    for f in ~/.shellrc.d/*; do
+	source "$f"
+    done
+    unset f
 fi

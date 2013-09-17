@@ -1,4 +1,7 @@
 # My personal preference
+
+if [[ $USER == "rho" ]]; then
+
 alias edit="emacs -nw"
 export EDITOR="emacs -nw"
 export VISUAL="emacs -nw"
@@ -19,3 +22,5 @@ alias 3tap="~/Documents/my-config/synaptics/main.sh"
 
 # ibus
 export XMODIFIERS=@im=ibus
+
+fi
