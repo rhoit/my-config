@@ -1,4 +1,5 @@
 # My personal preference
+
 alias edit="emacs -nw"
 export EDITOR="emacs -nw"
 export VISUAL="emacs -nw"
