@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+set -e
+
+link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
+test -f /usr/share/git/git-prompt.sh || curl --location --remote-name --output-dir=/tmp/ $link
+
+
+echo "Checking: dependencies"
+list="git mktemp script tput curl"
+for item in $list; do
+    echo -ne "\t"
+    type "$item"
+done
+
+
+echo "$(date) ran $0" > configure.log
