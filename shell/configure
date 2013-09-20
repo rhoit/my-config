@@ -3,7 +3,7 @@
 link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
 if [[ ! -e /usr/share/git/git-prompt.sh ]]; then
     mkdir tmp
-    wget -c tmp/$link
+    wget -c $link -O tmp/git-prompt.sh
 fi
 
 list="cowsay fortune git"
