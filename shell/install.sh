@@ -13,3 +13,4 @@ for item in $list; do
 done
 
 cp tmp/git-prompt.sh /opt/
+chmod +x /opt/git-prompt.sh

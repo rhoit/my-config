@@ -1,6 +1,7 @@
 # My personal preference
 
-alias edit="emacs -nw"
+alias run="chmod +x"
+alias edit="leafpad"
 export EDITOR="emacs -nw"
 export VISUAL="emacs -nw"
 export screen="tmux"
