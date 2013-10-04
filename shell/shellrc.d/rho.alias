@@ -1,26 +1,25 @@
 # My personal preference
 
 if [[ $USER == "rho" ]]; then
+    alias run="chmod +x"
+    alias edit="leafpad"
+    export EDITOR="emacs -nw"
+    export VISUAL="emacs -nw"
+    export screen="tmux"
+    #set -o emacs
 
-alias edit="emacs -nw"
-export EDITOR="emacs -nw"
-export VISUAL="emacs -nw"
-export screen="tmux"
-#set -o emacs
+    # My ways
+    alias startx='startx &> ~/.xlog'
 
-# My ways
-alias startx='startx &> ~/.xlog'
+    # Stupid stuffs
+    alias rc.d='systemctl'
 
-# Stupid stuffs
-alias rc.d='systemctl'
+    # Wacom
+    alias offtouch='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch off'
 
-# Wacom
-alias offtouch='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch off'
+    # touchpad
+    alias 3tap="~/Documents/my-config/synaptics/main.sh"
 
-# touchpad
-alias 3tap="~/Documents/my-config/synaptics/main.sh"
-
-# ibus
-export XMODIFIERS=@im=ibus
-
+    # ibus
+    export XMODIFIERS=@im=ibus
 fi

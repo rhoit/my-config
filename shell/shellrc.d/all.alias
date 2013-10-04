@@ -8,7 +8,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # ls
-alias ll='ls -alF'
+alias ll='ls -lF'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -16,7 +16,7 @@ alias l='ls -CF'
 alias lgrep='ls | grep $1'
 alias lagrep='ls -a | grep $1'
 
-# cd 
+# cd
 alias ..='cd ..'
 
 # diff
