@@ -4,9 +4,10 @@ function defprompt {
 
 function git-prompt {
     git_path="/usr/share/git/git-prompt.sh" # in ubuntu this file is not distributed
-    if [[ ! -e git_path  ]]; then
+    if [[ ! -e $git_path  ]]; then
 	git_path="/opt/git-prompt.sh"
     fi
+
     if [[ -e  $git_path ]]; then
 	source $git_path
 	PS1='[\[\033[01;32m\]\u@\h\[\033[01;34m\] \W\[\e[0;32m\]$(__git_ps1 " (%s)")\[\033[00m\]]\$ '
