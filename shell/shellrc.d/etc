@@ -1,0 +1,1 @@
+alias pysrv="python2 -m SimpleHTTPServer"

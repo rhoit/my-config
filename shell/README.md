@@ -3,7 +3,13 @@
 shell configuration, alias, colouring, git intergation of zsh and bash shell.
 
 run main.sh from present working directory to create the symlink.
-    $ ./main.sh
+
+```bash
+    $ ./configure
+    $ make
+    $ make install
+```
+
 
 #### Dependencies
 
