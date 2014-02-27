@@ -1,44 +1,42 @@
 # cowfortune
 
-case $(($RANDOM%2)) in
-    0) dialogue="say";;
-    1) dialogue="think";;
-esac
+# case implementation since zsh, bash array don't go together
 
-function mascot {
+function cowfortune {
+    case $(($RANDOM%2)) in
+	0) dialogue="say";;
+	1) dialogue="think";;
+    esac
+
     case $(($RANDOM%5)) in
-	0) echo "tux";;
-	1) echo "default";;
-	2) echo "elephant";;
-	3) echo "koala";;
-	4) echo "moose";;
+	0) mascot="default";;
+	1) mascot="elephant";;
+	2) mascot="koala";;
+	3) mascot="moose";;
+	4) mascot="tux";;
     esac
-}
 
-function eye {
     case $(($RANDOM%10)) in
-	0) echo 'oo';;
-	1) echo '$$';;
-	2) echo 'zz';;
-	3) echo '--';;
-	4) echo '++';;
-	5) echo '@@';;
-	6) echo 'uu';;
-	7) echo '~~';;
-	8) echo '..';;
-	9) echo 'xx';;
+	0) eye='oo';;
+	1) eye='$$';;
+	2) eye='zz';;
+	3) eye='--';;
+	4) eye='++';;
+	5) eye='@@';;
+	6) eye='uu';;
+	7) eye='~~';;
+	8) eye='..';;
+	9) eye='xx';;
 
-	10)echo 'eə';;
-	11)echo '••';;
-	12)echo '☆☆';;
-	13)echo '♥♥';;
-	14)echo '»«';;
-	15)echo 'øø';;
+	10)eye='eə';;
+	11)eye='••';;
+	12)eye='☆☆';;
+	13)eye='♥♥';;
+	14)eye='»«';;
+	15)eye='øø';;
     esac
-}
 
-function cowfortune {    
-    cow$dialogue -f "`mascot`" -e "`eye`" "`fortune -s`"
+    cow$dialogue -f $mascot -e $eye "$(fortune -s)"
 }
 
 cowfortune
