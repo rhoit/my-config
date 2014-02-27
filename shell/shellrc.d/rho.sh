@@ -4,5 +4,10 @@
 #
 
 
-# Wacom
-alias wacom-touch-off='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch off'
+# python
+alias py="python"
+
+
+# WINE is the standard env variable
+export WIN="~/.wine/dosdevices/c:"
+alias c:="cd $WIN"
