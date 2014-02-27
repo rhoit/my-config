@@ -4,6 +4,13 @@
 #
 
 
+# * WINE
+# the standard env variable
+
+export WIN="~/.wine/dosdevices/c:"
+alias c:="cd $WIN"
+
+
 # * HELPERS
 # bundle up commands for operation
 
