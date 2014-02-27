@@ -1,11 +1,6 @@
 # My personal preference
 
 alias run="chmod +x"
-alias edit="leafpad"
-export EDITOR="emacs -nw"
-export VISUAL="emacs -nw"
-export screen="tmux"
-#set -o emacs
 
 # My ways
 alias startx='startx &> ~/.xlog'
@@ -13,11 +8,24 @@ alias startx='startx &> ~/.xlog'
 # Stupid stuffs
 alias rc.d='systemctl'
 
-# Wacom
-alias offtouch='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch off'
-
-# touchpad
-alias 3tap="~/Documents/my-config/synaptics/main.sh"
-
 # ibus
 export XMODIFIERS=@im=ibus
+
+# python
+alias py="python"
+alias py2="python2"
+alias py3="python3"
+
+# WINE is the standard env variable
+export WIN="~/.wine/dosdevices/c:"
+alias c:="cd $WIN"
+
+
+# file browser (nemo) behaviour
+function nemo {
+    if [ $# -eq 0 ]; then
+	setsid /usr/bin/nemo . # "nemo" is function, will cause recursion
+    else
+	setsid /usr/bin/nemo $1
+    fi
+}
