@@ -28,22 +28,26 @@ alias c:="cd $WIN"
 # emacs behaviour
 function emacs {
     if [[ $# -eq 0 ]]; then
-	    /usr/bin/emacs # "emacs" is function, will cause recursion
-    else
-		# TODO: shift the variables
-        if [[ ${1:0:1} == "-" ]]; then # "string match '-'"
-	        /usr/bin/emacs $@
-    	else
-	        setsid emacsclient -n -a /usr/bin/emacs $@
-	    fi
+        /usr/bin/emacs # "emacs" is function, will cause recursion
+        return
     fi
+
+    for ((i=0; i <= $#; i++)); do
+        local a=${@[i]} # BUG: bash, zsh works fine
+        if [[ ${a:0:1} == "-" ]]; then
+            /usr/bin/emacs $@
+            return
+        fi
+    done
+
+    setsid emacsclient -n -a /usr/bin/emacs $@
 }
 
 # file browser (nemo) behaviour
 function nemo {
     if [[ $# -eq 0 ]]; then
-		setsid /usr/bin/nemo . # "nemo" is function, will cause recursion
+        setsid /usr/bin/nemo . # "nemo" is function, will cause recursion
     else
-		setsid /usr/bin/nemo $@
+        setsid /usr/bin/nemo $@
     fi
 }
