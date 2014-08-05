@@ -11,6 +11,21 @@ export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
 
+# * WRAPPERS
+# extend application options
+
+# ** nemo
+function nemo {
+    ##
+    ### nemo (file browser) wrapper
+    if [[ $# -eq 0 ]]; then
+        setsid /usr/bin/nemo . # "nemo" is function, will cause recursion
+    else
+        setsid /usr/bin/nemo $@
+    fi
+}
+
+
 # * HELPERS
 # bundle up commands for operation
 
