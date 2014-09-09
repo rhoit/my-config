@@ -32,15 +32,17 @@ function emacs {
         return
     fi
 
-    for ((i=0; i <= $#; i++)); do
-        local a=${@[i]} # BUG: bash, zsh works fine
-        if [[ ${a:0:1} == "-" ]]; then
-            /usr/bin/emacs $@
+    args=($*)
+    for ((i=0; i <= ${#args}; i++)); do
+        local a=${args[i]}
+      # NOTE: -c for creating new frame
+        if [[ ${a:0:1} == '-' && ${a} != '-c' ]]; then
+            /usr/bin/emacs ${args[*]}
             return
         fi
     done
 
-    setsid emacsclient -n -a /usr/bin/emacs $@
+    setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
 }
 
 # file browser (nemo) behaviour
