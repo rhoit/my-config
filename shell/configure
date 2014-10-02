@@ -1,17 +1,20 @@
 #!/bin/bash
+set -e
 
 link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
 if [[ ! -e /usr/share/git/git-prompt.sh ]]; then
-    mkdir tmp
-    wget -c $link -O tmp/git-prompt.sh
+    wget -c $link -O /tmp/git-prompt.sh
+fi
+
+link="showterm.io/showterm"
+if [[ ! -e shellrc.d/_showterm.func ]]; then
+    wget $link -O /tmp/showterm
+    awk 'BEGIN {print "function showterm() {"};
+         {print "    " $0};
+         END { print "}"}' /tmp/showterm > shellrc.d/_showterm.func
 fi
 
 list="cowsay fortune git"
-
 for item in $list; do
-    if [[ -e /usr/bin/$item ]]; then result="OK"
-    else result="FAIL"
-    fi
-
-    echo Checking for \"$item\" $result
+    type $item
 done

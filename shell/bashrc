@@ -10,4 +10,4 @@ HISTCONTROL=ignoredups:ignorespace
 
 source ~/.shellrc
 
-git-prompt
+prompt-git
