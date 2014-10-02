@@ -36,8 +36,8 @@ function emacs {
     for ((i=0; i <= ${#args}; i++)); do
         local a=${args[i]}
       # NOTE: -c for creating new frame
-        if [[ ${a:0:1} == '-' && ${a} != '-c' ]]; then
-            /usr/bin/emacs ${args[*]}
+        if [[ ${a:0:1} == '-' && $a != '-c' ]]; then
+            setsid /usr/bin/emacs ${args[*]}
             return
         fi
     done
