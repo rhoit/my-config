@@ -14,7 +14,9 @@ if [[ ! -e shellrc.d/_showterm.func ]]; then
          END { print "}"}' /tmp/showterm > shellrc.d/_showterm.func
 fi
 
-list="cowsay fortune git"
+echo "Checking: dependencies"
+list="cowsay fortune git mktemp script tput curl"
 for item in $list; do
+    echo -ne "\t"
     type $item
 done
