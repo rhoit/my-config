@@ -1,0 +1,23 @@
+# xle receiving unicode i/o
+set-character-encoding stdio utf-8
+
+set showNumbers 0 ;# turns off node numbers in c-structure window
+set showFSNumbers 0 ;# turns off node numbers in f-structure window
+
+# set xletreefont {Courier 15}  #makes font in tcl window bigger
+# set xletextfont {Courier 15}
+# set xleuifont {Courier 15}
+# set xlefsfont {Courier 15}
+
+# font =>12 breaks the stuff
+set xleuifont {Samanata 15}
+set xletextfont {Samanata 15}
+set xletreefont {Samanata 15}
+set xlefsfont  {Samanata 15}
+
+# set xleuifont {'DejaVu Sans Mono' 10}
+# set xletextfont {'DejaVu Sans Mono' 10}
+# set xletreefont {'DejaVu Sans Mono' 10}
+# set xlefsfont  {'DejaVu Sans Mono' 10}
+
+# create-parser "~/grammar6.lfg"
