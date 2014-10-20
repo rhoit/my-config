@@ -53,3 +53,32 @@ function nemo {
         setsid /usr/bin/nemo $@
     fi
 }
+
+# ssh behaviour
+function ssh {
+    if [[ $# -eq 0 ]]; then
+        /usr/bin/ssh # "ssh" is function, will cause recursion
+        return
+    fi
+
+    /usr/bin/ssh $* 2> /tmp/ssh_key_error
+    exitcode=$?
+    if [[ $exitcode -eq 0 ]]; then
+        exit 0
+    fi
+
+    cat /tmp/ssh_key_error
+    local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
+    if [[ $v == "" ]]; then
+        return $exitcode
+    fi
+
+    echo -n "\nDo you wanna fix and continue? "
+    read reply
+    if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
+        local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
+        sed -i "${v}d" $HOME/.ssh/known_hosts
+        /usr/bin/ssh $*
+        return $?
+    fi
+}
