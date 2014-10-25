@@ -64,7 +64,7 @@ function ssh {
     /usr/bin/ssh $* 2> /tmp/ssh_key_error
     exitcode=$?
     if [[ $exitcode -eq 0 ]]; then
-        exit 0
+        return 0
     fi
 
     cat /tmp/ssh_key_error
