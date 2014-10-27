@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # http://www.climagic.org/coolstuff/matrix-effect.html
 
 function matrix {
