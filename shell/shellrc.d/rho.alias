@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # My personal preference
 
 alias run="chmod +x"
@@ -33,17 +35,13 @@ function emacs {
     fi
 
     args=($*)
-    # TIP: add '-' at the end to open new emacs session
+    # TIP: add '-' arguement for opening new emacs session
     for ((i=0; i <= ${#args}; i++)); do
         local a=${args[i]}
-        if [[ $a == '-nw' ]]; then
-            /usr/bin/emacs ${args[*]}
-            return
-        fi
-
-        # NOTE: -c for creating new frame
+        # NOTE: -c create frame; -nw: no-window
         if [[ ${a:0:1} == '-' && $a != '-c' ]]; then
-            setsid /usr/bin/emacs ${args[*]}
+            # TIPS: -nw will not work with setsid use '&'
+            /usr/bin/emacs ${args[*]}
             return
         fi
     done
