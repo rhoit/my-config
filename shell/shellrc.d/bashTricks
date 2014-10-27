@@ -8,9 +8,10 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # ls
+alias l='ls -CF'
 alias ll='ls -lF'
 alias la='ls -A'
-alias l='ls -CF'
+alias lla='ls -al'
 
 # find
 alias lgrep='ls | grep $1'
