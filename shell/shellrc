@@ -2,17 +2,17 @@
 # shellrc - common rc file for {zsh,bash}
 #
 
-# # cheesy fix - gnome-terminal 3.7.0
-# # changing current working directory
-# if [[ -e /etc/profile.d/vte.sh ]]; then
-#     source /etc/profile.d/vte.sh
-#     chpwd_functions+=(__vte_osc7)
-#     cd $PWD
-# fi
+# cheesy fix - gnome-terminal 3.7.0
+# changing current working directory
+if [[ -e /etc/profile.d/vte.sh ]]; then
+    source /etc/profile.d/vte.sh
+    chpwd_functions+=(__vte_osc7)
+    cd $PWD
+fi
 
 if [[ -d ~/.shellrc.d ]]; then
     for f in ~/.shellrc.d/*; do
-	source "$f"
+           source "$f"
     done
     unset f
 fi

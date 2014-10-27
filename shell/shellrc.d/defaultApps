@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export EDITOR="nano"
 export VISUAL="emacs -nw"
 export SCREEN="tmux"

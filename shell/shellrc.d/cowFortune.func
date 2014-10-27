@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # cowfortune
 
 # case implementation since zsh, bash array don't go together
