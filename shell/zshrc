@@ -9,6 +9,13 @@ ZSH_THEME="rho"
 
 plugins=(git colored-man-pages zsh-syntax-highlighting)
 
+# Navigation bindings
+## See man zshzle for bindkey
+## Do cat<RET> to see any-new keybindings
+bindkey -s '^[[1;5A' '^Ucd ..^M'  # C-up
+bindkey -s '^[[1;5B' '^Ucd -^M'   # C-down
+bindkey -s '\ei' '$(!!)^M'        # Get last command output hackish edition
+
 source $ZSH/oh-my-zsh.sh
 
 source ~/.shellrc  # unified shell config
