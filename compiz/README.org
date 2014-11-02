@@ -1,0 +1,26 @@
+#+TITLE:	compiz configurations
+#+AUTHOR:	rho
+
+* 1. What's this?
+
+These are the files generated from the =ccsm (compiz-config-setting-manager)= which are used by *compiz*.
+
+- *v8* uses =compiz=
+- *v9* uses =compiz-1=
+
+* 2. Requirement
+
+Apart from the *compiz core packages* these setting use other *extra plugins*.
+
+** 2.1 compiz v8
+: compiz-fusion-plugins-extra, compiz-fusion-plugins-unsupported
+
+If other decorator doesn't work use =emerald=
+
+* 3. Install
+
+** 3.1 Manual
+Copy the files into =~/.config/= to get it working
+
+: *NOTE*: You might need to turn off compiz or replace the
+:         folder since it makes new configuration automatically.
