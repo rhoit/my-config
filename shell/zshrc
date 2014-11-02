@@ -46,4 +46,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+## See man zshzle for bindkey
+## Do cat<RET> to see any-new keybindings
+bindkey -s '^[[1;5A' '^Ucd ..^M' # M-up
+bindkey -s '^[[1;5B' '^Ucd -^M'  # M-down
+
 source ~/.shellrc
