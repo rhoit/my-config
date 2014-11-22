@@ -9,6 +9,8 @@ alias woman="man --apropos $1"
 
 # python
 alias py="python"
+alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
+alias py3="python3"
 
 
 # WINE is the standard env variable
