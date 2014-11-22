@@ -16,9 +16,10 @@ export XMODIFIERS=@im=ibus
 
 # python
 alias py="python"
-alias py2="python2"
+alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
 alias py3="python3"
-alias pysrv="python2 -m SimpleHTTPServer"
+alias pysrv="python -m http.server"
+alias py2srv="python2 -m SimpleHTTPServer"
 
 # gdb
 alias gdb="gdb -q"

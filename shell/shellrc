@@ -12,7 +12,7 @@ fi
 
 if [[ -d ~/.shellrc.d ]]; then
     for f in ~/.shellrc.d/*; do
-           source "$f"
+	[ -f "$f" ] && source "$f"
     done
     unset f
 fi

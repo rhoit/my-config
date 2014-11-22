@@ -1,8 +1,6 @@
 #!/bin/bash
 
-export EDITOR="nano"
+export EDITOR="mg"
 export VISUAL="emacs -nw"
 export SCREEN="tmux"
 export BROWSER="firefox"
-
-alias edit="mg"
