@@ -13,6 +13,8 @@ alias rc.d='systemctl'
 
 # ibus
 export XMODIFIERS=@im=ibus
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
 
 # python
 alias py="python"
@@ -27,6 +29,9 @@ alias gdb="gdb -q"
 # WINE is the standard env variable
 export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
+
+# mkdir and cd
+mkcd () { mkdir -p "$@" && cd "$@"; }
 
 # emacs behaviour
 function emacs {
