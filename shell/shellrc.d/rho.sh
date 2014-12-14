@@ -3,6 +3,17 @@
 # My personal preference
 #
 
+# * PYTHON
+
+alias py="python"
+alias py3="python3"
+alias pyhost="python3 -m http.server"
+alias py2host="python2 -m SimpleHTTPServer"
+
+alias py2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+alias python2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+
 
 # * WINE
 # the standard env variable
