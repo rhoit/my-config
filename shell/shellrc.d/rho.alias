@@ -20,7 +20,7 @@ export QT_IM_MODULE=ibus
 alias py="python"
 alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
 alias py3="python3"
-alias pysrv="python -m http.server"
+alias pysrv="python3 -m http.server"
 alias py2srv="python2 -m SimpleHTTPServer"
 
 # gdb
