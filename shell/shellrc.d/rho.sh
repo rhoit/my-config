@@ -8,9 +8,14 @@ alias woman="man --apropos $1"
 
 # python
 alias py="python"
-alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
 alias py3="python3"
+alias pysrv="python3 -m http.server"
+alias py2srv="python2 -m SimpleHTTPServer"
 
+# everything do with py2
+alias py2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+alias python2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 
 # WINE is the standard env variable
 export WIN="~/.wine/dosdevices/c:"
