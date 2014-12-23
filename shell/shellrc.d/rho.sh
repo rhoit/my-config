@@ -11,11 +11,6 @@ alias startx='startx &> ~/.xlog'
 # Stupid stuffs
 alias rc.d='systemctl'
 
-# ibus
-export XMODIFIERS=@im=ibus
-export GTK_IM_MODULE=ibus
-export QT_IM_MODULE=ibus
-
 # python
 alias py="python"
 alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
@@ -29,6 +24,11 @@ alias gdb="gdb -q"
 # WINE is the standard env variable
 export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
+
+# ibus
+export XMODIFIERS=@im=ibus
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
 
 # mkdir and cd
 mkcd () { mkdir -p "$@" && cd "$@"; }
