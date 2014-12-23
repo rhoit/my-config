@@ -1,6 +1,8 @@
 #!/bin/bash
 
+#
 # My personal preference
+#
 
 alias run="chmod +x"
 alias woman="man --apropos $1"
@@ -13,7 +15,7 @@ alias rc.d='systemctl'
 
 # python
 alias py="python"
-alias py2="PYTHONSTARTUP="$HOME/.pythonrc" python2"
+alias py2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 alias py3="python3"
 alias pysrv="python3 -m http.server"
 alias py2srv="python2 -m SimpleHTTPServer"
@@ -29,6 +31,9 @@ alias c:="cd $WIN"
 export XMODIFIERS=@im=ibus
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
+
+# tmux hack
+alias tmux-multi="$HOME/Documents/my-config/tmux/tmux-multi.sh"
 
 # mkdir and cd
 mkcd () { mkdir -p "$@" && cd "$@"; }
