@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Bash tricks
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -27,7 +29,6 @@ alias diff='colordiff'
 
 # history
 alias hist='history | grep $1'
-alias openports='netstat --all --numeric --programs --inet --inet6'
 
 ### Using sudo with alias ###
 # Neat trick - also given in arch-wiki
