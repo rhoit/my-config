@@ -1,7 +1,8 @@
 #!/bin/bash
 
-alias dcadmin='telnet localhost 53696'
-alias sharesshid='nc -p 1234 < ~/.ssh/id_rsa.pub'
+alias dc_admin='telnet localhost 53696'
+alias share_key='nc -p 1234 < ~/.ssh/id_rsa.pub'
+alias open_ports='netstat --all --numeric --programs --inet --inet6'
 
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
