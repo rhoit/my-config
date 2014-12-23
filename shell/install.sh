@@ -19,3 +19,7 @@ else
     cp /tmp/git-prompt.sh /opt/
     chmod +x /opt/git-prompt.sh
 fi
+
+PKG_REQ=(cowsay fortune)
+which apt-get && { which ${PKG_REQ[@]} || apt-get install ${PKG_REQ[@]} }
+which pacman && { which ${PKG_REQ[@]} || pacman -S ${PKG_REQ[@]} }
