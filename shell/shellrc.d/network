@@ -1,7 +1,7 @@
 #!/bin/bash
 
 alias dc_admin='telnet localhost 53696'
-alias share_key='nc -p 1234 < ~/.ssh/id_rsa.pub'
+alias share_key='nc -l -p 1234 < ~/.ssh/id_rsa.pub'
 alias open_ports='netstat --all --numeric --programs --inet --inet6'
 
 function proxy_on() {
