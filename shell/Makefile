@@ -1,13 +1,23 @@
-all:
-	@echo "To disable extra download"
-	@echo -e "OFFLINE=1 ./configure"
-	@echo "make [install|clean]"
+all: patch
 
-install:
-	test -e conf || echo "run the './configure' first"
+link: conf
+	./install.sh linky
+
+install: conf
 	./install.sh
 
 clean:
-	rm conf
+	rm -f conf
+
+patch: # patch for ubuntu
+	@[ -e /usr/share/git/git-prompt.sh ] && cp /tmp/git-prompt.sh /opt/
+
+uninstall:
+	rm -f ~/.bashrc
+	rm -f ~/.shellrc
+	rm -f ~/.shellrc.d
+	rm -f ~/.zshrc
+
+unlink: uninstall
 
 #restore:
