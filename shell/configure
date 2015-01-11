@@ -2,21 +2,25 @@
 set -e
 
 link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
-if [[ ! -e /usr/share/git/git-prompt.sh ]]; then
-    wget -c $link -O /tmp/git-prompt.sh
-fi
+[[ "$OFFLINE" == "1" ]] || {
+    [ -e /usr/share/git/git-prompt.sh ] ||  wget -c $link -O /tmp/git-prompt.sh
+}
 
 link="showterm.io/showterm"
-if [[ ! -e shellrc.d/_showterm.func ]]; then
+[[ "$OFFLINE" == "1" ]] || {
+    [ -e shellrc.d/_showterm.func ] || {
     wget $link -O /tmp/showterm
     awk 'BEGIN {print "function showterm() {"};
          {print "    " $0};
          END { print "}"}' /tmp/showterm > shellrc.d/_showterm.func
-fi
+    }
+}
 
 echo "Checking: dependencies"
-list="cowsay fortune git mktemp script tput curl"
+list="git mktemp script tput curl"
 for item in $list; do
     echo -ne "\t"
     type $item
 done
+
+echo $(date) ran $0 > config
