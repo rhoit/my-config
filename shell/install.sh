@@ -1,6 +1,12 @@
 #!/bin/bash
 
-list="zshrc bashrc shellrc shellrc.d"
+if [[ "$1" == "" ]]; then
+    COMMAND="ln -s"
+else
+    COMMAND="cp"
+fi
+
+list="bashrc shellrc shellrc.d zshrc"
 
 for item in $list; do
     ( file ~/.$item | grep -v "symbolic" ) || continue
@@ -10,12 +16,5 @@ for item in $list; do
 	    mv ~/.$item ~/$name
 	    echo "Old config has been renamed as $name"
     fi
-    ln -s $PWD/$item ~/.$item
+    $COMMAND $PWD/$item ~/.$item
 done
-
-if [[ ! -e /tmp/git-prompt.sh && -e /usr/share/git/git-prompt.sh ]]; then
-    echo "Try running configure again"
-else
-    cp /tmp/git-prompt.sh /opt/
-    chmod +x /opt/git-prompt.sh
-fi

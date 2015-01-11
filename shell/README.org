@@ -1,0 +1,29 @@
+#+TITLE: shell
+
+shell configuration, alias, colouring, git intergation for zsh and
+bash.
+
+*** Options
+
+**** Install without extra download
+
+Set the =OFFLINE= *env* *variable* to =1=
+
+#+begin_src shell
+  $ OFFLINE=1 ./configure
+#+end_src
+
+*** Installation
+
+#+begin_src shell
+  $ ./configure
+  $ make
+  $ make install
+#+end_src
+
+
+*** Dependencies
+
+- [[https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh][git-prompt]] for *bash*, seems like *ubuntu* doesn't have it.
+- [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]  for *zsh* config
+- [[showterm.io/showterm][showterm.io]] record the term and upload (*not a video*)
