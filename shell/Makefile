@@ -1,12 +1,13 @@
-all: prepare
-
-prepare:
-	chmod +x configure
-	./configure
+all:
+	@echo "To disable extra download"
+	@echo -e "OFFLINE=1 ./configure"
+	@echo "make [install|clean]"
 
 install:
-	chmod +x install.sh
+	test -e conf || echo "run the './configure' first"
 	./install.sh
 
+clean:
+	rm conf
+
 #restore:
-#clean:
