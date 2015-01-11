@@ -23,4 +23,9 @@ for item in $list; do
     type $item
 done
 
-echo $(date) ran $0 > config
+>/dev/null grep -i "Ubuntu" /etc/lsb-release && {
+    echo "run $ sudo make patch"
+    echo "See README.org"
+}
+
+echo $(date) ran $0 > conf
