@@ -6,10 +6,11 @@ else
     COMMAND="cp"
 fi
 
-list="bashrc shellrc shellrc.d zshrc"
+list="bashrc bash_profile shellrc shellrc.d zshrc"
 
+rm -f installed
 for item in $list; do
-    [ -L ~/.$item ] || rm -f ~/.$item
+    echo "~/.$item" >> installed
     if [[ -e ~/.$item ]]; then
         name="$item$(date +%s).bak"
         mv ~/.$item ~/$name

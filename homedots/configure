@@ -1,0 +1,21 @@
+#!/bin/bash
+
+PKG_FILE=(gmrun mg python2 X xle)
+XRC_FILE=(gmrunrc mg pythonrc xinitrc xlerc)
+
+rm -f conf
+if [[ "$CHECK" == "0" ]]; then
+    echo ${XRC_FILE[@]} | tr ' ' '\n' > conf
+    exit
+fi
+
+for ((i=${#PKG_FILE}; i >= 0; i--)); do
+    echo -n "${PKG_FILE[i]}"
+    path=$(which ${PKG_FILE[i]} 2> /dev/null)
+    if [ ! $path ]; then
+        echo " not found"
+        continue
+    fi
+    echo " found at '$path'"
+    echo ${XRC_FILE[i]} >> conf
+done
