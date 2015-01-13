@@ -3,9 +3,9 @@
 shell configuration, alias, colouring, git intergation for zsh and
 bash.
 
-*** Options
-
-**** Install without extra download
+*** How to Setup
+**** Options
+***** Install without extra download
 
 Set the =OFFLINE= *env* *variable* to =1=
 
@@ -13,7 +13,7 @@ Set the =OFFLINE= *env* *variable* to =1=
   $ OFFLINE=1 ./configure
 #+end_src
 
-*** Installation
+**** Installation
 
 #+begin_src shell
   $ ./configure

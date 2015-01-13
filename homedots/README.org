@@ -1,0 +1,21 @@
+#+TITLE: homedot
+
+*dot* =.= *files* configuration in *home* directory.
+
+
+*** How to Setup
+=./configure= will check for the configuration to be installed.
+
+**** Options
+To install everything set the =CHECK= *env* *variable* to =1=
+
+#+begin_src shell
+  $ CHECK=1 ./configure
+#+end_src
+
+**** Installation
+#+begin_src shell
+  $ ./configure
+  $ make
+  $ make install
+#+end_src
