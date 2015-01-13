@@ -1,0 +1,30 @@
+#+TITLE: homedot
+
+*dot* =.= *files* configuration in *home* directory.
+
+* SETUP
+
+  =./configure= will check for the configuration to be installed.
+
+** Options
+
+   To install everything set the =CHECK= *env* *variable* to =1=
+
+   #+HEADER: :results output :eval no-export
+   #+BEGIN_SRC sh :exports both
+     CHECK=1 ./configure
+   #+end_src
+
+** Manually
+
+   *Copy* or *create* _symbolic_ _link_ of required setting to your
+   =HOME= directory.
+
+** Installer
+
+   #+HEADER: :results output :eval no-export
+   #+BEGIN_SRC sh :exports both
+     ./configure
+     make
+     make install
+   #+END_SRC
