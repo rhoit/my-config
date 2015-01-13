@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function mk_docker {
+    # http://ebalaskas.gr/wiki/archlinux/installation_for_docker
+    [ "$USER" != "root" ] && {
+        echo -e "Superuser Privileges Requried!"
+        return
+	}
+    path_img="/tmp/archlinux"
+    rm -rf $path_img
+    # basic installation
+    mkdir -pv $path_img/var/lib/pacman
+    pacman --root $path_img -Sy base --noconfirm
+    sed -i '0,/#.*Server/s/#//' $path_img/etc/pacman.d/mirrorlist
+    sed -i 's/^SigLevel.*/SigLevel = Never/g' $path_img/etc/pacman.conf
+
+    # clean up
+    pacman -Rncs linux --root $path_img --noconfirm
+    pacman -Rncs man-db --root $path_img --noconfirm
+    pacman -Rncs man-pages --root $path_img --noconfirm
+    rm -rf $path_img/usr/share/locale
+    rm -rf $path_img/usr/share/man
+
+    # make tar
+    cd $path_img
+    tar Jcf a .
+    du -h a
+    cd -
+
+    # message
+    echo "docker import - arch:$(date +%b%d) < $path_img/a"
+}

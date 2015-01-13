@@ -1,0 +1,10 @@
+about:sessionrestore
+
+$ firefox -p [PROFILE_NAME] -no-remote
+$ firefox -ProfileManager
+$ firefox -safe-mode
+
+no-remote # Enables running multiple instances
+
+source: http://kb.mozillazine.org/Command_line_arguments
+

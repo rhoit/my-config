@@ -9,12 +9,11 @@ fi
 list="bashrc shellrc shellrc.d zshrc"
 
 for item in $list; do
-    ( file ~/.$item | grep -v "symbolic" ) || continue
-    echo $item starting..
+    [ -L ~/.$item ] || rm -f ~/.$item
     if [[ -e ~/.$item ]]; then
-	    name="$item$(date +%s).bak"
-	    mv ~/.$item ~/$name
-	    echo "Old config has been renamed as $name"
+        name="$item$(date +%s).bak"
+        mv ~/.$item ~/$name
+        echo "Old config has been renamed as $name"
     fi
     $COMMAND $PWD/$item ~/.$item
 done
