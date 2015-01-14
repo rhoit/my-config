@@ -1,0 +1,20 @@
+#+TITLE: udev
+
+*udev rules*, know what you are doing before copying it to
+=/etc/udev/rules.d=.
+
+*** Summary
+
+| file                       | description                                                | direct copy |
+|----------------------------+------------------------------------------------------------+-------------|
+| =01-touchpad.rules=        | disable touchpad when external pointing device is attached | ✓           |
+| =90-hide-partitions.rules= | hide partition from file browser                           | ✗           |
+
+
+*** Reload Rules
+
+*udev* can be reloaded +with+ without restart.
+
+#+BEGIN_SRC bash
+  # udevadm control --reload-rules
+#+END_SRC
