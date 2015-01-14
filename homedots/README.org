@@ -13,7 +13,11 @@ To install everything set the =CHECK= *env* *variable* to =1=
   $ CHECK=1 ./configure
 #+end_src
 
-**** Installation
+**** Manually
+
+*Copy* or *create* _symbolic_ _link_ of required setting to your =HOME= directory.
+
+**** Installer
 #+begin_src shell
   $ ./configure
   $ make
