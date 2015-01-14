@@ -1,7 +1,29 @@
+
 #+TITLE: shell
 
-shell configuration, alias, colouring, git intergation for zsh and
+shell configuration, alias, coloring, git integration for zsh and
 bash.
+
+*** How does it works?
+
+The =~/.bashrc= and =~/.zshrc= loads the available config's from
+=~/.shellrc.d= when the shell starts. It add one more level of
+*re-direction* to achieve this result.
+
+Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
+
+| file              | description                                           | sourced |
+|-------------------+-------------------------------------------------------+---------|
+| bashTricks        | handy *aliases* for basic commands and enable *color* | ✓       |
+| defaultApps.alias | sets =env variable= for terminal *editors*            | ✓       |
+| docker.func       | make docker image of *archlinux*                      | ✓       |
+| extract.func      | uncompressed files accord to their *extensions*       | ✓       |
+| network           | handy *aliases* and script setting *proxy*            | ✓       |
+| picPaste.func     | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
+| prompts.func      | defines different *prompts* i.e. git-prompt           | ✓       |
+| rho               | my personal preferences                               | ✓       |
+| showterm.func     | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
+
 
 *** How to Setup
 **** Options
@@ -13,7 +35,11 @@ Set the =OFFLINE= *env* *variable* to =1=
   $ OFFLINE=1 ./configure
 #+end_src
 
-**** Installation
+**** Manually
+
+*Copy* or *create* _symbolic_ _link_ of required setting  to you =HOME= directory.
+
+**** Installer
 
 #+begin_src shell
   $ ./configure

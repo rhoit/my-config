@@ -1,25 +1,20 @@
 #!/bin/bash
 
+#
 # Bash tricks
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
+# handy aliases for basic commands and enable color
 
 # ls
+alias ls='ls --color=auto'
 alias l='ls -CF'
 alias ll='ls -lF'
 alias la='ls -A'
 alias lla='ls -al'
 
-# find
-alias lgrep='ls | grep $1'
-alias lagrep='ls -a | grep $1'
+# grep
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 
 # cd
 alias ..='cd ..'
@@ -27,9 +22,15 @@ alias ..='cd ..'
 # diff
 alias diff='colordiff'
 
-# history
-alias hist='history | grep $1'
-
-### Using sudo with alias ###
-# Neat trick - also given in arch-wiki
+# Using sudo with alias
 alias sudo='sudo -E '
+
+#----------------------------------------------------------------------
+# COMPOSITE ALIAS
+
+# ls | grep
+alias lgrep='ls | grep '
+alias lagrep='ls -a | grep '
+
+# history
+alias hist='history | grep '
