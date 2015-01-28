@@ -28,5 +28,5 @@ function mk_docker {
     cd -
 
     # message
-    echo "docker import - arch:$(date +%b%d) < $path_img/a"
+    echo "docker import - arch_$(date +%b%d | tr '[A-Z]' '[a-z]'):fresh < $path_img/a"
 }

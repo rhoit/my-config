@@ -4,14 +4,14 @@
 # My personal preference
 #
 
-alias run="chmod +x"
-alias woman="man --apropos $1"
-
 # My ways
 alias startx='startx &> ~/.xlog'
 
 # Stupid stuffs
+alias pm='pacman'
 alias rc.d='systemctl'
+alias run="chmod +x"
+alias woman="man --apropos $1"
 
 # python
 alias py="python"

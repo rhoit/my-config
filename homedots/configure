@@ -1,19 +1,22 @@
 #!/bin/bash
 
-PKG_FILE=(gmrun mg python2 X xle)
-XRC_FILE=(gmrunrc mg pythonrc xinitrc xlerc)
+PKG_NAME=(gmrun mg python X xle yaourt zsh)
+XRC_FILE=(gmrunrc mg pythonrc xinitrc xlerc yaourtrc zsh)
 
 rm -f conf
 if [[ "$CHECK" == "0" ]]; then
     echo ${XRC_FILE[@]} | tr ' ' '\n' > conf
     exit
 fi
+echo ${#PKG_NAME}
+echo ${#XRC_FILE}
+exit
 
-for ((i=${#PKG_FILE}; i >= 0; i--)); do
-    echo -n "${PKG_FILE[i]}"
+for ((i=${#PKG_FILE}; i > 0 ; i--)); do
+    printf "%2d %-10s:" $i ${PKG_FILE[i]}
     path=$(which ${PKG_FILE[i]} 2> /dev/null)
-    if [ ! $path ]; then
-        echo " not found"
+    if [[ ! $path ]]; then
+        echo " not found" $path
         continue
     fi
     echo " found at '$path'"
