@@ -20,7 +20,10 @@ alias egrep='egrep --color=auto'
 alias ..='cd ..'
 
 # diff
-alias diff='colordiff'
+alias diff='colordiff '
+
+# watch, expand alias arguments
+alias watch='watch -c '
 
 # Using sudo with alias
 alias sudo='sudo -E '
