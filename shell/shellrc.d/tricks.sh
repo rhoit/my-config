@@ -37,3 +37,6 @@ alias lagrep='ls -a | grep '
 
 # history
 alias hist='history | grep '
+
+# awesomeness
+# alias fuck=$(thefuck $(fc -ln -1))
