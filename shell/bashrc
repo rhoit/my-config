@@ -10,6 +10,13 @@ HISTCONTROL=ignoredups:ignorespace
 # update the values of LINES and COLUMNS.
 #shopt -s checkwinsize
 
+# Something from oh-my-zsh for bash
+alias pu='pushd'
+alias po='popd'
+alias ...='cd ../..'
+alias _='sudo'
+
+# calling the source
 source ~/.shellrc
 
 prompt-git
