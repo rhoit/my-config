@@ -12,6 +12,16 @@ shopt -s histappend
 # shopt -s checkwinsize
 
 
+# * ALIAS
+## Something from oh-my-zsh for bash
+
+alias ls='ls --color=tty'
+alias pu='pushd'
+alias po='popd'
+alias ...='cd ../..'
+alias _='sudo -E '
+
+
 # * CONFIG
 
 source ~/.shellrc  # unified common config for zsh and bash
