@@ -2,14 +2,13 @@
 
 #
 # Bash tricks
-# handy aliases for basic commands and enable color
+# handy shortcuts for basic commands and enable color
 
 # ls
-alias ls='ls --color=auto'
-alias l='ls -CF'
-alias ll='ls -lF'
-alias la='ls -A'
-alias lla='ls -al'
+alias l='ls -CFh'
+alias ll='ls -lFh'
+alias la='ls -Ah'
+alias lla='ls -alh'
 
 # grep
 alias grep='grep --color=auto'
@@ -28,6 +27,19 @@ alias watch='watch -c '
 # Using sudo with alias
 alias sudo='sudo -E '
 
+# she know all (kinda from emacs)
+alias woman="man --apropos $1"
+
+# lazy conf
+## Don't make one-liner bash does't support it
+function run {
+    chmod +x "$@" && ./$1
+}
+
+function mkcd {
+    mkdir -p "$1" && cd "$1"
+}
+
 #----------------------------------------------------------------------
 # COMPOSITE ALIAS
 
@@ -37,6 +49,3 @@ alias lagrep='ls -a | grep '
 
 # history
 alias hist='history | grep '
-
-# awesomeness
-# alias fuck=$(thefuck $(fc -ln -1))
