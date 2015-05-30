@@ -7,8 +7,8 @@
 # ls
 alias l='ls -CFh'
 alias ll='ls -lFh'
-alias la='ls -Ah'
-alias lla='ls -alh'
+alias la='ls -AFh'
+alias lla='ls -aFlh'
 
 # grep
 alias grep='grep --color=auto'

@@ -11,6 +11,7 @@ HISTCONTROL=ignoredups:ignorespace
 #shopt -s checkwinsize
 
 # Something from oh-my-zsh for bash
+alias ls='ls --color=tty'
 alias pu='pushd'
 alias po='popd'
 alias ...='cd ../..'
