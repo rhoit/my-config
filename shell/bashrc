@@ -15,6 +15,7 @@ shopt -s histappend
 # * ALIAS
 ## Something from oh-my-zsh for bash
 
+shopt -s autocd  # auto cd, like zsh
 alias ls='ls --color=tty'
 alias pu='pushd'
 alias po='popd'
