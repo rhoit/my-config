@@ -1,26 +1,29 @@
 #!/bin/bash
 
-# HISTORY FILE
+## HISTORY FILE
 HISTSIZE=10000
 HISTFILESIZE=10000
 HISTCONTROL=ignoredups:ignorespace
 #shopt -s histappend
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-#shopt -s checkwinsize
+## check the window size after each command and, if necessary,
+## update the values of LINES and COLUMNS.
+# shopt -s checkwinsize
 
-# Something from oh-my-zsh for bash
+## auto cd, like zsh
+shopt -s autocd
+
+## Something from oh-my-zsh for bash
 alias ls='ls --color=tty'
 alias pu='pushd'
 alias po='popd'
 alias ...='cd ../..'
 alias _='sudo'
 
-# calling the unified zsh/bash configs
+## calling the unified zsh/bash configs
 source ~/.shellrc
 
-# bash specific config
+## bash specific config
 if [[ -d ~/.bashrc.d ]]; then
     for f in ~/.bashrc.d/*; do
        [ -f "$f" ] || continue
