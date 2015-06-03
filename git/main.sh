@@ -6,6 +6,7 @@ if [ ! -e ~/.gitconfig ]; then
     read -p "    E-mail: " email
     git config --global user.name "$uname"
     git config --global user.email "$email"
+
     echo "github gist Setup"
     read -p "    github-username: " uname
     read -sp "    github-password: " pass; echo
@@ -21,6 +22,6 @@ if [ ! -e ~/.gitconfig ]; then
     git config --global github.gist-oauth-token "$token"
 fi
 
-git config --global core.editor "nano"
+git config --global core.editor "mg"
 git config --global color.ui true
 git config --global push.default simple # git 2.0 fix warnings

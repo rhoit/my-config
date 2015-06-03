@@ -6,7 +6,7 @@ else
     COMMAND="cp"
 fi
 
-list="bashrc bash_profile shellrc shellrc.d zshrc"
+list="bashrc bashrc.d bash_profile shellrc shellrc.d zshrc"
 
 rm -f installed
 for item in $list; do

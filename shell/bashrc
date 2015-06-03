@@ -17,7 +17,17 @@ alias po='popd'
 alias ...='cd ../..'
 alias _='sudo'
 
-# calling the source
+# calling the unified zsh/bash configs
 source ~/.shellrc
+
+# bash specific config
+if [[ -d ~/.bashrc.d ]]; then
+    for f in ~/.bashrc.d/*; do
+       [ -f "$f" ] || continue
+        # echo $f # for debugging
+        source "$f"
+    done
+    unset f
+fi
 
 prompt-git
