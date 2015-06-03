@@ -25,3 +25,13 @@ alias _='sudo -E '
 # * CONFIG
 
 source ~/.shellrc  # unified common config for zsh and bash
+
+## bash specific config
+if [[ -d ~/.bashrc.d ]]; then
+    for f in ~/.bashrc.d/*; do
+       [ -f "$f" ] || continue
+        # echo $f  # for debugging
+        source "$f"
+    done
+    unset f
+fi
