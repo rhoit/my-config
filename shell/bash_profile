@@ -5,10 +5,4 @@
 list=`pgrep -U "$USER" X`
 if [[ "$list" == "" ]] && [[ "$XDG_VTNR" == "1" ]]; then
     startx > ~/.xlog
-#elif [[ -f ~/.bashrc ]]; then
-#    source ~/.bashrc
-fi
-
-if [[ "$TMUX" != "" ]]; then
-   source ~/.bashrc
 fi
