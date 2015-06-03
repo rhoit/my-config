@@ -1,10 +1,4 @@
-# from arch wiki
-# https://wiki.archlinux.org/index.php/Bash#Fast_word_movement_with_Ctrl
-# in tmux its Meta, might not need this config
+$include /etc/inputrc
 
-"\e[1;5C": forward-word
-"\e[1;5D": backward-word
-"\e[5C": forward-word
-"\e[5D": backward-word
-"\e\e[C": forward-word
-"\e\e[D": backward-word
+## Mimic Zsh run-help ability (M-h)
+"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"
