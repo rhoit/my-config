@@ -5,7 +5,6 @@
 
 # * PYTHON
 
-alias py="python"
 alias py3="python3"
 alias pyhost="python3 -m http.server"
 alias py2host="python2 -m SimpleHTTPServer"
@@ -13,6 +12,18 @@ alias py2host="python2 -m SimpleHTTPServer"
 alias py2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 alias python2='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
+
+
+# ** wrapper for bpython
+function py {
+    ##
+    ### python wrapper for multiplexer
+    if [[ $# -eq 0 ]]; then
+        which bpython && bpython || python
+        return
+    fi
+    python $@
+}
 
 
 # * WINE
