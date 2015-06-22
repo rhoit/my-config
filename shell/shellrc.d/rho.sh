@@ -9,13 +9,23 @@ alias pm='pacman'
 alias woman="man --apropos $1"
 
 # python
-alias py="which bpython && bpython || python"
 alias py3="python3"
 alias pysrv="python3 -m http.server"
 alias py2srv="/usr/bin/python2 -m SimpleHTTPServer"
 alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 alias python2="python2.7"
 alias py2="python2"
+
+function py {
+    ##
+    ### python wrapper for multiplexer
+    if [[ $# -eq 0 ]]; then
+        which bpython && bpython || python
+        return
+    fi
+    python $@
+}
+
 
 # WINE is the standard env variable
 export WIN="~/.wine/dosdevices/c:"
