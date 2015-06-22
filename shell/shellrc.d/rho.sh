@@ -12,13 +12,22 @@ alias pm='pacman'
 alias rc.d='systemctl'
 
 # python
-alias py="which bpython && bpython || python"
 alias py3="python3"
 alias pysrv="python3 -m http.server"
 alias py2srv="/usr/bin/python2 -m SimpleHTTPServer"
 alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
 alias python2="python2.7"
 alias py2="python2"
+
+function py {
+    ##
+    ### python wrapper for multiplexer
+    if [[ $# -eq 0 ]]; then
+        which bpython && bpython || python
+        return
+    fi
+    python $@
+}
 
 # gdb
 alias gdb="gdb -q"
@@ -32,8 +41,9 @@ export XMODIFIERS=@im=ibus
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 
-# emacs behaviour
 function emacs {
+    ##
+    ### emacs wrapper for mulitplexing
     if [[ $# -eq 0 ]]; then
         /usr/bin/emacs # "emacs" is function, will cause recursion
         return
@@ -54,8 +64,10 @@ function emacs {
     setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
 }
 
-# file browser (nemo) behaviour
+
 function nemo {
+    ##
+    ### nemo (file browser) wrapper
     if [[ $# -eq 0 ]]; then
         setsid /usr/bin/nemo . # "nemo" is function, will cause recursion
     else
@@ -63,8 +75,10 @@ function nemo {
     fi
 }
 
-# ssh behaviour
+
 function ssh {
+    ##
+    ### ssh wrapper for smart behaviour
     if [[ $# -eq 0 ]]; then
         /usr/bin/ssh # "ssh" is function, will cause recursion
         return

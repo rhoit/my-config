@@ -1,6 +1,6 @@
 #!/bin/bash
 
 export EDITOR="mg"
-export VISUAL="emacs"
+export VISUAL="mg"
 export SCREEN="tmux"
 export BROWSER="firefox"
