@@ -2,3 +2,7 @@ $include /etc/inputrc
 
 ## Mimic Zsh run-help ability (M-h)
 "\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"
+
+## Navigation shortcuts
+"\e[1;5A": "\C-ucd ..\C-j" # C-up
+"\e[1;5B": "\C-ucd -\C-j" # C-down

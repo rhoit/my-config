@@ -29,7 +29,7 @@ ZSH_THEME="rho"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
-DISABLE_CORRECTION="true"
+DISABLE_CORRECTION="false"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
@@ -42,15 +42,19 @@ DISABLE_CORRECTION="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git colored-man command-not-found docker)
+plugins=(git colored-man command-not-found docker zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
 
+set -k # INTERACTIVE_COMMENTS allow to add comments
+
 ## See man zshzle for bindkey
 ## Do cat<RET> to see any-new keybindings
-bindkey -s '^[[1;5A' '^Ucd ..^M' # M-up
-bindkey -s '^[[1;5B' '^Ucd -^M'  # M-down
+## Navigation bindings
+bindkey -s '^[[1;5A' '^Ucd ..^M' # C-up
+bindkey -s '^[[1;5B' '^Ucd -^M'  # C-down
 
+setopt correct
 source ~/.shellrc
