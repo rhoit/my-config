@@ -18,3 +18,6 @@ function prompt-git {
         prompt-def
     fi
 }
+
+
+prompt-git
