@@ -1,0 +1,13 @@
+#+TITLE: my-config
+#+DATE: Wednesday, Jun 03 2015
+
+Some Handy and Fun configuration of mine!
+
+*DISCLAIMER* Author will be not responsible for the harm cause done
+by using this configuration, Make Sure You have the backup before
+applying these settings
+
+* Caution
+  Please don't use this setting blindly, if you are looking default
+  behavious and settings, it might not act like what you want because
+  its specially tailored for my needs.

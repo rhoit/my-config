@@ -15,9 +15,7 @@ alias rc.d='systemctl'
 alias py3="python3"
 alias pysrv="python3 -m http.server"
 alias py2srv="/usr/bin/python2 -m SimpleHTTPServer"
-alias python2.7='PYTHONSTARTUP="$HOME/.pythonrc" python2'
-alias python2="python2.7"
-alias py2="python2"
+alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
 
 function py {
     ##
@@ -28,6 +26,11 @@ function py {
     fi
     python $@
 }
+
+export SPARK_HOME="/usr/share/apache-spark/"
+export PYSPARK_SUBMIT_ARGS="--master local[4]"
+export IPYTHON_OPTS="notebook"
+alias pyspark="/usr/share/apache-spark/bin/pyspark"
 
 # gdb
 alias gdb="gdb -q"

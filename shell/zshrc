@@ -29,7 +29,7 @@ ZSH_THEME="rho"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
-DISABLE_CORRECTION="false"
+DISABLE_CORRECTION="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
@@ -56,5 +56,7 @@ set -k # INTERACTIVE_COMMENTS allow to add comments
 bindkey -s '^[[1;5A' '^Ucd ..^M' # C-up
 bindkey -s '^[[1;5B' '^Ucd -^M'  # C-down
 
-setopt correct
+## Get last command output hackish edition
+bindkey -s '\ei' '$(!!)^M'
+
 source ~/.shellrc
