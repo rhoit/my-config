@@ -7,9 +7,10 @@
 
 | file                       | description                                                | direct copy |
 |----------------------------+------------------------------------------------------------+-------------|
-| =01-touchpad.rules=        | disable touchpad when external pointing device is attached | ✓           |
+| =01-touchpad.rules=        | disable touchpad when external pointing device is attached | ✗           |
 | =90-hide-partitions.rules= | hide partition from file browser                           | ✗           |
 
+_Note:_ in 01-touchpad.rules change the /home/rho to /home/<your user name>
 
 *** Reload Rules
 
