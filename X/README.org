@@ -1,0 +1,45 @@
+* sessions
+
+  ALT + CTRL + Function key (F1-F6)
+  $ xinit -- :1
+  $ ssh -X <username>@<ip>
+  $ gnome-session
+
+  The Display number is typically something like :0 or :1, which mean
+  "the first X11 display on the local machine" and "the second X11
+  display on the local machine" respectively. The display is stored in
+  the environment variable DISPLAY, and any X11 application uses this
+  variable to determine how to contact the X11 server and show its
+  windows when it starts up.
+
+  If your X11 server is listening on the network, then people can
+  contact it from outside your computer. The first display :0 lives on
+  port 6000, the second on 6001, etc:
+
+  $ netstat -natp | grep :600
+
+* setxkbmap
+  $ setxkbmap -option compose:caps
+
+  If you cannot live without CapsLock a different key can be used. See
+  /usr/share/X11/xkb/rules/base.lst file for other key names.
+
+  setxkbmap -option grp:switch,grp:shift_toggle,grp_led:scroll us,lt
+
+* x2x
+  ssh <username>@<hostname> -X x2x -to :0 -from west
+
+* xrandr stuff
+  xrandr -q | grep -w Screen
+  xrandr --verbose | grep *current
+
+* Screen Shot
+  DISPLAY=:0 import -window root <path>
+  scrot
+
+* xwd
+
+  xwd -root -display :0.0| xwdtopnm | pnmtopng > Screenshot.png
+
+* input
+  $ xinput list
