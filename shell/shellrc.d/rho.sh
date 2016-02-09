@@ -29,8 +29,8 @@ function py {
 
 export SPARK_HOME="/usr/share/apache-spark/"
 export PYSPARK_SUBMIT_ARGS="--master local[4]"
-export IPYTHON_OPTS="notebook"
 alias pyspark="/usr/share/apache-spark/bin/pyspark"
+alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
 
 # gdb
 alias gdb="gdb -q"
