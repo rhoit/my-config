@@ -8,7 +8,7 @@ function prompt-git {
     # got addicted to zsh-git now i need it in bash
     alias gst='git status'
     alias gd='git diff'
-    alias gdc='git diff --cached'
+    alias gdca='git diff --cached'
     alias gco='git checkout'
     alias gcm='git checkout master'
     alias grv='git remote -v'
