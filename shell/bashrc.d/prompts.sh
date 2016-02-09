@@ -1,5 +1,17 @@
 #!/bin/bash
 
+
+# alias from oh-my-zsh plugin zsh-git
+alias gst='git status'
+alias gd='git diff'
+alias gdca='git diff --cached'
+alias gco='git checkout'
+alias gcm='git checkout master'
+alias grv='git remote -v'
+alias gba='git branch -a'
+alias glo='git log --oneline --decorate --color'
+
+
 function prompt-def {
     PS1="[\[\033[01;32m\]\u@\h\[\033[01;34m\] \W\[\033[00m\]]\$ "
 }
