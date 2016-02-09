@@ -10,6 +10,7 @@ alias gcm='git checkout master'
 alias grv='git remote -v'
 alias gba='git branch -a'
 alias glo='git log --oneline --decorate --color'
+alias glol='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 
 
 function prompt-def {
