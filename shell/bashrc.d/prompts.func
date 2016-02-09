@@ -14,6 +14,7 @@ function prompt-git {
     alias grv='git remote -v'
     alias gba='git branch -a'
     alias glo='git log --oneline --decorate --color'
+    alias glol='git log --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit'
 
     git_path="/usr/share/git/git-prompt.sh" # in ubuntu this file is not distributed
     if [[ ! -e $git_path  ]]; then
