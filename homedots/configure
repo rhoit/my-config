@@ -1,24 +1,16 @@
 #!/bin/bash
 
-PKG_NAME=(gmrun mg python X xle yaourt zsh)
-XRC_FILE=(gmrunrc mg pythonrc xinitrc xlerc yaourtrc zsh)
+PKG_NAME=(gmrun   mg python   X       xle   yaourt   zsh)
+_RC_FILE=(gmrunrc mg pythonrc xinitrc xlerc yaourtrc zshrc)
 
-rm -f conf
-if [[ "$CHECK" == "0" ]]; then
-    echo ${XRC_FILE[@]} | tr ' ' '\n' > conf
-    exit
+echo "Checking: dependencies"
+for ((i=${#PKG_NAME}; i > 0 ; i--)); do
+    item="${PKG_NAME[i]}"
+    2> /dev/null type $item || echo -e "\t $item not found"
+    echo ${_RC_FILE[i]} >> conf.new
+done | column -t | sed 's/^/\t/'
+
+if [[ -e conf.new ]]; then
+    rm -f conf
+    mv conf.new conf
 fi
-echo ${#PKG_NAME}
-echo ${#XRC_FILE}
-exit
-
-for ((i=${#PKG_FILE}; i > 0 ; i--)); do
-    printf "%2d %-10s:" $i ${PKG_FILE[i]}
-    path=$(which ${PKG_FILE[i]} 2> /dev/null)
-    if [[ ! $path ]]; then
-        echo " not found" $path
-        continue
-    fi
-    echo " found at '$path'"
-    echo ${XRC_FILE[i]} >> conf
-done
