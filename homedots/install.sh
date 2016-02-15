@@ -1,8 +1,7 @@
 #!/bin/bash
 
-rm -f installed
 while read item; do
-    echo "~/.$item" >> installed
+    echo "~/.$item" >> installed.new
     if [[ -e ~/.$item ]]; then
 	    name="$item$(date +%s).bak"
 	    mv ~/.$item ~/$name
@@ -10,3 +9,8 @@ while read item; do
     fi
     ln -s $PWD/$item ~/.$item
 done < conf
+
+if [[ -e installed.new ]]; then
+    rm -f installed
+    mv installed.new installed
+fi
