@@ -35,6 +35,21 @@ export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
 
+function readlink {
+    if [[ -t 1 ]]; then
+        while read data; do
+            args+="$data"
+        done
+        /usr/bin/readlink ${args[*]}
+	    return
+    fi
+
+    if [[ $# -gt 0 ]]; then
+        /usr/bin/readlink $@
+    fi
+}
+
+
 # * WRAPPERS
 # extend application options
 
