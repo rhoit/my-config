@@ -2,7 +2,7 @@
 
 #
 # My personal preference
-#3
+#
 
 # My ways
 alias startx='startx &> ~/.xlog'
@@ -39,12 +39,30 @@ alias gdb="gdb -q"
 export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
-# ibus
-export XMODIFIERS=@im=ibus
-export GTK_IM_MODULE=ibus
-export QT_IM_MODULE=ibus
+function readlink {
+    if [[ -t 1 ]]; then
+        while read data; do
+            args+="$data"
+        done
+        /usr/bin/readlink ${args[*]}
+	    return
+    fi
+
+    if [[ $# -gt 0 ]]; then
+        /usr/bin/readlink $@
+    fi
+}
 
 function emacs {
+    # if [[ -t 1 ]]; then
+    #     while read data; do
+    #         args+="$data"
+    #     done
+    #     echo "data: ${args[*]}"
+    #     # /usr/bin/emacs ${args[*]}
+	#     return
+    # fi
+
     ##
     ### emacs wrapper for mulitplexing
     if [[ $# -eq 0 ]]; then
@@ -66,7 +84,6 @@ function emacs {
 
     setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
 }
-
 
 function nemo {
     ##
