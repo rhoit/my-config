@@ -35,6 +35,21 @@ export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
 
+function xdg-give-me-damn-exec {
+    local name=$(xdg-mime query default $1)
+
+    for prefix in ~/.local /user /usr/local; do
+        local mime="$prefix/share/applications/$name"
+        if [[ -f "$mime" ]]; then
+            grep "^Exec" $mime
+            return
+        fi
+    done
+    >&2 echo "GTFO no mime"
+    return 9000
+}
+
+
 function readlink {
     if [[ -t 1 ]]; then
         while read data; do
