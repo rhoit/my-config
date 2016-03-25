@@ -1,5 +1,24 @@
 #!/bin/bash
 
+function docker_fit {
+    # docker fit output
+    docker $@ | sed '
+        1s/ *NAMES$//g;
+        s/ *[a-z]\+_[a-z]\+$//g;
+        s/"\(.*\)"/\1/g;
+        s/ seconds/s/g;
+        s/ minutes/m/g;
+        s/ hours/h/g;
+        s/About a minute/1m/g;
+        s/About an hour/1h/g;
+        s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/;
+        s/->/→/g
+        ' |
+    sed "s/  \+/;/g" |
+    column -s\; -t |
+    sed "1s/.*/\x1B[1m&\x1B[m/"
+}
+
 
 function dlc {
     # cache docker last container id DOCKER_CACHE
