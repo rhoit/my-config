@@ -1,55 +1,55 @@
-
 #+TITLE: shell
+#+DATE: Wednesday, Mar 30 2016
 
-shell configuration, alias, coloring, git integration for zsh and
+*shell* configuration, alias, coloring, git integration for zsh and
 bash.
 
-*** How does it works?
+* How does it works?
 
-The =~/.bashrc= and =~/.zshrc= loads the available config's from
-=~/.shellrc.d= when the shell starts. It add one more level of
-*re-direction* to achieve this result.
+  The =~/.bashrc= and =~/.zshrc= loads the available config's from
+  =~/.shellrc.d= when the shell starts. It add one more level of
+  *re-direction* to achieve this result.
 
-Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
+  Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
 
-| file              | description                                           | sourced |
-|-------------------+-------------------------------------------------------+---------|
-| bashTricks        | handy *aliases* for basic commands and enable *color* | ✓       |
-| defaultApps.alias | sets =env variable= for terminal *editors*            | ✓       |
-| docker.func       | make docker image of *archlinux*                      | ✓       |
-| extract.func      | uncompressed files accord to their *extensions*       | ✓       |
-| network           | handy *aliases* and script setting *proxy*            | ✓       |
-| picPaste.func     | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
-| prompts.func      | defines different *prompts* i.e. git-prompt           | ✓       |
-| rho               | my personal preferences                               | ✓       |
-| showterm.func     | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
+  | file          | description                                           | sourced |
+  |---------------+-------------------------------------------------------+---------|
+  | arch.func     | application releated to archlinux                     | ✓       |
+  | bashTricks.sh | handy *aliases* for basic commands and enable *color* | ✓       |
+  | defaultApps   | sets =env variable= for terminal *editors*            | ✓       |
+  | docker.sh     | shorthand for docker and fit output to 80 cols        | ✓       |
+  | extract.func  | uncompressed files accord to their *extensions*       | ✓       |
+  | network.sh    | things related to *networking* & *proxies*            | ✓       |
+  | picPaste.func | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
+  | prompts.func  | defines different *prompts* i.e. git-prompt           | ✓       |
+  | rho.sh        | my personal preferences                               | ✓       |
+  | showterm.func | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
 
+* How to Setup
+** Options
+*** Install without extra download
 
-*** How to Setup
-**** Options
-***** Install without extra download
+    Set the =OFFLINE= *env* *variable* to =1=
 
-Set the =OFFLINE= *env* *variable* to =1=
+    #+begin_src shell
+      $ OFFLINE=1 ./configure
+    #+end_src
 
-#+begin_src shell
-  $ OFFLINE=1 ./configure
-#+end_src
+** Manually
 
-**** Manually
+   *Copy* or *create* _symbolic_ _link_ of required setting to you
+   =HOME= directory.
 
-*Copy* or *create* _symbolic_ _link_ of required setting  to you =HOME= directory.
+** Installer
 
-**** Installer
+   #+begin_src shell
+     $ ./configure
+     $ make
+     $ make install
+   #+end_src
 
-#+begin_src shell
-  $ ./configure
-  $ make
-  $ make install
-#+end_src
+** Dependencies
 
-
-*** Dependencies
-
-- [[https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh][git-prompt]] for *bash*, seems like *ubuntu* doesn't have it.
-- [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]  for *zsh* config
-- [[showterm.io/showterm][showterm.io]] record the term and upload (*not a video*)
+   - [[https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh][git-prompt]] for *bash*, seems like *ubuntu* doesn't have it.
+   - [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]  for *zsh* config
+   - [[showterm.io/showterm][showterm.io]] record the term and upload (*not a video*)
