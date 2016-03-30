@@ -11,9 +11,8 @@ alias la='ls -AFh'
 alias lla='ls -aFlh'
 
 # grep
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep='grep --color=auto '
+alias ggrep='grep --exclude-dir={.git} '
 
 # cd
 alias ..='cd ..'
@@ -30,15 +29,6 @@ alias sudo='sudo -E '
 # she know all (kinda from emacs)
 alias woman="man --apropos $1"
 
-# lazy conf
-## Don't make one-liner bash does't support it
-function run {
-    chmod +x "$@" && ./$1
-}
-
-function mkcd {
-    mkdir -p "$1" && cd "$1"
-}
 
 #----------------------------------------------------------------------
 # COMPOSITE ALIAS
