@@ -53,6 +53,7 @@ function xdg-give-me-damn-exec {
     return 9000
 }
 
+
 function readlink {
     if [[ -t 1 ]]; then
         while read data; do
@@ -66,6 +67,7 @@ function readlink {
         /usr/bin/readlink $@
     fi
 }
+
 
 function emacs {
     # if [[ -t 1 ]]; then
@@ -98,6 +100,7 @@ function emacs {
 
     setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
 }
+
 
 function nemo {
     ##
@@ -138,20 +141,4 @@ function ssh {
         /usr/bin/ssh $*
         return $?
     fi
-}
-
-function yaourt-from-aur-makepkg {
-    cd /tmp
-    wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
-    tar xzf package-query.tar.gz
-    cd /tmp/package-query
-    makepkg
-    sudo pacman -U package-query*pkg.tar.xz
-
-    cd /tmp
-    wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
-    tar xzf yaourt.tar.gz
-    cd /tmp/yaourt
-    makepkg
-    sudo pacman -U yaourt*pkg.tar.xz
 }
