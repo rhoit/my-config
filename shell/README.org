@@ -7,8 +7,8 @@ bash.
 * How does it works?
 
   The =~/.bashrc= and =~/.zshrc= loads the available config's from
-  =~/.shellrc.d= when the shell starts. It add one more level of
-  *re-direction* to achieve this result.
+  =~/.shellrc.d= when the shell starts. Its achived by adding one
+  more level of *re-direction*.
 
   Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
 
