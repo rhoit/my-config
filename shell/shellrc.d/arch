@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#
+# stuff releated to archlinux
+#
+
+function yaourt-from-aur-makepkg {
+    cd /tmp
+    wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
+    tar xzf package-query.tar.gz
+    cd /tmp/package-query
+    makepkg
+    sudo pacman -U package-query*pkg.tar.xz
+
+    cd /tmp
+    wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz
+    tar xzf yaourt.tar.gz
+    cd /tmp/yaourt
+    makepkg
+    sudo pacman -U yaourt*pkg.tar.xz
+}
+
+function outsource-pkg-download {
+    pacman -Sup | grep http > /tmp/pkglst
+    scp /tmp/pkglst $1:$2
+    ssh bone tmux send-keys "mkdir\ \-p\ $2/pkg/" Enter
+    ssh bone tmux send-keys "cd\ $2/pkg" Enter
+    ssh bone tmux send-keys 'while\ read\ i\;\ do' Enter
+    ssh bone tmux send-keys 'wget\ \-c\ \$i' Enter
+    ssh bone tmux send-keys 'done\< ../pkglst' Enter
+    mosh bone tmux a
+}
+
+function rsync-pkg-cache {
+    pacman -Sup | grep http | xargs -n1 basename  > /tmp/pkglst
+    wc -l /tmp/pkglst
+    sudo rsync -r --append --progress --files-from=/tmp/pkglst $1:$2 /var/cache/pacman/pkg
+}
