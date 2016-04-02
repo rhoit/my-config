@@ -3,6 +3,21 @@
 #
 ## archlinux scripts
 
+function arch-rho-pkg-download-outsource {
+    REMOTE="${1}"; test -n "$REMOTE" || {
+        echo "Usage:"
+        echo "  $ $0 user@uri [/var/cache/pacman/pkg]"
+        return
+    }
+    pacman pacman --sync --sysupgrade --print | grep http | tee /tmp/pkglst
+    scp /tmp/pkglst "$REMOTE":"$2"
+    ssh "$REMOTE" tmux send-keys "mkdir\ \-p\ $2/pkg/" Enter
+    ssh "$REMOTE" tmux send-keys "cd\ $2/pkg" Enter
+    ssh "$REMOTE" tmux send-keys 'while\ read\ i\;\ do' Enter
+    ssh "$REMOTE" tmux send-keys 'wget\ \-c\ \$i' Enter
+    ssh "$REMOTE" tmux send-keys 'done\< ../pkglst' Enter
+}
+
 
 function arch-rho-build-iso {
     # first argument take old archlive directory
