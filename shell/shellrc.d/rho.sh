@@ -110,4 +110,16 @@ function ssh {
         /usr/bin/ssh $*
         return $?
     fi
+
+
+# * HELPERS
+# bundle up commands for operation
+
+# ** bluetooth
+
+function bluetooth-turn-it-on {
+    sudo modprobe btusb
+    sudo modprobe bluetooth
+    sudo systemctl start bluetooth.service
+    setsid blueman-manager
 }
