@@ -2,6 +2,7 @@
 
 function docker_fit {
     # docker fit output
+    tput rmam # line-wrap off
     docker $@ | sed '
         1s/ *NAMES$//g;
         s/ *[a-z]\+_[a-z]\+$//g;
@@ -17,6 +18,7 @@ function docker_fit {
     sed "s/  \+/;/g" |
     column -s\; -t |
     sed "1s/.*/\x1B[1m&\x1B[m/"
+    tput smam # line-wrap on
 }
 
 
