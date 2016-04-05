@@ -50,6 +50,15 @@ function nemo {
 # * HELPERS
 # bundle up commands for operation
 
+# ** bluetooth
+function bluetooth-turn-it-on {
+    sudo modprobe btusb
+    sudo modprobe bluetooth
+    sudo systemctl start bluetooth.service
+    setsid blueman-manager
+}
+
+
 # ** woman coz man can not find anything
 alias woman="man --apropos $1"
 
