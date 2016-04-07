@@ -17,6 +17,10 @@
   port 6000, the second on 6001, etc:
 
   $ netstat -natp | grep :600
+  $ nmap localhost
+
+  virtual console 8
+  $ xinit -- :1 vt8
 
 * setxkbmap
   $ setxkbmap -option compose:caps
