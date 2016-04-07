@@ -51,3 +51,10 @@ function arch-build-iso {
     cd "$ARCHLIVE"
     sudo ./build.sh -v
 }
+
+
+function arch-build-docker-image {
+    cd ~/docker/builder/
+    cp /etc/pacman.conf ./mkimage-arch-pacman.conf
+    LC_ALL=C sudo ./mkimage-arch.sh
+}
