@@ -19,6 +19,19 @@ function arch-outsource-pkg-download {
 }
 
 
+function arch-rsync-pkg-cache {
+    REMOTE="${1}"; test -n "$REMOTE" || {
+        echo "Usage:"
+        echo "  $ $0 user@uri [:/var/cache/pacman/pkg] [/var/cache/pacman/pkg]"
+        return
+    }
+    PATH_src=${2:=/var/cache/pacman/pkg}
+    PATH_dst=${3:=/var/cache/pacman/pkg}
+    pacman --sync --sysupgrade --print | grep http | xargs -n1 basename | tee /tmp/pkglst
+    sudo rsync --recursive --append --progress --files-from=/tmp/pkglst $REMOTE:$PATH_src $PATH_dst
+}
+
+
 function arch-build-iso {
     # first argument take old archlive directory
     ## eg.
