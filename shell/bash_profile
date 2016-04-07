@@ -1,0 +1,15 @@
+#
+# used as ~/.bash_profile and ~/.zprofile
+# by default profile runs bashrc
+
+
+# to autorun X11 after
+if [[ -z "$DISPLAY" ]] && [[ "$XDG_VTNR" == 1 ]]; then
+    # vt offset
+    exec startx -- vt$((XDG_VTNR+6))
+fi
+
+
+# Local Variables:
+# mode: shell-script
+# End:
