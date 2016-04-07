@@ -1,0 +1,16 @@
+#
+# profile file to autorun X
+# used by bash and zsh
+
+
+if [[ -z "$DISPLAY" ]] && [[ "$XDG_VTNR" == "1" ]]; then
+    exec startx
+
+    # vt offset
+    # exec startx #-- vt$((XDG_VTNR+6))
+fi
+
+
+# Local Variables:
+# mode: shell-script
+# End:
