@@ -19,6 +19,19 @@ function arch-outsource-pkg-download {
 }
 
 
+function arch-rsync-pkg-cache {
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ arch-rsync-pkg-cache user@ip [/path/to/cache/folder/] [/path/to/remote/cache/folder]"
+        return
+    }
+
+    pacman -Sup | grep http | xargs -n1 basename  > /tmp/pkglst
+    wc -l /tmp/pkglst
+    sudo rsync -r --append --progress --files-from=/tmp/pkglst $1:${2:=/var/cache/pacman/pkg} ${3:=/var/cache/pacman/pkg}
+}
+
+
 function arch-build-iso {
     # first argument take old archlive directory
     ## eg.
