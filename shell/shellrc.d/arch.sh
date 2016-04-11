@@ -51,3 +51,20 @@ function arch-build-iso {
     cp --recursive /usr/share/archiso/configs/baseline/* "$ARCHLIVE"
     cd "$ARCHLIVE" && sudo ./build.sh -v
 }
+
+
+function arch-mirrorlist-update-with-reflector {
+    sudo pacman --sync --refresh --needed reflector
+    cd /etc/pacman.d/
+    [ -f mirrorlist.pacnew ] || {
+        echo '"mirrorlist.pacnew" not found'
+        return
+    }
+    sudo mv mirrorlist mirrorlist.bak
+    sudo cp mirrorlist.pacnew mirrorlist
+    sudo cp mirrorlist mirrorlist.raw
+    sudo reflector --verbose -l 25 -p http --sort rate --save /etc/pacman.d/mirrorlist && {
+        sudo rm mirrorlist.pacnew
+    }
+    cd -
+}
