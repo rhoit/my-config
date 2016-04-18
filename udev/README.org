@@ -1,21 +1,38 @@
-#+TITLE: udev
+#+TITLE: udev rules
 
 *udev rules*, know what you are doing before copying it to
 =/etc/udev/rules.d=.
 
-*** Summary
+| file                       | description                        | compatible |
+|----------------------------+------------------------------------+------------|
+| =01-touchpad.rules=        | Smart disable touchpad             | ✗          |
+| =90-hide-partitions.rules= | Hide "partition" from File Browser | ✗          |
 
-| file                       | description                                                | direct copy |
-|----------------------------+------------------------------------------------------------+-------------|
-| =01-touchpad.rules=        | disable touchpad when external pointing device is attached | ✗           |
-| =90-hide-partitions.rules= | hide partition from file browser                           | ✗           |
+* Reload Rule
 
-_Note:_ in 01-touchpad.rules change the /home/rho to /home/<your user name>
+  *udev* can be reloaded +with+ without restart.
 
-*** Reload Rules
+  #+BEGIN_SRC bash
+    # udevadm control --reload-rules
+  #+END_SRC
 
-*udev* can be reloaded +with+ without restart.
+* Auto disable touchpad
 
-#+BEGIN_SRC bash
-  # udevadm control --reload-rules
-#+END_SRC
+  Auto disable touchpad when external pointing device is attached.
+
+  In =01-touchpad.rules= change the =/home/rho= to =/home/<your user
+  name>=
+
+* Hide "partitions" from File Browser
+
+  Create the file such as =/etc/udev/rules.d/99-hide-disks.rules=,
+  although any file name will work.
+
+  The general format is:
+
+  #+begin_verse
+    KERNEL=="device name", ENV{UDISKS_PRESENTATION_HIDE}="1"
+
+    # i.e.
+    KERNEL=="sda1", ENV{UDISKS_PRESENTATION_HIDE}="1"
+  #+end_verse
