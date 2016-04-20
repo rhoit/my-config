@@ -1,0 +1,24 @@
+#+TITLE: openbox
+#+DESCRIPTION: configuration for openbox
+
+* remove windows decorator
+
+  add =~/.config/openbox/rc.xml=
+
+  #+BEGIN_SRC xml
+    <application name="*">
+      <decor>no</decor>
+    </application>
+  #+END_SRC
+
+** particular application
+   #+BEGIN_SRC xml
+     <application class="Firefox">
+       <decor>no</decor>
+     </application>
+   #+END_SRC
+
+   to find the information about the
+   #+BEGIN_SRC sh
+     xprop
+   #+END_SRC
