@@ -1,0 +1,5 @@
+#+TITLE: xfce4 config
+#+DATE: Wednesday, Mar 11 2015
+
+xfce4 config is stored in path
+=~/.config/xfce4/xfconf/xfce-perchannel-xml/=
