@@ -1,0 +1,15 @@
+# this file is called by ~/.gtkrc-2.0
+# custom setting should be here
+
+style "thunar-icon-view-reduced-style"
+{
+  ThunarIconView::column-spacing = 50
+  ThunarIconView::row-spacing = 30
+}
+
+class "ThunarIconView" style "thunar-icon-view-reduced-style"
+
+style "theme-panel"
+{
+	fg[ACTIVE]    = "#ffffff"
+}
