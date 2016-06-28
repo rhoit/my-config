@@ -1,0 +1,22 @@
+#+TITLE: polkit
+#+DATE: Tuesday, Jun 28 2016
+
+https://wiki.archlinux.org/index.php/Polkit
+$ man polkit
+
+* paths
+
+  polkit policies are listed in, its over written when updated
+
+  =/usr/share/polkit-1/actions/org.freedesktop.devicekit.disks.policy/=
+
+  polkit rules folder
+
+  =/etc/polkit-1/rules.d/=
+  =/usr/share/polkit-1/rules.d=
+
+* list polkit actions
+
+  #+BEGIN_SRC sh
+    $ pkaction
+  #+END_SRC
