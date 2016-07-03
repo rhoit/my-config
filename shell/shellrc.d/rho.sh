@@ -115,15 +115,15 @@ function nemo {
 
 function ssh-sftp-wrapper {
     ##
-    ### ssh wrapper for smart behaviou
+    ### ssh wrapper for smart behaviour
     command=$1
     shift
     if [[ $# -eq 0 ]]; then
-        /usr/bin/$command # "ssh" is function, will cause recursion
+        /usr/bin/$command # will cause recursion if not
         return
     fi
 
-    /usr/bin/ssh $* 2> /tmp/ssh_key_error
+    /usr/bin/$command $* 2> /tmp/ssh_key_error
     exitcode=$?
     if [[ $exitcode -eq 0 ]]; then
         return 0
