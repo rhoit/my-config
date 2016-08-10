@@ -23,8 +23,11 @@ function arch-yaourt-from-aur-makepkg {
 
 
 function arch-outsource-pkg-download {
-    ## eg.
-    # $ arch-outsource-pkg-download user@ip ~/Download/
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ arch-outsource-pkg-download user@ip /path/to/download/folder/"
+        return
+    }
     pacman -Sup | grep http > /tmp/pkglst
     scp /tmp/pkglst $1:$2
     ssh $1 tmux send-keys "mkdir\ \-p\ $2/pkg/" Enter
@@ -36,9 +39,11 @@ function arch-outsource-pkg-download {
 
 
 function arch-rsync-pkg-cache {
-    ## eg.
-    # $ arch-rsync-pkg-cache user@ip /var/cache/pacman/pkg/
-
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ arch-rsync-pkg-cache user@ip /path/to/cache/folder/"
+        return
+    }
     pacman -Sup | grep http | xargs -n1 basename  > /tmp/pkglst
     wc -l /tmp/pkglst
     sudo rsync -r --append --progress --files-from=/tmp/pkglst $1:$2 /var/cache/pacman/pkg
@@ -81,6 +86,8 @@ function arch-mirrorlist-update-with-reflector {
     sudo mv mirrorlist mirrorlist.bak
     sudo cp mirrorlist.pacnew mirrorlist
     sudo cp mirrorlist mirrorlist.raw
-    sudo reflector --verbose -l 25 -p http --sort rate --save /etc/pacman.d/mirrorlist
+    sudo reflector --verbose -l 25 -p http --sort rate --save /etc/pacman.d/mirrorlist && {
+        sudo rm mirrorlist.pacnew
+    }
     cd -
 }
