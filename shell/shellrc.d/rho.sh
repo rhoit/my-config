@@ -40,6 +40,12 @@ export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
 function xdg-give-me-damn-exec {
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ xdg-give-me-damn-exec text/x-python"
+        return
+    }
+
     local name=$(xdg-mime query default $1)
 
     for prefix in ~/.local /user /usr/local; do

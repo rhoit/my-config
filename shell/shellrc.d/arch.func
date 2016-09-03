@@ -5,7 +5,7 @@
 
 
 function arch-yaourt-from-aur-makepkg {
-    sudo pacman -S yajl
+    sudo pacman -Sy yajl pkg-config fakeroot
     cd /tmp
     wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
     tar xzf package-query.tar.gz
@@ -55,7 +55,7 @@ function arch-build-iso {
     ## eg.
     # $ build-arch-iso /explicitly/give/path/to/build
 
-    >\dev\null pacman -Qs archiso || {
+    >/dev/null pacman -Qs archiso || {
         >&2 echo -e "\x1b[1marchiso\x1b[m not installed"
         >&2 echo -e "    # pacman -S archiso"
         return
@@ -71,11 +71,13 @@ function arch-build-iso {
     sudo ./build.sh -v
 }
 
+
 function arch-build-docker-image {
     cd ~/docker/builder/
     # cp /etc/pacman.conf ./mkimage-arch-pacman.conf
     sudo ./mkimage-arch.sh
 }
+
 
 function arch-mirrorlist-update-with-reflector {
     cd /etc/pacman.d/
