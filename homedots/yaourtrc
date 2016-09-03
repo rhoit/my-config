@@ -6,7 +6,7 @@
 
 # General
 #AUTOSAVEBACKUPFILE=0
-DEVELSRCDIR="$HOME/Downloads/packages/devel"
+DEVELSRCDIR="$HOME/Downloads/packages/devel/"
 DEVEL=1
 EDITOR="$EDITOR"
 #FORCEENGLISH=0
@@ -29,21 +29,22 @@ TMPDIR="$HOME/Downloads/packages/"
 #AURCOMMENT=5
 #AURDEVELONLY=0
 #AURSEARCH=1
+AURSHOWDIFF=0
 #AURUPGRADE=0
 #AURVOTE=1
 
 # Build
-#EXPORT=0           # Export to 1: EXPORTDIR or PKGDEST
+EXPORT=1           # Export to 1: EXPORTDIR or PKGDEST
                     # 2: pacman cache (as root)
-#EXPORTSRC=0        # Need EXPORT>0 to be used
-#EXPORTDIR=""       # If empty, use makepkg's connfiguration (see makepkg.conf)
+EXPORTSRC=1        # Need EXPORT>0 to be used
+EXPORTDIR="$HOME/Downloads/packages/build/"       # If empty, use makepkg's connfiguration (see makepkg.conf)
 
 # Prompt
 #NOCONFIRM=0
 #UP_NOCONFIRM=0     # No prompt while build upgrades (including -Sbu)
 #BUILD_NOCONFIRM=0  # Only prompt for editing files
 #PU_NOCONFIRM=0     # Add --noconfirm to $PACMAN -U
-#EDITFILES=1
+#EDITFILES=0
 #NOENTER=1
 
 # Output
