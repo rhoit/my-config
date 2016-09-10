@@ -18,8 +18,7 @@ case $1 in
     gnome) exec gnome-session;;
     kde) exec startkde;;
     box) exec openbox-session;;
-    aoe) exec xterm -e /bin/bash -c 'cd ~/.wine/drive_c/games/aoe2/age2_x1/ && wine age2_x1.exe -- -Nostartup';;
+    aoe) cd ~/.wine/drive_c/games/aoe2/age2_x1/ && wine age2_x1.exe -- -Nostartup;;
     xfce) exec startxfce4;;
     *) exec startxfce4;;
 esac
-
