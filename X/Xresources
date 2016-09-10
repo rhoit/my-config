@@ -1,0 +1,13 @@
+! Xresources loaded when X server is started.
+! to manully reload Xresources
+! $ xrdb ~/.Xresources #
+xft.antialias: true
+xterm*bellIsUrgent: true
+xterm*borderWidth: 0
+xterm*faceName: DejaVu Sans Mono:style=Book:antialias=true
+xterm*faceNameDoublesize: WenQuanYi Bitmap Song
+xterm*faceSize: 12
+xterm*locale: true
+xterm*metaSendsEscape: true
+xterm*reverseVideo: on
+xterm*saveLines: 4096
