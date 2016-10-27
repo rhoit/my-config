@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+
+set -e
+
+# https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+
+# * GENERIC CONFIG
+
+git config --global core.editor mg
+git config --global color.ui true
+git config --global push.default simple  # git 2.0 fix warnings
+
+
+# * GIT USER SETUP
+echo "* GIT USER SETUP"
+
+d_UNAME=$(git config --get user.name)
+d_EMAIL=$(git config --get user.email)
+
+if [[ -e ~/.gitconfig ]]; then
+    echo "press enter if you don't want to change"
+fi
+
+read -r -p "    Username (current: $d_UNAME): " uname
+read -r -p "    E-mail (current: $d_EMAIL): " email
+
+git config --global user.name "${uname:-$d_UNAME}"
+git config --global user.email "${email:-$d_EMAIL}"
