@@ -4,6 +4,12 @@
 #
 # Executed by startx (run your window manager from here)
 
+
+case $1 in # ignore
+    none) exec xterm;;
+    aoe) cd ~/.wine/drive_c/games/aoe2/age2_x1/ && wine age2_x1.exe -- -Nostartup;;
+esac
+
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
     for f in /etc/X11/xinit/xinitrc.d/*; do
         [[ -f "$f" ]] && source "$f"
@@ -14,11 +20,9 @@ fi
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 case $1 in
-    none) exec xterm;;
     gnome) exec gnome-session;;
     kde) exec startkde;;
     box) exec openbox-session;;
-    aoe) cd ~/.wine/drive_c/games/aoe2/age2_x1/ && wine age2_x1.exe -- -Nostartup;;
     xfce) exec startxfce4;;
     *) exec startxfce4;;
 esac

@@ -5,7 +5,7 @@ xft.antialias: true
 
 xterm*bellIsUrgent: true
 xterm*borderWidth: 0
-xterm*faceName: DejaVu Sans Mono:style=Book:antialias=true
+xterm*faceName: DejaVu Sans Mono:style=Book
 xterm*faceNameDoublesize: WenQuanYi Bitmap Song
 xterm*faceSize: 12
 xterm*locale: true

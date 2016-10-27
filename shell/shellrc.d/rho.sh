@@ -21,6 +21,7 @@ function py {
     ##
     ### python wrapper for multiplexer
     if [[ $# -eq 0 ]]; then
+        # ps -p$PPID | grep gnome-terminal > /dev/null && xterm -ls "bpython" && return
         which bpython && bpython || python
         return
     fi
