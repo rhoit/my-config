@@ -47,4 +47,6 @@ git config --global github.gist-oauth-token "$token"
 
 git config --global core.editor mg
 git config --global color.ui true
+git config --global color.diff.old "red strike"
+git config --global color.diff.new "green italic"
 git config --global push.default simple # git 2.0 fix warnings
