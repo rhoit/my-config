@@ -3,6 +3,9 @@
 #
 ## archlinux scripts
 
+alias pm='pacman'
+
+
 function arch-rho-pkg-download-outsource {
     REMOTE="${1}"; test -n "$REMOTE" || {
         echo "Usage:"
