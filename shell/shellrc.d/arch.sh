@@ -3,6 +3,10 @@
 #
 ## application related to archlinux
 
+alias pm='pacman'
+alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
+
+
 function arch-outsource-pkg-download {
     REMOTE="${1}"; test -n "$REMOTE" || {
         echo "Usage:"
