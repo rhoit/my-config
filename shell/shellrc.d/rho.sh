@@ -5,7 +5,7 @@
 #
 
 # My ways
-alias startx='startx &> ~/.xlog'
+# alias startx='startx &> ~/.xlog'
 
 # Stupid stuffs
 alias pm='pacman'
