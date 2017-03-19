@@ -6,4 +6,4 @@ unlink: ~/.tmux.conf
 
 # https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd
 systemd:
-	cp systemd /etc/systemd/system/tmux@.service
+	cp tmux.service /etc/systemd/system/tmux@.service
