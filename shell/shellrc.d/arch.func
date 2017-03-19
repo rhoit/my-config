@@ -5,7 +5,7 @@
 
 
 function arch-yaourt-from-aur-makepkg {
-    sudo pacman --needed -Sy binutils yajl pkg-config fakeroot gcc
+    sudo pacman --needed -Sy binutils config fakeroot gcc pkg-wget yajl
     cd /tmp
     wget -c https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz
     tar xzf package-query.tar.gz
