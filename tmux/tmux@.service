@@ -1,0 +1,14 @@
+# https://wiki.archlinux.org/index.php/tmux#Autostart_with_systemd
+# cp tmux.service /etc/systemd/system/tmux@.service
+
+[Unit]
+Description=Start tmux in detached session
+
+[Service]
+Type=forking
+User=%I
+ExecStart=/usr/bin/tmux new-session -s %u -d
+ExecStop=/usr/bin/tmux kill-session -t %u
+
+[Install]
+WantedBy=multi-user.target
