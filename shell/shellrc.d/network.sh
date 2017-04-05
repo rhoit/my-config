@@ -1,8 +1,11 @@
 #!/bin/bash
 
-alias dc_admin='telnet localhost 53696'
-alias share_key='nc -l -p 1234 < ~/.ssh/id_rsa.pub'
-alias open_ports='netstat --all --numeric --programs --inet --inet6'
+alias dcpp-admin='telnet localhost 53696'
+alias nc-share-key='nc -l -p 1234 < ~/.ssh/id_rsa.pub'
+alias netstat-open-ports='netstat --all --numeric --programs --inet --inet6'
+
+alias nmap-find-rpi='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/B8:27:EB/{print ip}"'
+alias nmap-find-bbb='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/D0:39:72/{print ip}"'
 
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
