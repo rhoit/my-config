@@ -1,6 +1,11 @@
 #!/bin/bash
 
 
+alias nmap-find-rpi='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/B8:27:EB/{print ip}"'
+alias nmap-find-bbb='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/D0:39:72/{print ip}"'
+alias nmap-find-stv='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/50:56:BF/{print ip}"'
+
+
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
 	address=($@)
