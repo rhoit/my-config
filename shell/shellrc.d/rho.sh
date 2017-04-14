@@ -112,6 +112,19 @@ function ssh {
     fi
 
 
+# * PYTHON
+
+alias py3="python3"
+alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
+
+# ** spark
+
+export SPARK_HOME="/usr/share/apache-spark/"
+export PYSPARK_SUBMIT_ARGS="--master local[4]"
+alias pyspark="/usr/share/apache-spark/bin/pyspark"
+alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
+
+
 # * HELPERS
 # bundle up commands for operation
 
