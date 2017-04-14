@@ -1,0 +1,3 @@
+#compdef ipinfo
+
+_arguments "1: :(ip hostname city region country loc org)"
