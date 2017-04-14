@@ -10,6 +10,7 @@
 # Stupid stuffs
 alias pm='pacman'
 alias rc.d='systemctl'
+alias rm='rm -v '
 
 # python
 alias py3="python3"
@@ -27,6 +28,7 @@ function py {
     fi
     python $@
 }
+
 
 export SPARK_HOME="/usr/share/apache-spark/"
 export PYSPARK_SUBMIT_ARGS="--master local[4]"

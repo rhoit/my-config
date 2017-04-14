@@ -39,7 +39,7 @@
     <property name="panel-2" type="empty">
       <property name="position" type="string" value="p=8;x=68;y=742"/>
       <property name="length" type="uint" value="100"/>
-      <property name="size" type="uint" value="28"/>
+      <property name="size" type="uint" value="27"/>
       <property name="position-locked" type="bool" value="true"/>
       <property name="background-alpha" type="uint" value="90"/>
       <property name="background-style" type="uint" value="1"/>
@@ -56,7 +56,6 @@
         <value type="int" value="12"/>
         <value type="int" value="13"/>
         <value type="int" value="14"/>
-        <value type="int" value="16"/>
         <value type="int" value="17"/>
       </property>
     </property>
