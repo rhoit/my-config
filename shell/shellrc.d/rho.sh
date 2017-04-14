@@ -152,7 +152,15 @@ function ssh-sftp-wrapper {
     fi
 }
 
-alias ssh="ssh-sftp-wrapper ssh "
+
+function ssh {
+    if [[ -z $SSH_AUTH_SOCK ]]; then
+        echo "ssh-agent daemon not active"
+    fi
+    ssh-add -l
+    ssh-sftp-wrapper ssh $@
+}
+
 alias sftp="ssh-sftp-wrapper sftp "
 
 
