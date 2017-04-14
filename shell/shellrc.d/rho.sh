@@ -13,8 +13,8 @@ alias rc.d='systemctl'
 
 # python
 alias py3="python3"
-alias pysrv="python3 -m http.server"
-alias py2srv="/usr/bin/python2 -m SimpleHTTPServer"
+alias pyhost="python3 -m http.server"
+alias py2host="/usr/bin/python2 -m SimpleHTTPServer"
 alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
 
 function py {
