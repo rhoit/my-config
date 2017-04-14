@@ -6,6 +6,16 @@ alias netstat-open-ports='netstat --all --numeric --programs --inet --inet6'
 
 alias nmap-find-rpi='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/B8:27:EB/{print ip}"'
 alias nmap-find-bbb='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/D0:39:72/{print ip}"'
+alias nmap-find-stv='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/50:56:BF/{print ip}"'
+
+
+function ifconfig-public {
+    # curl ipecho.net/plain
+    >&2 echo "curl ipinfo.io/<keyvalue>"
+    curl ipinfo.io/$1
+}
+
+
 
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
