@@ -117,6 +117,21 @@ function ssh {
 alias py3="python3"
 alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
 
+function py {
+    ##
+    ### python wrapper for multiplexer
+
+    # TODO: detect virtual env
+    # PYTHONPATH=venv/lib/python3.6/site-packages/ bpython
+
+    if [[ $# -eq 0 ]]; then
+        # ps -p$PPID | grep gnome-terminal > /dev/null && xterm -ls "bpython" && return
+        which bpython && bpython || python
+        return
+    fi
+    python $@
+}
+
 # ** spark
 
 export SPARK_HOME="/usr/share/apache-spark/"
