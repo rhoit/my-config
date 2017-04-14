@@ -9,14 +9,6 @@ alias nmap-find-bbb='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/D0:39:
 alias nmap-find-stv='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/50:56:BF/{print ip}"'
 
 
-function ifconfig-public {
-    # curl ipecho.net/plain
-    >&2 echo "curl ipinfo.io/<keyvalue>"
-    curl ipinfo.io/$1
-}
-
-
-
 function proxy_on() {
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
 	address=($@)
