@@ -1,7 +1,10 @@
 #!/bin/zsh
 
 # Path to your oh-my-zsh configuration.
-ZSH=$HOME/Documents/oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
+
+# Use another customization directory
+ZSH_CUSTOM=$HOME/Documents/my-config/shell/oh-my-zsh/
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -17,7 +20,7 @@ ZSH_THEME="rho"
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=15
@@ -42,7 +45,7 @@ DISABLE_CORRECTION="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(chucknorris git colored-man command-not-found docker zsh-syntax-highlighting)
+plugins=(git colored-man-pages command-not-found docker zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
