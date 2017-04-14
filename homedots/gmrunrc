@@ -24,9 +24,10 @@ ShowDotFiles = 1
 ##   - %u gets replaced with the whole URL ("http://www.google.com")
 ##   - %s gets replaced with "//www.google.com".  This is useful for URL-s
 ##     like "man:printf" --> %s will get replaced with "printf"
-URL_http = firefox %u
-URL_https = firefox %u
-URL_google = firefox 'http://www.google.com/search?q=%s'
+URL_http = chromium %u
+URL_https = chromium %u
+URL_g = chromium 'http://www.google.com/search?q=%s'
+URL_google = chromium 'http://www.google.com/search?q=%s'
 URL_mailto = thunderbird -compose
 URL_man = ${TermExec} 'man %s'
 URL_info = ${TermExec} 'info %s'
