@@ -25,6 +25,13 @@ function py {
 }
 
 
+# ** spark
+export SPARK_HOME="/usr/share/apache-spark/"
+export PYSPARK_SUBMIT_ARGS="--master local[4]"
+alias pyspark="/usr/share/apache-spark/bin/pyspark"
+alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
+
+
 # * WINE
 # the standard env variable
 
