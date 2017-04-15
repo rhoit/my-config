@@ -132,13 +132,16 @@ function ssh-sftp-wrapper {
         return
     fi
 
-    /usr/bin/$command $* 2> /tmp/ssh_key_error
+    /usr/bin/$command $*
+
     exitcode=$?
     if [[ $exitcode -eq 0 ]]; then
         return 0
     fi
+    
+    ## catch error
+    /usr/bin/$command $* 2> /tmp/ssh_key_error >/dev/null
 
-    cat /tmp/ssh_key_error
     local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
     if [[ $v == "" ]]; then
         return $exitcode
@@ -159,23 +162,12 @@ function ssh {
     if [[ -z $SSH_AUTH_SOCK ]]; then
         echo "ssh-agent daemon not active"
     fi
-    ssh-add -l
+    ssh-add -l | cut -d' ' -f2,3
     ssh-sftp-wrapper ssh $@
 }
 
 alias sftp="ssh-sftp-wrapper sftp "
 
-
-function tmux {
-    sessions=$(/usr/bin/tmux list-session 2> /dev/null)
-    if [[ "$sessions" == "" ]]; then
-        /usr/bin/tmux $@
-        return
-    fi
-
-    # TODO: handel attach if its sent
-    /usr/bin/tmux a $@
-}
 
 function bluetooth-turn-it-on {
     sudo modprobe btusb
