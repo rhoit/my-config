@@ -4,9 +4,9 @@ alias dcpp-admin='telnet localhost 53696'
 alias nc-share-key='nc -l -p 1234 < ~/.ssh/id_rsa.pub'
 alias netstat-open-ports='netstat --all --numeric --programs --inet --inet6'
 
-alias nmap-find-rpi='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/B8:27:EB/{print ip}"'
-alias nmap-find-bbb='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/D0:39:72/{print ip}"'
-alias nmap-find-stv='sudo nmap -sP 192.168.1.0/24 | awk "/^Nmap/{ip=\$NF}/50:56:BF/{print ip}"'
+alias nmap-find-rpi='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/B8:27:EB/{print ip}"'
+alias nmap-find-bbb='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/D0:39:72/{print ip}"'
+alias nmap-find-stv='local h=$(hostname -i); sudo nmap -sP $h/24 | awk "/^Nmap/{ip=\$NF}/50:56:BF/{print ip}"'
 
 
 function proxy_on() {
