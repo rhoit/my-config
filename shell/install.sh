@@ -1,12 +1,13 @@
 #!/bin/bash
 
 if [[ "$1" == "" ]]; then
-    COMMAND="ln -s"
-else
     COMMAND="cp"
+else
+    COMMAND="ln -s"
 fi
 
 list="bashrc bashrc.d bash_profile shellrc shellrc.d zshrc"
+# TODO zsh_profile -> bash_profile
 
 rm -f installed
 for item in $list; do
