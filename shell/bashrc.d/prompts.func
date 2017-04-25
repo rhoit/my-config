@@ -18,7 +18,7 @@ function prompt-git {
 
     git_path="/usr/share/git/git-prompt.sh" # in ubuntu this file is not distributed
     if [[ ! -e $git_path  ]]; then
-        git_path="~/git-prompt.sh"
+        git_path="$HOME/git-prompt.sh"
     fi
 
     if [[ -e  $git_path ]]; then
