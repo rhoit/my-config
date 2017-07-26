@@ -66,6 +66,16 @@ function bluetooth-turn-it-on {
 }
 
 
+# ** dlna media-server
+function dlna {
+    # auto-conf current directory
+    cp /etc/minidlna.conf /tmp/dlna.conf
+    echo "media_dir=${1:-$PWD}" >> /tmp/dlna.conf
+
+    sudo minidlnad -R -d -f /tmp/dlna.conf
+}
+
+
 # ** woman coz man can not find anything
 alias woman="man --apropos $1"
 
