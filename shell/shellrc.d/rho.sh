@@ -175,3 +175,10 @@ function bluetooth-turn-it-on {
     sudo systemctl start bluetooth.service
     setsid blueman-manager
 }
+
+
+function dlna {
+    cp /etc/minidlna.conf /tmp/dlna.conf
+    echo "media_dir=$PWD" >> /tmp/dlna.conf
+    sudo minidlnad -d -f /tmp/dlna.conf
+}
