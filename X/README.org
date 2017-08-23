@@ -47,3 +47,8 @@
 
 * input
   $ xinput list
+
+
+* compose key list
+
+  less /usr/share/X11/locale/${LANG/utf/UTF-}/Compose
