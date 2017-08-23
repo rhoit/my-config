@@ -16,6 +16,7 @@
         <value type="int" value="6"/>
         <value type="int" value="11"/>
         <value type="int" value="8"/>
+        <value type="int" value="16"/>
         <value type="int" value="5"/>
         <value type="int" value="3"/>
         <value type="int" value="15"/>
@@ -123,12 +124,38 @@
     </property>
     <property name="plugin-12" type="string" value="systray">
       <property name="names-visible" type="array">
-        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="skype"/>
+        <value type="string" value="task manager"/>
+        <value type="string" value="main.py"/>
+        <value type="string" value="iptux"/>
+        <value type="string" value="transmission"/>
+        <value type="string" value="ibus-ui-gtk3"/>
+        <value type="string" value="scp-dbus-service.py"/>
+        <value type="string" value="osd lyrics"/>
+        <value type="string" value="anubad"/>
+        <value type="string" value="vlc"/>
+        <value type="string" value="artha"/>
         <value type="string" value="xfce4-power-manager"/>
-        <value type="string" value="conky-forever"/>
-        <value type="string" value="nemo"/>
+        <value type="string" value="tvmainthreadcall"/>
+        <value type="string" value="teamviewer"/>
+        <value type="string" value="javaembeddedframe"/>
+        <value type="string" value="anubad - अनुवाद"/>
+        <value type="string" value="pidgin"/>
         <value type="string" value="telegram-desktop"/>
+        <value type="string" value="status.py"/>
+        <value type="string" value="franz"/>
+        <value type="string" value="nemo"/>
+        <value type="string" value="linuxdc++"/>
+        <value type="string" value="uget-gtk"/>
+        <value type="string" value="networkmanager applet"/>
+        <value type="string" value="synergy"/>
+        <value type="string" value="banshee"/>
+        <value type="string" value="thunderbird"/>
+        <value type="string" value="telegramdesktop"/>
+        <value type="string" value="blueman-applet"/>
         <value type="string" value="ibus panel"/>
+        <value type="string" value="screenkey"/>
+        <value type="string" value="conky-forever"/>
       </property>
     </property>
     <property name="plugin-13" type="string" value="pulseaudio">
@@ -136,7 +163,14 @@
       <property name="show-notifications" type="bool" value="false"/>
     </property>
     <property name="plugin-14" type="string" value="power-manager-plugin"/>
-    <property name="plugin-16" type="string" value="battery"/>
     <property name="plugin-17" type="string" value="datetime"/>
+    <property name="plugin-16" type="string" value="launcher">
+      <property name="items" type="array">
+        <value type="string" value="14930091892.desktop"/>
+      </property>
+      <property name="disable-tooltips" type="bool" value="false"/>
+      <property name="show-label" type="bool" value="false"/>
+      <property name="move-first" type="bool" value="false"/>
+    </property>
   </property>
 </channel>
