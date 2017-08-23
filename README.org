@@ -7,7 +7,57 @@ Some Handy and Fun configuration of mine!
 by using this configuration, Make Sure You have the backup before
 applying these settings
 
-* Caution
-  Please don't use this setting blindly, if you are looking default
-  behavious and settings, it might not act like what you want because
-  its specially tailored for my needs.
+Please don't use this setting blindly, if you are looking default
+behavious and settings, it might not act like what you want because
+its specially tailored for my needs.
+
+* Hostname
+
+  I wonder why people just name their host as their name, choose the
+  proper hostname, can save you from disaster.. like production
+  machine or testing.
+
+  it can be easily changed on live without changing hostname.
+
+  #+BEGIN_EXAMPLE
+    root@host # hostnamectl set-hostname myhostname
+  #+END_EXAMPLE
+
+* Keymap
+
+  yeah I use dvorak! you might not want to copy this!
+
+  #+BEGIN_SRC bash
+    localectl set-keymap --no-convert keymap
+  #+END_SRC
+
+  which changes and creates =/etc/vconsole.conf= file for persistance.
+
+* Swappiness
+
+  The Linux kernel provides a tweakable setting that controls how
+  often the swap file is used, called swappiness
+
+  A swappiness setting of zero means that the disk will be avoided
+  unless absolutely necessary (you run out of memory), while a
+  swappiness setting of 100 means that programs will be swapped to
+  disk almost instantly.
+
+  #+BEGIN_EXAMPLE
+    $ cat /proc/sys/vm/swappiness
+    60
+  #+END_EXAMPLE
+
+  for persistance change add
+
+  #+BEGIN_EXAMPLE
+    vm.swappiness = 10
+  #+END_EXAMPLE
+
+  to =/etc/sysctl.conf= as root and reboot
+
+  You can also change the value while your system is still running
+
+  #+BEGIN_EXAMPLE
+    sysctl vm.swappiness=10
+  #+END_EXAMPLE
