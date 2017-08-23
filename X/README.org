@@ -1,0 +1,75 @@
+#+TITLE: X
+#+DATE: 2017 Aug 23, Wednesday
+
+
+* sessions
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    # ALT + CTRL + Function key (F1-F6)
+    xinit -- :1
+    ssh -X <username>@<ip>
+    gnome-session
+  #+END_SRC
+
+  The Display number is typically something like :0 or :1, which mean
+  "the first X11 display on the local machine" and "the second X11
+  display on the local machine" respectively. The display is stored in
+  the environment variable DISPLAY, and any X11 application uses this
+  variable to determine how to contact the X11 server and show its
+  windows when it starts up.
+
+  If your X11 server is listening on the network, then people can
+  contact it from outside your computer. The first display :0 lives on
+  port 6000, the second on 6001, etc:
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    netstat -natp | grep :600
+    nmap localhost
+  #+END_SRC
+
+
+  virtual console 8
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    xinit -- :1 vt8
+  #+END_SRC
+
+* x2x
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    ssh <username>@<hostname> -X x2x -to :0 -from west
+  #+END_SRC
+
+* xrandr stuff
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    xrandr -q | grep -w Screen
+    xrandr --verbose | grep *current
+  #+END_SRC
+
+* Screen Shot
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    DISPLAY=:0 import -window root <path>
+    scrot
+  #+END_SRC
+
+* xwd
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    xwd -root -display :0.0| xwdtopnm | pnmtopng > Screenshot.png
+  #+END_SRC
+
+* input
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    xinput list
+  #+END_SRC
