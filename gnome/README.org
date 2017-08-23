@@ -7,5 +7,6 @@ I can't live without it.
 Setting the default application for the files.
 
 
-# condig/gtk-3.0
+# ~/.config/gtk-3.0
+
 # ~/.gtkrc-2.0.mine
