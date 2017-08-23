@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
- <mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
-   <mime-type type="text/x-org">  
-   <comment>Emacs Org-mode</comment>
-   <glob pattern="*.org"/>
-  </mime-type>
- </mime-info>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+<mime-type type="text/x-org">
+  <comment>Emacs Org-mode</comment>
+  <glob pattern="*.org"/>
+</mime-type>
+</mime-info>
