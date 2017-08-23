@@ -122,6 +122,17 @@ function nemo {
 }
 
 
+function nautilus {
+    ##
+    ### nemo (file browser) wrapper
+    if [[ $# -eq 0 ]]; then
+        setsid /usr/bin/nautilus . # "nemo" is function, will cause recursion
+    else
+        setsid /usr/bin/nautilus $@
+    fi
+}
+
+
 function ssh-sftp-wrapper {
     ##
     ### ssh wrapper for smart behaviour
@@ -138,7 +149,7 @@ function ssh-sftp-wrapper {
     if [[ $exitcode -eq 0 ]]; then
         return 0
     fi
-    
+
     ## catch error
     /usr/bin/$command $* 2> /tmp/ssh_key_error >/dev/null
 
@@ -179,6 +190,6 @@ function bluetooth-turn-it-on {
 
 function dlna {
     cp /etc/minidlna.conf /tmp/dlna.conf
-    echo "media_dir=$PWD" >> /tmp/dlna.conf
+    echo "media_dir=${1:-$PWD}" >> /tmp/dlna.conf
     sudo minidlnad -d -f /tmp/dlna.conf
 }
