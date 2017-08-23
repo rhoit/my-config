@@ -2,8 +2,8 @@
 # custom setting should be here
 
 style "thunar-icon-view-reduced-style" {
-  ThunarIconView::column-spacing = 50
-  ThunarIconView::row-spacing = 30
+    ThunarIconView::column-spacing = 50
+    ThunarIconView::row-spacing = 30
 }
 
 class "ThunarIconView" style "thunar-icon-view-reduced-style"
