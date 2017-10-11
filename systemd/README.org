@@ -1,13 +1,53 @@
 #+TITLE: systemd
 #+DATE: Wednesday, Mar 02 2016
 
+* Enable getty
+
+  #+BEGIN_SRC bash
+    systemctl enable getty@tty1.service
+  #+END_SRC
 
 * Disable Clearing of Boot Messages
-  source: [[https://wiki.archlinux.org/index.php/Disable_Clearing_of_Boot_Mess][Arch Wiki]]
+  based on: [[https://wiki.archlinux.org/index.php/Systemd_FAQ#How_do_I_get_more_verbose_output_during_boot.3F][Arch Wiki]]
 
   After the boot process, the screen is cleared and the login prompt
   appears, leaving users unable to read init output and error
-  messages. This is how to mae boot messages stay on tty1.
+  messages.
+
+** change in source
+
+   #+BEGIN_SRC bash
+     sed '/TTYVTDisallocate=/s/yes/no/' /usr/lib/systemd/system/getty@.service
+   #+END_SRC
+
+** using override
+
+   systemd enable only support symlink since mid 2017 (too me long to
+   realize don't know exact date, was saved by reserved VT) so
+   override is better method since, source will be reset when systemd
+   updates.
+
+   #+BEGIN_SRC bash
+     cat << EOF > /etc/systemd/system/getty@tty1.service.d/noclear.conf
+     [Service]
+     TTYVTDisallocate=no
+     EOF
+   #+END_SRC
+
+
+* Autologin
+  based on: [[https://wiki.archlinux.org/index.php/getty][Arch Wiki]]
+
   #+BEGIN_SRC bash
-    sed /TTYVTDisallocate=/s/yes/no/ < /usr/lib/systemd/system/getty@.service > /etc/systemd/system/getty.target.wants/getty@tty1.service
+    cat << EOF > /etc/systemd/system/getty@tty1.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart=-/usr/bin/agetty --autologin $USER --noclear %I $TERM
+    EOF
   #+END_SRC
+
+* Using systemd --user
+  based on: [[https://wiki.archlinux.org/index.php/Systemd/User][Arch Wiki]], [[https://bitbucket.org/KaiSforza/systemd-user-units][KaiSforza's Guide]]
+
+  Using =systemctl --system= to do anything requires *root* privileges
+  and is therefore not useful to unprivileged users.
