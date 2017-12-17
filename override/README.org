@@ -1,0 +1,4 @@
+#+TITLE: override commands
+#+DATE: 2017 Dec 17, Sunday
+
+Don't mess with me, I will replace you with tiny shell script.
