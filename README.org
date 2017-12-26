@@ -11,6 +11,14 @@ Please don't use this setting blindly, if you are looking default
 behavious and settings, it might not act like what you want because
 its specially tailored for my needs.
 
+* timezone
+
+  When the servers and you are few degrees of longitude away! 
+
+  #+BEGIN_EXAMPLE
+    root@host # timedatectl set-timezone Asia/Kathmandu
+  #+END_EXAMPLE
+
 * Hostname
 
   I wonder why people just name their host as their name, choose the
@@ -22,6 +30,12 @@ its specially tailored for my needs.
   #+BEGIN_EXAMPLE
     root@host # hostnamectl set-hostname myhostname
   #+END_EXAMPLE
+
+** get machine info
+
+   #+BEGIN_EXAMPLE
+     root@host # dmidecode | grep "System Information" -A20
+   #+END_EXAMPLEBB
 
 * Keymap
 
