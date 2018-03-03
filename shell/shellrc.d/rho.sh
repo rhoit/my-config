@@ -10,8 +10,28 @@
 # Stupid stuffs
 alias pm='pacman'
 alias rc.d='systemctl'
-alias rm='rm -v '
 alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
+
+
+function rm {
+    # interactive rm
+    /usr/bin/rm -v $@
+    if [[ "$?" == '1' ]]; then
+        echo -n "use 'rmdir'? "
+        read reply
+        if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
+            /usr/bin/rmdir $@
+        fi
+
+        echo -n "use 'rm -rf' (yes/no)? "
+        read reply
+        if [[ $reply == "yes" ]]; then
+            /usr/bin/rm -rfv $@
+            return $?
+        fi
+    fi
+}
+
 
 # python
 alias py3="python3"
