@@ -3,6 +3,13 @@
 # My personal preference
 #
 
+# * DEFAULTS
+
+export EDITOR='mg'
+export VISUAL='mg'
+export SCREEN='tmux'
+
+
 # * PYTHON
 
 alias py3="python3"
