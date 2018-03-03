@@ -11,6 +11,7 @@
 alias pm='pacman'
 alias rc.d='systemctl'
 alias rm='rm -v '
+alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
 # python
 alias py3="python3"
