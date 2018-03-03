@@ -1,0 +1,94 @@
+#compdef tvnet
+
+nepali=(
+    abc
+    ap1hd
+    himalaya
+    image
+    kantipur
+    mountain
+    nepal1
+    ntvnews
+    ntvplus
+    sagarmatha
+)
+
+_arguments --nepali "1: :(
+    ${nepali}
+)"
+
+hbo=(
+    hbofamily
+    hbohd
+    hbohits
+    hbosignature
+)
+
+_arguments --hbo "1: :(
+    ${hbo}
+)"
+
+indian=(
+    cn
+    colors
+    lifeokhd
+    mtv
+    sony
+    starmoviesaction
+    zeecinema
+    zeetv
+    zeetvhd
+    zoom
+)
+
+_arguments --indian "1: :(
+    ${indian}
+)"
+
+
+sports=(
+    starsports1hd
+    starsports2hd
+    starsports3hd
+    starsports4hd
+    selecthd1
+    sonyespn
+    sonysix
+)
+
+_arguments --sports "1: :(
+    ${sports}
+)"
+
+
+_arguments "1: :(
+    ${nepali}
+    ${hbo}
+    ${indian}
+    ${sports}
+
+    ngchd
+    discoveryhd
+
+    disneychannel
+    disneyxd
+    france24
+    lotusmacau
+    axn
+    business
+    careworld
+    cnn
+    fashion
+    fxhd
+    historytv
+    nhk
+    nhkpremium
+    nick
+    sky
+    sonyhd
+    sonymix
+    stargoldhd
+    starworldhd
+    tlc
+    zeecafehd
+)"
