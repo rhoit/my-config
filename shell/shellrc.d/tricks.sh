@@ -20,8 +20,11 @@ alias ..='cd ..'
 # diff
 alias diff='colordiff '
 
-# watch, expand alias arguments
-alias watch='watch -c '
+# watch
+alias watch='watch --color '
+
+# systemctl force color
+export SYSTEMD_COLORS=1
 
 # Using sudo with alias
 alias sudo='sudo -E '
