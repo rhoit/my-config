@@ -194,3 +194,16 @@ function dlna {
     echo "media_dir=${1:-$PWD}" >> /tmp/dlna.conf
     sudo minidlnad -d -f /tmp/dlna.conf
 }
+
+
+function ydl {
+    local list=$(youtube-dl --list-formats $1)
+
+    echo list | sed -n '/[0-9]x[0-9]/p'
+    echo -n "video format: "; read video
+
+    echo list | sed -n '/audio only/p'
+    echo -n "audio format: "; read audio
+
+    youtube-dl --format "$video+$audio" $1
+}
