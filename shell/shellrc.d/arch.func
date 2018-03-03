@@ -80,6 +80,7 @@ function arch-build-docker-image {
 
 
 function arch-mirrorlist-update-with-reflector {
+    sudo pacman --needed -Sy reflector
     cd /etc/pacman.d/
     [ -f mirrorlist.pacnew ] || {
         echo '"mirrorlist.pacnew" not found'
