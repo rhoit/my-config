@@ -39,6 +39,35 @@ export PYSPARK_SUBMIT_ARGS="--master local[4]"
 alias pyspark="/usr/share/apache-spark/bin/pyspark"
 alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
 
+# * EMACS
+
+function emacs-doom {
+    env HOME=/home/rho/.config/emacs-doom emacs
+}
+
+
+function emacs {
+    ##
+    ### emacs wrapper for mulitplexing
+    if [[ $# -eq 0 ]]; then
+        /usr/bin/emacs # "emacs" is function, will cause recursion
+        return
+    fi
+
+    args=($*)
+    # TIP: add '-' arguement for opening new emacs session
+    for ((i=0; i <= ${#args}; i++)); do
+        local a=${args[i]}
+        # NOTE: -c create frame; -nw: no-window
+        if [[ ${a:0:1} == '-' && $a != '-c' ]]; then
+            # TIPS: -nw will not work with setsid use '&'
+            /usr/bin/emacs ${args[*]}
+            return
+        fi
+    done
+
+    setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
+}
 
 # * HELPERS
 # bundle up commands for operation
