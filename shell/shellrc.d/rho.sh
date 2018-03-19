@@ -49,6 +49,13 @@ alias c:="cd $WIN"
 # * WRAPPERS
 # extend application options
 
+
+# * emacs-doom
+function emacs-doom {
+    env HOME=$(realpath ~/.config/emacs-doom) emacs
+}
+
+
 # ** nemo
 function nemo {
     ##
