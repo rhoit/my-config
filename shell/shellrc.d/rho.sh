@@ -216,6 +216,16 @@ function dlna {
 }
 
 
+function frontmacs {
+    env HOME=/home/rho/.emacs.d/frontmacs emacs
+}
+
+
+function doomemacs {
+    env HOME=/home/rho/.emacs.d/doom emacs
+}
+
+
 function ydl {
     local list=$(youtube-dl --list-formats $1)
 
