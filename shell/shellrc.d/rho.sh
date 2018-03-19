@@ -38,6 +38,12 @@ export PYSPARK_SUBMIT_ARGS="--master local[4]"
 alias pyspark="/usr/share/apache-spark/bin/pyspark"
 alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
 
+# * EMACS
+
+function emacs-doom {
+    env HOME=/home/rho/.config/emacs-doom emacs
+}
+
 
 # * HELPERS
 # bundle up commands for operation
