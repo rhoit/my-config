@@ -4,34 +4,35 @@ function docker_fit {
     # docker fit output
     tput rmam # line-wrap off
     docker $@ | sed '
-        1s/ *NAMES$//g;          # for ps
-        s/ *[a-z]\+_[a-z]\+$//g;
-        s/"\(.*\)"/\1/g;         # for ps
+        1s/ *NAMES$//g;          # remove NAMES from ps
+        s/ *[a-z]\+_[a-z]\+$//g; # remove NAMES from ps
+
+        s/"\(.*\)"/\1/g;         # remove quotes from ps
         s/ seconds\?/s/g;
         s/ minutes\?/m/g;
         s/ hours\?/h/g;
         s/ days\?/d/g;
         s/ weeks\?/w/g;
         s/ months\?/m/g;
-        s/About an\?/1m/g;
-        s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/;
+        s/About an\?/1/g;
+        s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/; # for ps
         s/->/→/g
         ' |
     sed "s/  \+/;/g" |
     column -s\; -t |
-    sed "1s/.*/\x1B[1m&\x1B[m/"
+    sed "1s/.*/\x1B[1m&\x1B[m/"  # make headers bold
     tput smam # line-wrap on
 }
 
 
 function dlc {
     # cache docker last container id DOCKER_CACHE
-    1>&2 docker ps -l
-    export DOCKER_CACHE=$(docker ps -lq)
+    1>&2 docker ps --latest
+    export DOCKER_CACHE=$(docker ps --latest --quiet)
 }
 
-
-function dlo {
+function dlog {
+    # docker logs
     if [[ -t 1 ]]; then
         while read data; do
             args+="$data"
@@ -45,3 +46,20 @@ function dlo {
     fi
     docker logs $@
 }
+
+
+alias drun='docker run'
+alias drace='docker run --rm'
+alias dstop='docker stop'
+alias dexec='docker exec'
+alias dtty='docker run --interactive --tty'
+
+alias dtop='docker_fit top'
+alias dimg='docker_fit images'
+alias dll='docker_fit ps --latest'
+alias dps='docker_fit ps --all'
+alias dhist='docker_fit history'
+alias dvol='docker_fit volume ls'
+
+alias docker-clean-exited-containers='docker ps --all --quiet --filter status=exited | xargs -n1 docker rm'
+alias dc='docker-compose'
