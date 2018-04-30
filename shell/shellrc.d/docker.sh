@@ -45,13 +45,15 @@ function dlo {
 }
 
 
+alias dinfo='docker info'
 alias dst='docker status'
 alias drun='docker run'
 alias drace='docker run --rm'
+alias dstop='docker stop'
 alias dexec='docker exec'
-alias dl='docker ps --latest --quite'
+alias dl='docker ps --latest --quiet'
 
 alias dimg='docker_fit images'
 alias dll='docker_fit ps --latest'
 alias dps='docker_fit ps --all'
-alias docker-clean-exited-containers='docker ps -aqf status=exited | xargs -n1 docker rm'
+alias docker-clean-exited-containers='docker ps --all --quiet --filter status=exited | xargs -n1 docker rm'
