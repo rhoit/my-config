@@ -1,32 +1,26 @@
 #!/bin/bash
 
-function dimg {
-    docker images $@ |
-        sed "s/  \+/;/g" |
-        column -s\; -t |
-        sed "1s/.*/\x1B[1m&\x1B[m/"
-}
-
 function docker_fit {
     # docker fit output
-    tput rmam
-    docker $@ |
-    sed '
-        1s/ *NAMES$//g;
+    tput rmam # line-wrap off
+    docker $@ | sed '
+        1s/ *NAMES$//g;          # for ps
         s/ *[a-z]\+_[a-z]\+$//g;
-        s/"\(.*\)"/\1/g;
-        s/ seconds/s/g;
-        s/ minutes/m/g;
-        s/ hours/h/g;
-        s/About a minute/1m/g;
-        s/About an hour/1h/g;
+        s/"\(.*\)"/\1/g;         # for ps
+        s/ seconds\?/s/g;
+        s/ minutes\?/m/g;
+        s/ hours\?/h/g;
+        s/ days\?/d/g;
+        s/ weeks\?/w/g;
+        s/ months\?/m/g;
+        s/About an\?/1m/g;
         s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/;
         s/->/→/g
         ' |
     sed "s/  \+/;/g" |
     column -s\; -t |
     sed "1s/.*/\x1B[1m&\x1B[m/"
-    tput smam
+    tput smam # line-wrap on
 }
 
 function dlc {
@@ -50,7 +44,13 @@ function dlo {
     docker logs $@
 }
 
-alias dl='docker ps -lq'
-alias dll='docker_fit ps -l'
-alias dps='docker_fit ps -a'
+
+alias dst='docker status'
+alias drun='docker run'
+alias dexec='docker exec'
+alias dl='docker ps --latest --quite'
+
+alias dimg='docker_fit images'
+alias dll='docker_fit ps --latest'
+alias dps='docker_fit ps --all'
 alias docker-clean-exited-containers='docker ps -aqf status=exited | xargs -n1 docker rm'
