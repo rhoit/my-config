@@ -47,6 +47,7 @@ function dlo {
 
 alias dst='docker status'
 alias drun='docker run'
+alias drace='docker run --rm'
 alias dexec='docker exec'
 alias dl='docker ps --latest --quite'
 
