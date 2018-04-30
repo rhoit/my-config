@@ -4,14 +4,16 @@ function docker_fit {
     # docker fit output
     tput rmam # line-wrap off
     docker $@ | sed '
-        1s/ *NAMES$//g;
+        1s/ *NAMES$//g;          # for ps
         s/ *[a-z]\+_[a-z]\+$//g;
-        s/"\(.*\)"/\1/g;
-        s/ seconds/s/g;
-        s/ minutes/m/g;
-        s/ hours/h/g;
-        s/About a minute/1m/g;
-        s/About an hour/1h/g;
+        s/"\(.*\)"/\1/g;         # for ps
+        s/ seconds\?/s/g;
+        s/ minutes\?/m/g;
+        s/ hours\?/h/g;
+        s/ days\?/d/g;
+        s/ weeks\?/w/g;
+        s/ months\?/m/g;
+        s/About an\?/1m/g;
         s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/;
         s/->/→/g
         ' |
