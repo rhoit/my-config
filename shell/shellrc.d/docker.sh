@@ -14,22 +14,23 @@ function docker_fit {
         s/ weeks\?/w/g;
         s/ months\?/m/g;
         s/About an\?/1m/g;
-        s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/;
+        s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/; # for ps
         s/->/→/g
         ' |
     sed "s/  \+/;/g" |
     column -s\; -t |
-    sed "1s/.*/\x1B[1m&\x1B[m/"
+    sed "1s/.*/\x1B[1m&\x1B[m/"  # make headers bold
     tput smam # line-wrap on
 }
 
 function dlc {
     # cache docker last container id DOCKER_CACHE
-    1>&2 docker ps -l
-    export DOCKER_CACHE=$(docker ps -lq)
+    1>&2 docker ps --latest
+    export DOCKER_CACHE=$(docker ps --latest --quiet)
 }
 
-function dlo {
+function dlog {
+    # docker logs
     if [[ -t 1 ]]; then
         while read data; do
             args+="$data"
@@ -45,6 +46,7 @@ function dlo {
 }
 
 
+alias dpull='docker pull'
 alias dinfo='docker info'
 alias dst='docker status'
 alias drun='docker run'
@@ -52,6 +54,11 @@ alias drace='docker run --rm'
 alias dstop='docker stop'
 alias dexec='docker exec'
 alias dl='docker ps --latest --quiet'
+alias dtty='docker run --interactive --tty'
+alias dins='docker inspect'
+alias dlins="docker inspect $(dl) | jq"
+
+alias dc='docker-compose'
 
 alias dimg='docker_fit images'
 alias dll='docker_fit ps --latest'
