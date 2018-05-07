@@ -90,6 +90,17 @@ function dlna {
 }
 
 
+# ** mtp
+function mtp-device-enable-udev {
+    local LSUSB=($(lsusb))
+    for ((i=0; i < ${#LSUSB}; i++)); do
+        echo -e "$i\t${LSUSB[i]}"
+    done
+    # read -r choice
+    # re insert your device
+}
+
+
 # ** woman coz man can not find anything
 alias woman="man --apropos $1"
 
