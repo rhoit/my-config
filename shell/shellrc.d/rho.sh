@@ -48,6 +48,17 @@ function emacs-doom {
 # * HELPERS
 # bundle up commands for operation
 
+# ** mtp
+
+function mtp-device-enable-udev {
+    local LSUSB=($(lsusb))
+    for ((i=0; i < ${#LSUSB}; i++)); do
+        echo -e "$i\t${LSUSB[i]}"
+    done
+    # read -r choice
+    # re insert your device
+}
+
 # ** bluetooth
 
 function bluetooth-turn-it-on {
