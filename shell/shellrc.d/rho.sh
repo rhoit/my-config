@@ -12,6 +12,8 @@ alias pm='pacman'
 alias rc.d='systemctl'
 alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
+# https://imdjh.github.io/toolchain/2015/10/07/drill-if-you-can-dig-if-you-have-to.html
+alias dig="echo 'drill if you can, dig if you have to, nslookup if you must'"
 
 function rm {
     # interactive rm
@@ -42,6 +44,10 @@ alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
 function py {
     ##
     ### python wrapper for multiplexer
+
+    # TODO: detect virtual env
+    # PYTHONPATH=venv/lib/python3.6/site-packages/ bpython
+
     if [[ $# -eq 0 ]]; then
         # ps -p$PPID | grep gnome-terminal > /dev/null && xterm -ls "bpython" && return
         which bpython && bpython || python
@@ -56,12 +62,16 @@ export PYSPARK_SUBMIT_ARGS="--master local[4]"
 alias pyspark="/usr/share/apache-spark/bin/pyspark"
 alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
 
+# mount
+# alias mount="mount | column -t | less -S"
+
 # gdb
 alias gdb="gdb -q"
 
 # WINE is the standard env variable
 export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
+
 
 function xdg-give-me-damn-exec {
     (( $# == 0 )) && {
@@ -81,6 +91,16 @@ function xdg-give-me-damn-exec {
     done
     >&2 echo "GTFO no mime"
     return 9000
+}
+
+
+function mtp-device-enable-udev {
+    local LSUSB=($(lsusb))
+    for ((i=0; i < ${#LSUSB}; i++)); do
+        echo -e "$i\t${LSUSB[i]}"
+    done
+    # read -r choice
+    # re insert your device
 }
 
 
@@ -193,6 +213,9 @@ function ssh-sftp-wrapper {
 function ssh {
     if [[ -z $SSH_AUTH_SOCK ]]; then
         echo "ssh-agent daemon not active"
+        # gnome-keyring-daemon
+        # eval $(ssh-agent -s)
+        # ssh-add
     fi
     ssh-add -l | cut -d' ' -f2,3
     ssh-sftp-wrapper ssh $@
