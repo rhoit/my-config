@@ -22,6 +22,13 @@ read -p "    E-mail (current: $d_email) :" email
 git config --global user.name "${uname:-$d_uname}"
 git config --global user.email "${email:-$d_email}"
 
+# * bash prompt
+
+link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
+[[ "$OFFLINE" == "1" ]] || {
+    [ -e /usr/share/git/git-prompt.sh ] ||  wget -c $link -O /tmp/git-prompt.sh
+}
+
 # * Github config
 
 read -p "Do you want to config for github (y/n):" r
