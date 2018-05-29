@@ -1,0 +1,65 @@
+#+TITLE: shell
+#+DATE: Wednesday, Mar 30 2016
+#+STARTUP: showall
+
+*shell* configuration, alias, coloring, git integration for zsh and
+bash.
+
+* How does it works?
+
+  The =~/.bashrc= and =~/.zshrc= loads the available config's from
+  =~/.shellrc.d= when the shell starts. Its achived by adding one
+  more level of *re-direction*.
+
+  Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
+
+  | file          | description                                           | sourced |
+  |---------------+-------------------------------------------------------+---------|
+  | arch.func     | application releated to archlinux                     | ✓       |
+  | bashTricks.sh | handy *aliases* for basic commands and enable *color* | ✓       |
+  | defaultApps   | sets =env variable= for terminal *editors*            | ✓       |
+  | docker.sh     | shorthand for docker and fit output to 80 cols        | ✓       |
+  | extract.func  | uncompressed files accord to their *extensions*       | ✓       |
+  | network.sh    | things related to *networking* & *proxies*            | ✓       |
+  | picPaste.func | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
+  | prompts.func  | defines different *prompts* i.e. git-prompt           | ✓       |
+  | rho.sh        | my personal preferences                               | ✓       |
+  | showterm.func | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
+
+* How to Setup
+** Options
+*** Install without extra download
+
+    Set the =OFFLINE= *env* *variable* to =1=
+
+    #+begin_src shell
+      $ OFFLINE=1 ./configure
+    #+end_src
+
+** Manually
+
+   *Copy* or *create* _symbolic_ _link_ of required setting to you
+   =HOME= directory.
+
+** Installer
+
+   #+begin_src shell
+     $ ./configure
+     $ make
+     $ make install
+   #+end_src
+
+** Dependencies
+
+   - [[https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh][git-prompt]] for *bash*, seems like *ubuntu* doesn't have it.
+   - [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]  for *zsh* config
+   - [[showterm.io/showterm][showterm.io]] record the term and upload (*not a video*)
+
+
+* Tips
+
+  reloading your shell without exit
+
+  #+BEGIN_SRC sh
+    exec $SHELL -l
+  #+END_SRC
