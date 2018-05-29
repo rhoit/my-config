@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 # https://wiki.archlinux.org/index.php/wine
+rm ~/.local/share/mime/packages/x-wine*
+rm ~/.local/share/applications/wine-extension*
+rm ~/.local/share/icons/hicolor/*/*/application-x-wine-extension*
+rm ~/.local/share/mime/application/x-wine-extension*
+
+WINEARCH=win32 WINEPREFIX=~/.wine winecfg
 
 wine_path=~/.local/share/applications/wine
 menu=~/.config/menus/applications-merged
