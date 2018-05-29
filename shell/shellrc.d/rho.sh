@@ -12,6 +12,8 @@ alias pm='pacman'
 alias rc.d='systemctl'
 alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
+alias rsync="rsync --progress"
+
 # https://imdjh.github.io/toolchain/2015/10/07/drill-if-you-can-dig-if-you-have-to.html
 alias dig="echo 'drill if you can, dig if you have to, nslookup if you must'"
 
