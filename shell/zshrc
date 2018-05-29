@@ -58,7 +58,7 @@ plugins=(git colored-man-pages docker zsh-syntax-highlighting ipinfo tvnet)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# * User configuration
 
 set -k # INTERACTIVE_COMMENTS allow to add comments
 
@@ -89,6 +89,7 @@ set -k # INTERACTIVE_COMMENTS allow to add comments
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# * keybinds
 ## See man zshzle for bindkey
 ## Do cat<RET> to see any-new keybindings
 ## Navigation bindings
@@ -99,3 +100,10 @@ bindkey -s '^[[1;5B' '^Ucd -^M'  # C-down
 bindkey -s '\ei' '$(!!)^M'
 
 source ~/.shellrc
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 4
+# indent-tabs-mode: nil
+# sh-basic-offset: 4
+# End:
