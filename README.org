@@ -13,7 +13,7 @@ its specially tailored for my needs.
 
 * timezone
 
-  When the servers and you are few degrees of longitude away! 
+  When the servers and you are few degrees of longitude away!
 
   #+BEGIN_EXAMPLE
     root@host # timedatectl set-timezone Asia/Kathmandu
@@ -35,7 +35,7 @@ its specially tailored for my needs.
 
    #+BEGIN_EXAMPLE
      root@host # dmidecode | grep "System Information" -A20
-   #+END_EXAMPLEBB
+   #+END_EXAMPLE
 
 * Keymap
 
