@@ -48,7 +48,19 @@
 * input
   $ xinput list
 
-
 * compose key list
 
   less /usr/share/X11/locale/${LANG/utf/UTF-}/Compose
+
+* Xresources
+
+  Xresources loaded when X server is started.
+
+  to manully reload Xresources
+
+  $ xrdb ~/.Xresources #
+
+
+  Load a resource file, and merge with the current settings:
+
+  $ xrdb -merge ~/.Xresources
