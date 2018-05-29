@@ -1,0 +1,55 @@
+#+TITLE: Config
+#+DESCRIPTION: config log for setting card
+#+DATE: 2017 Sep 10, Sunday
+
+
+based on archwiki [[https://wiki.archlinux.org/index.php/ATI][ATI]]
+
+* dell i5459
+
+  more https://certification.ubuntu.com/hardware/201507-18594/
+
+  =lspci= will list 2 graphics entires
+
+  #+BEGIN_EXAMPLE
+    00:02.0 VGA compatible controller: Intel Corporation HD Graphics 520 (rev 07)
+    01:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Sun XT [Radeon HD 8670A/8670M/8690M / R5 M330 / M430] (rev 81)
+  #+END_EXAMPLE
+
+  https://www.x.org/wiki/RadeonFeature/
+
+  packages need for ati.
+  #+BEGIN_EXAMPLE
+    pacman -S xf86-video-ati
+  #+END_EXAMPLE
+
+
+
+
+** Enable early KMS
+
+   In =/etc/mkinitcpio.conf= add *radeon* MODULE
+
+   #+BEGIN_EXAMPLE
+     MODULES="... radeon ..."
+   #+END_EXAMPLE
+
+   Now, regenerate the initramfs
+
+
+   #+BEGIN_EXAMPLE
+     # mkinitcpio -p linux
+   #+END_EXAMPLE
+
+
+** 32-bit for *wine*
+
+
+
+** hybrid settings
+
+   based archwiki [[https://wiki.archlinux.org/index.php/PRIME][Prime]]
+
+   #+BEGIN_EXAMPLE
+     # pacman -S xf86-video-nouveau xf86-video-ati xf86-video-amdgpu xf86-video-intel
+   #+END_EXAMPLE
