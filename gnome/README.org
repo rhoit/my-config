@@ -1,12 +1,37 @@
-# Mylocal Gnome-Stuffs
+#+TITLE: GNOME
+#+DATE: 2018 May 29, Tuesday
 
-I can't live without it.
+* GSettings and dconf
+  based on: [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/desktop_migration_and_administration_guide/gsettings-dconf][Red Hat Documentation]]
 
-## Default Apps
+  *GSettings* is high-level configuration system API which stores user
+  preferences, previouly handled by *GConf*. *GSettings* collects
+  system hardware and software configuration details in a single
+  compact binary format.
 
-Setting the default application for the files.
+  *dconf* back end which serves as a low-level configuration system.
+  Both the gsettings command-line tool and the dconf utility are used
+  to view and change user settings.
 
+  *gsettings* utility does so directly in the terminal, while the
+  dconf utility uses the dconf-editor GUI for editing a configuration
+  database.
 
-# ~/.config/gtk-3.0
+  Likewise, *gconf-editor* has been replaced by *dconf-editor*.
 
-# ~/.gtkrc-2.0.mine
+* File (nautilus)
+
+  ~/.config/nautilus/accels
+
+* Default Apps
+
+  Setting the default application for the files.
+
+  # ~/.config/gtk-3.0
+  # ~/.gtkrc-2.0.mine
+
+* override themes
+
+  theme can be override with *GTK_THEME* env var
+
+  GTK_THEME=Adwaita:light <application>
