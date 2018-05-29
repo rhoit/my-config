@@ -2,11 +2,9 @@
 
 style "gtk-theme-config-panel" {
 	bg[NORMAL] = "#d3d7cf"
-	bg[PRELIGHT] = shade(1.1,"#d3d7cf")
 	bg[ACTIVE] = shade(0.9,"#d3d7cf")
 	bg[SELECTED] = shade(0.97,"#d3d7cf")
 	fg[NORMAL] = "#ffffff"
-	fg[PRELIGHT] = "#000000"
 	fg[SELECTED] = "#ffff00"
 	fg[ACTIVE] = "#000000"
 }
@@ -30,4 +28,4 @@ widget "*gdm-user-switch-menubar*" style "gtk-theme-config-panel"
 widget "*Xfce*Panel*" style "gtk-theme-config-panel"
 class "*Xfce*Panel*" style "gtk-theme-config-panel"
 
-include "~/.gtkrc-2.0.mine"
+# include "~/.gtkrc-2.0.mine"
