@@ -1,0 +1,68 @@
+#+TITLE: espeak
+#+DATE: Friday, Jun 10 2016
+
+* voice files, ref: http://espeak.sourceforge.net/languages.html
+  A number of Voice files are provided in the espeak-data/voices
+  directory. You can select one of these with the -v <voice filename>
+  parameter to the speak command, eg:
+
+  #+BEGIN_SRC sh
+    espeak "hello world"
+    espeak -v spanish "hello world"
+    espeak -v es "hello world"
+  #+END_SRC
+
+  list all voices =espeak --voices=
+
+** voice varients,
+
+   Alternatively there are some preset voice variants which can be
+   applied to any of the language voices, by appending + and a variant
+   name. Their effects are defined by files in
+   =espeak-data/voices/!v=.
+
+   | variants | suffix                      |
+   |----------+-----------------------------|
+   | male     | +m1 +m2 +m3 +m4 +m5 +m6 +m7 |
+   | female   | +f1 +f2 +f3 +f4 +f5         |
+   | effects  | +croak +whisper             |
+
+   #+BEGIN_SRC sh
+     espeak -v en+f3 "hello world"
+     espeak -v en+whisper "hello world"
+   #+END_SRC
+
+   #+RESULTS:
+
+   The available voice variants can be listed with =espeak
+   --voices=variant=
+
+** Mbrola voices ref: http://espeak.sourceforge.net/mbrola.html
+
+   The Mbrola project is a collection of diphone voices for speech
+   synthesis. They do not include any text-to-phoneme translation, so
+   this must be done by another program. The Mbrola voices are
+   cost-free but are not open source. They are available from the
+   Mbrola website at:
+
+   http://www.tcts.fpms.ac.be/synthesis/mbrola/mbrcopybin.html
+
+
+   The eSpeak voices which use Mbrola are named as =mb-xxx=.
+
+*** installing
+
+**** manual
+     cd /tmp
+     wget -c http://www.tcts.fpms.ac.be/synthesis/mbrola/bin/pclinux/mbr301h.zip
+     unzip mbr301h.zip
+     sudo cp mbrola-linux-i386 /usr/bin/mbrola
+
+     wget -c http://www.tcts.fpms.ac.be/synthesis/mbrola/dba/en1/en1-980910.zip
+     unzip en1-980910.zip
+     cp en1/en1 /usr/share/mbrola/en1
+
+     espeak -v mb-en1 "Hello world"
+
+**** arch
+     yaourt <espeak stuff>
