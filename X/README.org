@@ -73,3 +73,13 @@
   #+BEGIN_SRC sh :exports both
     xinput list
   #+END_SRC
+
+* Xresources
+
+  Xresources loaded when X server is started.
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    xrdb ~/.Xresources # manully reload Xresources
+    xrdb -merge ~/.Xresources # Load a resource file, and merge with the current settings
+  #+END_SRC
