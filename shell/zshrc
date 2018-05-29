@@ -17,7 +17,6 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git colored-man-pages zsh-syntax-highlighting ipinfo)
 
 set -k  # INTERACTIVE_COMMENTS allow to add comments
-setopt correct
 
 # Navigation bindings
 ## See man zshzle for bindkey
@@ -27,5 +26,11 @@ bindkey -s '^[[1;5B' '^Ucd -^M'   # C-down
 bindkey -s '\ei' '$(!!)^M'        # Get last command output hackish edition
 
 source $ZSH/oh-my-zsh.sh
-
 source ~/.shellrc  # unified shell config
+
+# Local Variables:
+# mode: Shell-Script
+# sh-indentation: 4
+# indent-tabs-mode: nil
+# sh-basic-offset: 4
+# End:
