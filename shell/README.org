@@ -53,3 +53,12 @@ bash.
    - [[https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh][git-prompt]] for *bash*, seems like *ubuntu* doesn't have it.
    - [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]]  for *zsh* config
    - [[showterm.io/showterm][showterm.io]] record the term and upload (*not a video*)
+
+
+* Tips
+
+  reloading your shell without exit
+
+  #+BEGIN_SRC sh
+    exec $SHELL -l
+  #+END_SRC
