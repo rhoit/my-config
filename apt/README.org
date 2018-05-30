@@ -1,0 +1,11 @@
+#+TITLE: apt
+#+DATE: 2018 May 30, Wednesday
+
+
+* BUNDLES
+
+  tested in ubuntu
+
+  #+BEGIN_EXAMPLE
+    # apt install lamp-server^
+  #+END_EXAMPLE
