@@ -1,2 +1,10 @@
-#+TITLE: apt settings
-#+DATE: Monday, Apr 18 2016
+#+TITLE: apt
+#+DATE: 2018 May 30, Wednesday
+
+* package bundel
+
+  tested in ubuntu
+
+  #+BEGIN_EXAMPLE
+    # apt install lamp-server^
+  #+END_EXAMPLE
