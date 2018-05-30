@@ -1,0 +1,37 @@
+#+TITLE: pacman
+#+DESCRIPTION: notes about pacman
+
+
+* building from source
+
+  based on [[https://wiki.archlinux.org/index.php/Arch_Build_System][Arch Build System]]
+
+  To retrieve the =PKGBUILD= required to build a certain package from
+  source, you can either use Svn or a Git-based approach using the asp
+  package which is a thin wrapper around the svntogit repositories
+
+  #+BEGIN_EXAMPLE
+    # pacman -S asp
+  #+END_EXAMPLE
+
+* get base development packages
+
+  #+BEGIN_EXAMPLE
+    # pacman -S base-devel
+  #+END_EXAMPLE
+
+* search package
+
+** contain as file/binary
+
+   #+BEGIN_SRC sh :results output
+     pkgfile ls
+   #+END_SRC
+
+
+   #+RESULTS:
+   : core/coreutils
+   : community/9base
+   : community/epic4
+   : community/mc
+   : community/plan9port
