@@ -256,7 +256,7 @@ function ydl {
 
     echo $list | sed -n '/[0-9]x[0-9]/p'
     echo -n "video format (default=244, skip=0): "; read video
-    if (( ${video} == 0 )); then
+    if [[ "$video" == 0 ]]; then
         video=""
     else
         video="${video:-244}+"
@@ -264,7 +264,7 @@ function ydl {
 
     echo $list | sed -n '/audio only/p'
     echo -n "audio format (default=250, skip=0): "; read audio
-    if (( "${audio}" == 0 )); then
+    if [[ "$audio" == 0 ]]; then
         audio=""
     else
         audio="${audio:-250}"
