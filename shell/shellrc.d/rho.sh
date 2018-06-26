@@ -46,11 +46,11 @@ alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
 function py {
     ##
     ### python wrapper for multiplexer
-
-    # TODO: detect virtual env
-    # PYTHONPATH=venv/lib/python3.6/site-packages/ bpython
-
     if [[ $# -eq 0 ]]; then
+        # detect virtual env
+        export PYTHONPATH="$(dirname `which python`)/../lib/python3.6/site-packages/"
+        echo "venv: $PYTHONPATH"
+
         # ps -p$PPID | grep gnome-terminal > /dev/null && xterm -ls "bpython" && return
         which bpython && bpython || python
         return
