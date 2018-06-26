@@ -28,6 +28,11 @@ function py {
         python $@
         return
     fi
+
+    # detect virtual env
+    export PYTHONPATH="$(dirname `which python`)/../lib/python3.6/site-packages/"
+    echo "venv: $PYTHONPATH"
+
     which bpython && bpython || python
 }
 
