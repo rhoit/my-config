@@ -26,6 +26,10 @@ function py {
     ##
     ### python wrapper for multiplexer
     if [[ $# -eq 0 ]]; then
+        # detect virtual env
+        export PYTHONPATH="$(dirname `which python`)/../lib/python3.6/site-packages/"
+        echo "venv: $PYTHONPATH"
+
         which bpython && bpython || python
         return
     fi
