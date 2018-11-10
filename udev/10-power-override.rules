@@ -1,0 +1,7 @@
+# toggle power button override for asus x442u
+# when usb keyboard added
+
+SUBSYSTEM=="input" DRIVER=="xhci_hcd"
+
+ACTION=="add", RUN+="/usr/bin/xmodmap -e 'keycode 119 = Delete'"
+ACTION=="remove", RUN+="/usr/bin/xmodmap -e 'keycode 119 = Insert'"
