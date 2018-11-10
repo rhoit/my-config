@@ -1,14 +1,10 @@
 #+TITLE: udev rules
+#+DATE: 2018 Nov 10, Saturday
 
 *udev rules*, know what you are doing before copying it to
 =/etc/udev/rules.d=.
 
-| file                       | description                        | compatible |
-|----------------------------+------------------------------------+------------|
-| =01-touchpad.rules=        | Smart disable touchpad             | ✗          |
-| =90-hide-partitions.rules= | Hide "partition" from File Browser | ✗          |
-
-* Reload Rule
+* udev control
 
   *udev* can be reloaded +with+ without restart.
 
@@ -16,30 +12,24 @@
     # udevadm control --reload-rules
   #+END_SRC
 
-* Auto disable touchpad
-
-  Auto disable touchpad when external pointing device is attached.
-
-  In =01-touchpad.rules= change the =/home/rho= to =/home/<your user
-  name>=
-
 * Hide "partitions" from File Browser
 
-  Create the file such as =/etc/udev/rules.d/99-hide-disks.rules=,
-  although any file name will work.
-
-  The general format is:
-
-  #+begin_verse
+  #+BEGIN_VERSE
     KERNEL=="device name", ENV{UDISKS_PRESENTATION_HIDE}="1"
 
     # i.e.
     KERNEL=="sda1", ENV{UDISKS_PRESENTATION_HIDE}="1"
-  #+end_verse
+  #+END_VERSE
 
 
-* enable mpt devices
+* MPT devices
 
-  #+BEGIN_SRC bash
-    cp 51-android.rules /etc/udev/rules.d/51-android.rules
-  #+END_SRC
+  https://wiki.archlinux.org/index.php/Media_Transfer_Protocol
+
+
+  #+BEGIN_EXAMPLE
+    # sed 's/#\(user_allow_other\)/\1/' /etc/fuse.conf
+    # pacman -S mtpfs gvfs-mtp
+  #+END_EXAMPLE
+
+  may have to restart
