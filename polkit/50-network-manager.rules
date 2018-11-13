@@ -3,3 +3,8 @@ polkit.addRule(function(action, subject) {
     return polkit.Result.YES;
   }
 });
+
+
+// Local Variables:
+// mode: js
+// End:
