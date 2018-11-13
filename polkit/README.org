@@ -1,8 +1,9 @@
 #+TITLE: polkit
 #+DATE: Tuesday, Jun 28 2016
 
-https://wiki.archlinux.org/index.php/Polkit
-$ man polkit
+Based on [[https://wiki.archlinux.org/index.php/Polkit][arch wiki]]
+
+see polkit man page for details
 
 * paths
 
