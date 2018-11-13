@@ -1,3 +1,5 @@
+// to check xfce4 settings $ xfce4-power-manager --dump
+
 polkit.addRule(function(action, subject) {
     if (action.id == "org.freedesktop.login1.suspend" ||
         action.id == "org.freedesktop.login1.suspend-multiple-sessions" ||
@@ -6,3 +8,8 @@ polkit.addRule(function(action, subject) {
         return polkit.Result.YES;
     }
 });
+
+
+// Local Variables:
+// mode: js
+// End:
