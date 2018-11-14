@@ -3,5 +3,7 @@
 
 SUBSYSTEM=="input" DRIVER=="xhci_hcd"
 
-ACTION=="add", RUN+="/usr/bin/xmodmap -e 'keycode 119 = Delete'"
-ACTION=="remove", RUN+="/usr/bin/xmodmap -e 'keycode 119 = Insert'"
+# using sed since setxkbmap loads .Xmodmap
+
+ACTION=="add",    RUN+="/usr/bin/xmodmap -e 'keycode 119 = Delete' && /usr/bin/sed -i '/119/s/Insert/Delete/g' /home/rho/.Xmodmap"
+ACTION=="remove", RUN+="/usr/bin/xmodmap -e 'keycode 119 = Insert' && /usr/bin/sed -i '/119/s/Delete/Insert/g' /home/rho/.Xmodmap"
