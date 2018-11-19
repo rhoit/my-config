@@ -11,26 +11,6 @@
 alias rc.d='systemctl'
 
 
-function rm {
-    # interactive rm
-    /usr/bin/rm -v $@
-    if [[ "$?" == '1' ]]; then
-        echo -n "use 'rmdir'? "
-        read reply
-        if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
-            /usr/bin/rmdir $@
-        fi
-
-        echo -n "use 'rm -rf' (yes/no)? "
-        read reply
-        if [[ $reply == "yes" ]]; then
-            /usr/bin/rm -rfv $@
-            return $?
-        fi
-    fi
-}
-
-
 # python
 alias py3="python3"
 alias pyhost="python3 -m http.server"
