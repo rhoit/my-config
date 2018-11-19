@@ -35,3 +35,12 @@
    : community/epic4
    : community/mc
    : community/plan9port
+
+
+** finding the file install by the package
+
+   $ pacman -Qo <file name w/o path>
+
+   if not install
+
+   pkgfile <file name w/o path>
