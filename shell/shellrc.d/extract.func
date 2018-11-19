@@ -6,7 +6,7 @@ extract () {
             *.7z)       7z x $1       ;;
             *.Z)        uncompress $1 ;;
             *.bz2)      bunzip2 $1    ;;
-            *.gz)       gunzip $1     ;;
+            *.gz)       gzip -d $1    ;; # "gunzip" is wrapper for "gzip -d"
             *.rar)      rar x $1      ;;
             *.tar)      tar xf $1     ;;
             *.tar.bz2)  tar xjf $1    ;;
