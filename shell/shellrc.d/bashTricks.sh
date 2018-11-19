@@ -32,18 +32,13 @@ alias sudo='sudo -E '
 # she know all (kinda from emacs)
 alias woman="man --apropos $1"
 
-# lazy conf
-## Don't make one-liner bash does't support it
-function run {
-    chmod +x "$@" && ./$1
-}
 
-function mkcd {
-    mkdir -p "$1" && cd "$1"
-}
 
 #----------------------------------------------------------------------
 # COMPOSITE ALIAS
+# lazy conf
+function run { chmod +x "$@" && ./$1; }
+function mkcd { mkdir -p "$1" && cd "$1"; }
 
 # ls | grep
 alias lgrep='ls | grep '
