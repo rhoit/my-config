@@ -7,6 +7,13 @@
 # My ways
 # alias startx='startx &> ~/.xlog'
 
+# default apps
+export EDITOR="mg"
+export VISUAL="mg"
+export SCREEN="tmux"
+export BROWSER="chromium"
+
+
 # Stupid stuffs
 alias rc.d='systemctl'
 
