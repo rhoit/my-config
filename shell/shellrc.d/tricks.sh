@@ -40,3 +40,8 @@ alias hist='history | grep '
 # lazy conf
 function run { chmod +x "$@" && ./$1; }
 function mkcd { mkdir -p "$1" && cd "$1"; }
+
+# make thing verbose
+alias cp='cp -v'
+alias mv='mv -v'
+alias rsync="rsync --progress"
