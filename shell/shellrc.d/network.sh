@@ -59,3 +59,51 @@ function proxy_off(){
 
 # proxy using socat
 # exec socat STDIO PROXY:$_proxy:$1:$2,proxyport=$_proxyport
+
+function ssh-sftp-wrapper {
+    ##
+    ### ssh wrapper for smart behaviour
+    local CMD="/usr/bin/$1"
+    shift
+    if [[ $# -eq 0 ]]; then
+        $CMD
+        return
+    fi
+
+    $CMD $@
+    local exitcode=$?
+    if [[ $exitcode -eq 0 ]]; then
+        return 0
+    fi
+
+    ## catch error
+    $CMD -v $@ 2> /tmp/ssh_key_error >/dev/null
+
+    # check if its REMOTE HOST IDENTIFICATION CHANGE!
+    local line=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
+    if [[ $line == '' ]]; then
+        return $exitcode
+    fi
+
+    echo -n "\nDo you wanna fix and continue? "
+    read -r reply
+    if [[ ${reply[0]} == 'y' || ${reply[0]} == 'Y' || $reply == '' ]]; then
+        sed -i "${line}d" ~/.ssh/known_hosts
+        $CMD $@
+        return $?
+    fi
+}
+
+
+function ssh {
+    if [[ -z $SSH_AUTH_SOCK ]]; then
+        echo "ssh-agent daemon not active"
+        echo "    start the agent with 'eval \$(ssh-agent -s)'"
+        echo "    try using 'gnome-keyring-daemon'"
+        return
+    fi
+    ssh-add -l | cut -d' ' -f2,3
+    ssh-sftp-wrapper ssh $@
+}
+
+alias sftp="ssh-sftp-wrapper sftp "
