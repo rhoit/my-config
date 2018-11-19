@@ -45,3 +45,23 @@ function mkcd { mkdir -p "$1" && cd "$1"; }
 alias cp='cp -v'
 alias mv='mv -v'
 alias rsync="rsync --progress"
+
+
+function rm {
+    # interactive rm
+    /usr/bin/rm -v $@
+    if [[ "$?" == '1' ]]; then
+        echo -n "use 'rmdir'? "
+        read reply
+        if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
+            /usr/bin/rmdir $@
+        fi
+
+        echo -n "use 'rm -rf' (yes/no)? "
+        read reply
+        if [[ $reply == "yes" ]]; then
+            /usr/bin/rm -rfv $@
+            return $?
+        fi
+    fi
+}
