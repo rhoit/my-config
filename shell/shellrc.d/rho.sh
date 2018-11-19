@@ -10,10 +10,6 @@
 # Stupid stuffs
 alias rc.d='systemctl'
 
-alias rsync="rsync --progress"
-
-# https://imdjh.github.io/toolchain/2015/10/07/drill-if-you-can-dig-if-you-have-to.html
-alias dig="echo 'drill if you can, dig if you have to, nslookup if you must'"
 
 function rm {
     # interactive rm
@@ -172,56 +168,6 @@ function nautilus {
         setsid /usr/bin/nautilus $@
     fi
 }
-
-
-function ssh-sftp-wrapper {
-    ##
-    ### ssh wrapper for smart behaviour
-    command=$1
-    shift
-    if [[ $# -eq 0 ]]; then
-        /usr/bin/$command # will cause recursion if not
-        return
-    fi
-
-    /usr/bin/$command $*
-
-    exitcode=$?
-    if [[ $exitcode -eq 0 ]]; then
-        return 0
-    fi
-
-    ## catch error
-    /usr/bin/$command $* 2> /tmp/ssh_key_error >/dev/null
-
-    local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
-    if [[ $v == "" ]]; then
-        return $exitcode
-    fi
-
-    echo -n "\nDo you wanna fix and continue? "
-    read reply
-    if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
-        local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
-        sed -i "${v}d" $HOME/.ssh/known_hosts
-        /usr/bin/$command $*
-        return $?
-    fi
-}
-
-
-function ssh {
-    if [[ -z $SSH_AUTH_SOCK ]]; then
-        echo "ssh-agent daemon not active"
-        # gnome-keyring-daemon
-        # eval $(ssh-agent -s)
-        # ssh-add
-    fi
-    ssh-add -l | cut -d' ' -f2,3
-    ssh-sftp-wrapper ssh $@
-}
-
-alias sftp="ssh-sftp-wrapper sftp "
 
 
 function bluetooth-turn-it-on {
