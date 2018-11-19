@@ -11,3 +11,8 @@ export QT_IM_MODULE=ibus
 if [[ -z "$DISPLAY" ]] && [[ "$XDG_VTNR" == "1" ]]; then
     startx -- vt$((XDG_VTNR+6))
 fi
+
+
+# Local Variables:
+# mode: shell-script
+# End:
