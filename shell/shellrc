@@ -5,13 +5,14 @@
 #
 
 # cheesy fix - gnome-terminal 3.7.0
-# changing current working directory
-
-if [[ -e /etc/profile.d/vte.sh ]]; then
-    source /etc/profile.d/vte.sh
-    chpwd_functions+=(__vte_osc7)
-    cd "$PWD"
-fi
+# I got no idea why this broke in first place!
+# but it works now
+# if [[ -e /etc/profile.d/vte.sh ]]; then
+#     # changing current working directory
+#     source /etc/profile.d/vte.sh
+#     chpwd_functions+=(__vte_osc7)
+#     cd "$PWD"
+# fi
 
 if [[ -d ~/.shellrc.d ]]; then
     for f in ~/.shellrc.d/*; do
