@@ -51,3 +51,23 @@
 
   Using =systemctl --system= to do anything requires *root* privileges
   and is therefore not useful to unprivileged users.
+
+* slice
+
+  # /etc/systemd/system/limit-512M.slice
+
+  #+BEGIN_EXAMPLE
+    [Unit]
+    Description=Slice with MemoryLimit=512M
+    Before=slices.target
+
+    [Slice]
+    MemoryAccounting=true
+    MemoryLimit=512M
+  #+END_EXAMPLE
+
+
+  then you can run program in that slice and memory accounting will be
+  enabled:
+
+  systemd-run --slice limit512M --scope google-chrome-stable
