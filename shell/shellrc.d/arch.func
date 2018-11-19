@@ -3,6 +3,9 @@
 #
 ## application releated to archlinux
 
+alias pm='pacman'
+alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
+
 
 function arch-yaourt-from-aur-makepkg {
     set -v

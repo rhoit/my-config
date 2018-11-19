@@ -8,9 +8,7 @@
 # alias startx='startx &> ~/.xlog'
 
 # Stupid stuffs
-alias pm='pacman'
 alias rc.d='systemctl'
-alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
 alias rsync="rsync --progress"
 
