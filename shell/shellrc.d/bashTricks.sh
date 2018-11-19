@@ -1,8 +1,11 @@
 #!/bin/bash
 
 #
-# Bash tricks
-# handy shortcuts for basic commands and enable color
+# tricks
+# handy shortcuts more verbose with colors
+
+# systemctl force color
+export SYSTEMD_COLORS=1
 
 # grep
 alias grep='grep --color=auto '
@@ -25,9 +28,6 @@ alias diff='colordiff '
 # watch
 alias watch='watch --color '
 
-# systemctl force color
-export SYSTEMD_COLORS=1
-
 # Using sudo with alias
 alias sudo='sudo -E '
 
@@ -37,9 +37,6 @@ alias woman="man --apropos $1"
 # history
 alias hist='history | grep '
 
-
 # lazy conf
 function run { chmod +x "$@" && ./$1; }
 function mkcd { mkdir -p "$1" && cd "$1"; }
-
-
