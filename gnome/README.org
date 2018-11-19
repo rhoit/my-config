@@ -19,6 +19,18 @@
 
   Likewise, *gconf-editor* has been replaced by *dconf-editor*.
 
+* TODO disable thumbnail
+
+  /org/gnome/desktop/thumbnailer
+
+  Add there MIME type in disable list as described above. Seprate
+  multiple types with comma. like this:
+
+  ['application/pdf','image/jpeg','video/mp4']
+
+  https://askubuntu.com/questions/518889/how-to-disable-thumbnail-generation
+
+
 * File (nautilus)
 
   ~/.config/nautilus/accels
