@@ -65,3 +65,12 @@ function rm {
         fi
     fi
 }
+
+
+function mic2speaker {
+    ## loudSpeak with lots of echos
+
+    arecord -f cd - | aplay -
+    # wanna save it too
+    # arecord -f cd - | tee output.wav | aplay -
+}
