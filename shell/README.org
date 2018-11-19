@@ -1,5 +1,6 @@
 #+TITLE: shell
 #+DATE: Wednesday, Mar 30 2016
+#+STARTUP: showall
 
 *shell* configuration, alias, coloring, git integration for zsh and
 bash.
@@ -12,18 +13,16 @@ bash.
 
   Here is the *Summary* of snippets in [[shellrc.d][shellrc.d]].
 
-  | file          | description                                           | sourced |
-  |---------------+-------------------------------------------------------+---------|
-  | arch.func     | application releated to archlinux                     | ✓       |
-  | bashTricks.sh | handy *aliases* for basic commands and enable *color* | ✓       |
-  | defaultApps   | sets =env variable= for terminal *editors*            | ✓       |
-  | docker.sh     | shorthand for docker and fit output to 80 cols        | ✓       |
-  | extract.func  | uncompressed files accord to their *extensions*       | ✓       |
-  | network.sh    | things related to *networking* & *proxies*            | ✓       |
-  | picPaste.func | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
-  | prompts.func  | defines different *prompts* i.e. git-prompt           | ✓       |
-  | rho.sh        | my personal preferences                               | ✓       |
-  | showterm.func | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
+  | file        | description                                           | sourced |
+  |-------------+-------------------------------------------------------+---------|
+  | arch.sh     | application releated to archlinux                     | ✓       |
+  | tricks.sh   | handy *aliases* for basic commands and enable *color* | ✓       |
+  | docker.sh   | shorthand for docker and fit output to 80 cols        | ✓       |
+  | extract.sh  | uncompressed files accord to their *extensions*       | ✓       |
+  | network.sh  | things related to *networking* & *proxies*            | ✓       |
+  | picPaste.sh | *upload* images to [[http://www.picpaste.com][picpaste.com]]                       | ✓       |
+  | rho.sh      | my personal preferences                               | ✓       |
+  | showterm.sh | *record* your terminal and *upload* to [[https://www.showterm.io][showterm.io]]    | ✗       |
 
 * How to Setup
 ** Options
