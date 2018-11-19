@@ -60,7 +60,7 @@ function rm {
         echo -n "use 'rm -rf' (yes/no)? "
         read reply
         if [[ $reply == "yes" ]]; then
-            /usr/bin/rm -rfv $@
+            /usr/bin/rm --recursive --verbose --force $@
             return $?
         fi
     fi
