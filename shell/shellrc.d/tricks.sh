@@ -12,12 +12,13 @@ alias grep='grep --color=auto '
 alias ggrep='grep --exclude-dir={.git} '
 
 # ls
-alias l='ls -CFh'
-alias ll='ls -lFh'
-alias la='ls -AFh'
-alias lla='ls -aFlh'
-alias lgrep='ls | grep '
-alias lagrep='ls -a | grep '
+# https://the.exa.website
+alias l='exa -F'
+alias ll='exa -lF'
+alias la='exa -aF'
+alias lla='exa -aFl'
+alias lg='exa -aFl --git'
+alias ltree='exa --long --tree'
 
 # cd
 alias ..='cd ..'
