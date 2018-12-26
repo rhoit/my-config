@@ -16,6 +16,7 @@ export BROWSER="chromium"
 
 # Stupid stuffs
 alias rc.d='systemctl'
+alias git-unstage='git reset'
 
 
 # python
