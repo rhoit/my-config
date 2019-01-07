@@ -20,6 +20,9 @@ alias lla='exa -aFl'
 alias lg='exa -aFl --git'
 alias ltree='exa --long --tree'
 
+# cat
+alias cat='bat'
+
 # cd
 alias ..='cd ..'
 
