@@ -1,0 +1,10 @@
+\timing 
+
+\setenv PAGER 'less -SF'
+
+\encoding unicode
+\pset numericlocale on
+\pset null ∅
+\pset linestyle unicode
+
+\set COMP_KEYWORD_CASE upper
