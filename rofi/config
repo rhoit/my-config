@@ -1,2 +1,5 @@
+rofi.combi-modi:    run,drun,window
 rofi.theme:         Arc-Dark
 rofi.font:          hack 12
+rofi.modi:          run,window,ssh,drun,keys
+rofi.show-icons:    true
