@@ -209,3 +209,10 @@ function ydl {
 
     youtube-dl --format "${video}${audio}" $1
 }
+
+
+function randpass {
+    #random password of desired length
+    < /dev/urandom tr -dc '_A-Z-a-z-0-9+-~!@#$%^&*()_+=-'| head -c${1:-16};echo;
+    # openssl rand -base64 |head -c${1:-16};echo;
+}
