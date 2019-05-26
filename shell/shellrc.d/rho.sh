@@ -191,15 +191,20 @@ function ydl {
     if [[ "$video" == 0 ]]; then
         video=""
     else
-        video="${video:-244}+"
+        video="${video:-244}"
     fi
 
     echo $list | sed -n '/audio only/p'
+    total=$(echo $list | sed -n '/audio only/p' | wc -l)
+    # TODO: check 250 is in or not
     echo -n "audio format (default=250, skip=0): "; read audio
     if [[ "$audio" == 0 ]]; then
         audio=""
     else
         audio="${audio:-250}"
+        if [[ "$video" == "" ]]; then
+            video="+$video"
+        fi
     fi
 
     youtube-dl --format "${video}${audio}" $1
