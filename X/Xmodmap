@@ -1,0 +1,7 @@
+! $ xmodmap -pke # list current map table 
+
+! power button override
+keycode 124 = Delete NoSymbol Delete
+
+! remap delete as insert for asus
+! keycode 119 = Insert NoSymbol Insert
