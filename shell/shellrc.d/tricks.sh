@@ -20,6 +20,9 @@ alias lla='exa -aFl'
 alias lg='exa -aFl --git'
 alias ltree='exa --long --tree'
 
+# df hide tmpfs
+alias df='df -x tmpfs '
+
 # cat as bat is less than more
 alias less='bat'
 
