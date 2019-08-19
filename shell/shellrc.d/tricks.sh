@@ -21,7 +21,7 @@ alias lg='exa -aFl --git'
 alias ltree='exa --long --tree'
 
 # df hide tmpfs
-alias df='df -x tmpfs '
+alias df='df -h -x tmpfs '
 
 # cat as bat is less than more
 alias less='bat'
