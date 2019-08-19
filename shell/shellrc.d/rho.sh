@@ -203,11 +203,12 @@ function ydl {
         audio=""
     else
         audio="${audio:-250}"
-        if [[ "$video" == "" ]]; then
-            video="+$video"
+        if [[ "$video" != "" ]]; then
+            audio="+$audio"
         fi
     fi
 
+    echo youtube-dl --format "${video}${audio}" $1
     youtube-dl --format "${video}${audio}" $1
 }
 
