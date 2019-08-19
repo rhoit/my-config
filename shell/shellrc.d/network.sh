@@ -86,7 +86,7 @@ function ssh-sftp-wrapper {
 
     echo -n "\nDo you wanna fix and continue? "
     read reply
-    if [[ $reply == "y" || $reply == "Y" || $reply == "" ]]; then
+    if [[ ${reply[0]} == "y" || ${reply[0]} == "Y" || $reply == "" ]]; then
         local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
         sed -i "${v}d" $HOME/.ssh/known_hosts
         /usr/bin/$command $*
