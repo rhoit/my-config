@@ -45,6 +45,21 @@ function emacs-doom {
 }
 
 
+# * WRAPPERS
+# extend application options
+
+# ** nautilus
+
+function nautilus {
+    ##
+    ### nautilus (file browser) wrapper
+    if [[ $# -eq 0 ]]; then
+        setsid /usr/bin/nautilus . # "nemo" is function, will cause recursion
+    else
+        setsid /usr/bin/nautilus $@
+    fi
+}
+
 # * HELPERS
 # bundle up commands for operation
 
