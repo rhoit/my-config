@@ -152,3 +152,17 @@ function randpass {
     < /dev/urandom tr -dc '_A-Z-a-z-0-9+-~!@#$%^&*()_+=-'| head -c${1:-16};echo;
     # openssl rand -base64 |head -c${1:-16};echo;
 }
+
+# ** drm
+
+function audible-remove-drm {
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ audible admhelper"
+        return
+    }
+    # git clone https://github.com/inAudible-NG/audible-activator
+    # you will need activation key extractor
+    wget -c "http://cdl.audible.com/cgi-bin/aw_assemble_title_dynamic.aa?$(cat $1)" -O "/tmp/$1.aax"
+    ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.aax" -c:a copy -vn "$1.m4a"
+}
