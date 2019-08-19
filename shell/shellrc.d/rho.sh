@@ -228,6 +228,6 @@ function audible {
     }
     # git clone https://github.com/inAudible-NG/audible-activator
     # you will need activation key extractor
-    wget -c "http://cdl.audible.com/cgi-bin/aw_assemble_title_dynamic.aa?$(cat $1)" -O "/tmp/$1.axx"
-    ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.axx" -c:a copy -vn "$1.m4a"
+    wget -c "http://cdl.audible.com/cgi-bin/aw_assemble_title_dynamic.aa?$(cat $1)" -O "/tmp/$1.aax"
+    ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.aax" -c:a copy -vn "$1.m4a"
 }
