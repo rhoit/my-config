@@ -107,3 +107,10 @@ function ssh {
 }
 
 alias sftp="ssh-sftp-wrapper sftp "
+
+function winRCP {
+    # Connect to windows for fun
+    WINDOWS_PASSWORD=$1
+    ssh -N -f -L 3389:localhost:3389 telescope.fqdn
+    rdesktop -K -u nibz -p $WINDOWS_PASSWORD -g 95% localhost
+}
