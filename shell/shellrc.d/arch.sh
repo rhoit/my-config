@@ -9,7 +9,7 @@ alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
 function arch-yaourt-from-aur-makepkg {
     set -v
-    sudo pacman --needed -Sy binutils pkg-config fakeroot gcc yajl
+    sudo pacman --needed -Sy binutils pkg-config pacman fakeroot gcc yajl make
     cd /tmp
     curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz -o package-query.tar.gz
     tar xzf package-query.tar.gz
