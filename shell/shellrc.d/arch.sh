@@ -7,6 +7,26 @@ alias pm='pacman'
 alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 
 
+function arch-yaourt-from-aur-makepkg {
+    set -v
+    sudo pacman --needed -Sy binutils pkg-config pacman fakeroot gcc yajl make
+    cd /tmp
+    curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz -o package-query.tar.gz
+    tar xzf package-query.tar.gz
+    cd /tmp/package-query
+    makepkg
+    sudo pacman -U package-query*pkg.tar.xz
+
+    cd /tmp
+    curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz -o yaourt.tar.gz
+    tar xzf yaourt.tar.gz
+    cd /tmp/yaourt
+    makepkg
+    sudo pacman -U yaourt*pkg.tar.xz
+    set +v
+}
+
+
 function arch-outsource-pkg-download {
     (( $# == 0 )) && {
         echo "Usage:"
