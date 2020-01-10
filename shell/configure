@@ -3,13 +3,13 @@ set -e
 
 link="https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh"
 [[ "$OFFLINE" == "1" ]] || {
-    [ -e /usr/share/git/git-prompt.sh ] ||  wget -c $link -O /tmp/git-prompt.sh
+    [ -e /usr/share/git/git-prompt.sh ] || curl -L $link -o /tmp/git-prompt.sh
 }
 
 link="showterm.io/showterm"
 [[ "$OFFLINE" == "1" ]] || {
     [ -e shellrc.d/_showterm.func ] || {
-    wget $link -O /tmp/showterm
+    curl -L $link -o /tmp/showterm
     awk 'BEGIN {print "function showterm() {"};
          {print "    " $0};
          END { print "}"}' /tmp/showterm > shellrc.d/_showterm.func
