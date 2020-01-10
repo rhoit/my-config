@@ -24,7 +24,7 @@ alias ltree='exa --long --tree'
 alias df='df -h -x tmpfs '
 
 # cat as bat is less than more
-alias less='bat'
+>/dev/null which bat && alias less='bat'
 
 # cd
 alias ..='cd ..'
