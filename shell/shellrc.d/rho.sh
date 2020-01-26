@@ -30,7 +30,8 @@ function py {
     ### python wrapper for multiplexer
     if [[ $# -eq 0 ]]; then
         # detect virtual env
-        export PYTHONPATH="$(dirname `which python`)/../lib/python3.7/site-packages/"
+        local VER=$(python -c "import sys; print('{v.major}.{v.minor}'.format(v=sys.version_info))")
+        export PYTHONPATH="$(dirname `which python`)/../lib/python${VER}/site-packages/"
         echo "venv: $PYTHONPATH"
 
         # ps -p$PPID | grep gnome-terminal > /dev/null && xterm -ls "bpython" && return
