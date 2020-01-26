@@ -98,9 +98,9 @@ function ssh-sftp-wrapper {
 function ssh {
     if [[ -z $SSH_AUTH_SOCK ]]; then
         echo "ssh-agent daemon not active"
-        # gnome-keyring-daemon
-        # eval $(ssh-agent -s)
-        # ssh-add
+        echo "    start the agent with 'eval \$(ssh-agent -s)'"
+        echo "    try using 'gnome-keyring-daemon'"
+        return
     fi
     ssh-add -l | cut -d' ' -f2,3
     ssh-sftp-wrapper ssh $@
