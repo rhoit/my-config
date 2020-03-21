@@ -23,7 +23,7 @@ alias git-unstage='git reset'
 alias py3="python3"
 alias pyhost="python3 -m http.server"
 alias py2host="/usr/bin/python2 -m SimpleHTTPServer"
-alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
+alias py2="PYTHONSTARTUP="$HOME/.py2rc" /usr/bin/python2.7"
 
 function py {
     ##
