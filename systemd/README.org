@@ -1,6 +1,13 @@
 #+TITLE: systemd
 #+DATE: Wednesday, Mar 02 2016
 
+* units
+
+  #+BEGIN_SRC sh :results output
+    systemctl list-unit-files
+    systemctl list-unit-files --state=disabled|
+  #+END_SRC
+
 * Enable getty
 
   #+BEGIN_SRC bash
@@ -33,7 +40,6 @@
      TTYVTDisallocate=no
      EOF
    #+END_SRC
-
 
 * Autologin
   based on: [[https://wiki.archlinux.org/index.php/getty][Arch Wiki]]
