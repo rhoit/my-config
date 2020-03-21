@@ -14,7 +14,7 @@ export BROWSER="chromium"
 # * PYTHON
 
 alias py3="python3"
-alias py2="PYTHONSTARTUP="$HOME/.pythonrc" /usr/bin/python2.7"
+alias py2="PYTHONSTARTUP="$HOME/.py2rc" /usr/bin/python2.7"
 
 function py {
     ##
