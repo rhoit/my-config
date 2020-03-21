@@ -6,7 +6,7 @@ else
     COMMAND="ln -s"
 fi
 
-list="bashrc bashrc.d bash_profile shellrc shellrc.d zshrc"
+list="bashrc bashrc.d bash_profile shellrc shellrc.d zshrc inputrc"
 # TODO zsh_profile -> bash_profile
 
 rm -f installed
