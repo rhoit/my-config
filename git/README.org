@@ -1,9 +1,7 @@
-#+TITLE: git configuration
+#+TITLE: git
+#+DATE: 2020 Mar 30, Monday
 
-The configuration that i can't live without.
 
-Details are given in the git help pages
+* global config
 
-#+BEGIN_EXAMPLE
-  $ git help config
-#+END_EXAMPLE
+  ~/.config/git/ignore
