@@ -8,8 +8,10 @@
 export SYSTEMD_COLORS=1
 
 # grep
-alias grep='grep --color=auto '
-alias ggrep='grep --exclude-dir={.git} '
+# alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}
+# using ripgrep instead of gnu grep
+# https://github.com/BurntSushi/ripgrep
+alias grep=rg
 
 # ls
 # https://the.exa.website
