@@ -118,8 +118,8 @@ function ydl {
         fi
     fi
 
-    echo youtube-dl --format "${video}${audio}" $1
-    youtube-dl --format "${video}${audio}" $1
+    echo youtube-dl --format "${video}${audio}" $@
+    youtube-dl --format "${video}${audio}" $@
 }
 
 # ** randpass
