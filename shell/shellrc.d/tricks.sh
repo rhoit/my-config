@@ -11,16 +11,18 @@ export SYSTEMD_COLORS=1
 # alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}
 # using ripgrep instead of gnu grep
 # https://github.com/BurntSushi/ripgrep
-alias grep=rg
+test -e /usr/bin/rg && alias grep=rg
 
 # ls
 # https://the.exa.website
-alias l='exa -F'
-alias ll='exa -lF'
-alias la='exa -aF'
-alias lla='exa -aFl'
-alias lg='exa -aFl --git'
-alias ltree='exa --long --tree'
+test -e /usr/bin/exa && {
+    alias l='exa -F'
+    alias ll='exa -lF'
+    alias la='exa -aF'
+    alias lla='exa -aFl'
+    alias lg='exa -aFl --git'
+    alias ltree='exa --long --tree'
+}
 
 # df hide tmpfs
 alias df='df -h -x tmpfs '
