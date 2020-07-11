@@ -14,12 +14,6 @@ hash pacstrap &>/dev/null || {
 	exit 1
 }
 
-hash expect &>/dev/null || {
-	echo "Could not find expect. Run pacman -S expect"
-	exit 1
-}
-
-
 ROOTFS=${1:-$(mktemp -u /tmp/docker-archlinux-XXXXX)}
 
 if [[ -d $ROOTFS ]]; then
@@ -40,20 +34,10 @@ export LC_ALL="C"
 # bootstrap
 mkdir -pv "${ROOTFS}/var/lib/pacman/sync"
 mkdir -pv "${ROOTFS}/etc/pacman.d"
+chmod 755 $ROOTFS
 cp /var/lib/pacman/sync/{community,core,extra}.db "${ROOTFS}/var/lib/pacman/sync"
 cp /etc/pacman.d/mirrorlist "${ROOTFS}/etc/pacman.d/mirrorlist"
 
-chmod 755 $ROOTFS
-
-# required packages
-PKG_REQUIRED=(
-    grep
-    mg
-    pacman
-)
-
-PKG_REMOVE=(
-)
 
 # man pacman.conf
 cat > /tmp/pm.conf <<EOF
@@ -91,6 +75,14 @@ NoExtract = usr/share/zsh/*
 NoExtract = usr/share/zoneinfo-leaps/*
 EOF
 
+PKG_REQUIRED=(
+    grep
+    mg
+    pacman
+)
+
+PKG_REMOVE=(
+)
 
 env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]}
 # arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
@@ -101,24 +93,6 @@ env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]}
 arch-chroot $ROOTFS /bin/sh -c "pacman-key --init"
 arch-chroot $ROOTFS /bin/sh -c "pacman-key --populate archlinux"
 arch-chroot $ROOTFS /bin/sh -c "for pkg in ${PKG_REMOVE[*]}; do pacman -Qi \$pkg && pacman -Rs --noconfirm \$pkg; done"
-
-# udev doesn't work in containers, rebuild /dev
-DEV=$ROOTFS/dev
-rm -rf $DEV
-mkdir -p $DEV
-mknod -m 666 $DEV/null c 1 3
-mknod -m 666 $DEV/zero c 1 5
-mknod -m 666 $DEV/random c 1 8
-mknod -m 666 $DEV/urandom c 1 9
-mkdir -m 755 $DEV/pts
-mkdir -m 1777 $DEV/shm
-mknod -m 666 $DEV/tty c 5 0
-mknod -m 600 $DEV/console c 5 1
-mknod -m 666 $DEV/tty0 c 4 0
-mknod -m 666 $DEV/full c 1 7
-mknod -m 600 $DEV/initctl p
-mknod -m 666 $DEV/ptmx c 5 2
-ln -sf /proc/self/fd $DEV/fd
 
 echo "run to add to docker"
 echo "tar --numeric-owner --xattrs --acls -C $ROOTFS -c . -f archlinux.tar"
