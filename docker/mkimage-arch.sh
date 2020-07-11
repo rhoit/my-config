@@ -52,46 +52,7 @@ PKG_REQUIRED=(
     pacman
 )
 
-# packages to ignore
-PKG_IGNORE=(
-    dhcpcd
-    diffutils
-    inetutils
-    jfsutils
-    linux
-    lvm2
-    man-db
-    man-pages
-    mdadm
-    nano
-    netctl
-    openresolv
-    pcmciautils
-    reiserfsprogs
-    s-nail
-    sysfsutils
-    usbutils
-    vi
-    which
-    xfsprogs
-)
-IFS=','
-PKG_IGNORE="${PKG_IGNORE[*]}"
-unset IFS
-
 PKG_REMOVE=(
-    base
-    cryptsetup
-    device-mapper
-    file
-    gettext
-    gzip
-    iproute2
-    iputils
-    linux
-    pciutils
-    psmisc
-    tar
 )
 
 # man pacman.conf
@@ -131,7 +92,7 @@ NoExtract = usr/share/zoneinfo-leaps/*
 EOF
 
 
-env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]} --ignore $PKG_IGNORE
+env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]}
 # arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
 # echo 'en_US.UTF-8 UTF-8' > $ROOTFS/etc/locale.gen
 # arch-chroot $ROOTFS locale-gen
