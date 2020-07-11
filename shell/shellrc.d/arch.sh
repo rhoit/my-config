@@ -57,6 +57,24 @@ function arch-build-iso {
 }
 
 
+function arch-build-docker-image {
+    >&2 echo "before building update the system"
+    >&2 echo "   # pacman -Sy"
+    systemctl is-active docker --quiet || {
+        >&2 echo "docker is not running"
+        >&2 echo "    # systemctl start docker"
+        return
+    }
+    cd ~/Documents/my-config/docker/
+    ROOTFS="/tmp/docker-archlinux"
+    sudo ./mkimage-arch.sh $ROOTFS
+    sudo tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $ROOTFS -c . |\
+        docker import -c 'CMD ["/usr/bin/bash"]' -c 'ENV LANG=en_US.UTF-8' - rhoit/arch
+    docker run --rm -t rhoit/arch pacman --version
+    echo "$ docker push rhoit/arch"
+}
+
+
 function arch-mirrorlist-update-with-reflector {
     sudo pacman --sync --refresh --needed reflector
     cd /etc/pacman.d/
