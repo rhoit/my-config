@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 
 # based on
 ## docker: https://github.com/docker/docker/blob/master/contrib/mkimage-arch.sh
@@ -6,6 +6,7 @@
 
 set -e
 set -u
+# set -v # for debugging
 
 hash pacstrap &>/dev/null || {
 	echo "Could not find pacstrap. Run pacman -S arch-install-scripts"
@@ -55,11 +56,7 @@ PKG_IGNORE=(
     # systemd-sysvcompat # for installing systemd
     dhcpcd
     diffutils
-    file
-    gettext
     inetutils
-    iproute2
-    iputils
     jfsutils
     linux
     lvm2
@@ -69,19 +66,30 @@ PKG_IGNORE=(
     nano
     netctl
     openresolv
-    pciutils
     pcmciautils
-    psmisc
     reiserfsprogs
     s-nail
     sysfsutils
-    tar
     usbutils
     vi
     which
     xfsprogs
 )
+IFS=','
+PKG_IGNORE="${PKG_IGNORE[*]}"
+unset IFS
 
+PKG_REMOVE=(
+	haveged
+	less
+    file
+    gettext
+    iproute2
+    iputils
+    pciutils
+    psmisc
+    tar
+)
 
 cat > /tmp/pacman.conf <<EOF
 [options]
@@ -100,21 +108,22 @@ Include = /etc/pacman.d/mirrorlist
 Include = /etc/pacman.d/mirrorlist
 EOF
 
-expect <<EOF
-	set send_slow {1 .1}
-	proc send {ignore arg} {
-		sleep .1
-		exp_send -s -- \$arg
-	}
-	set timeout 90
 
-	spawn pacstrap -C /tmp/pacman.conf -c -d -G -i $ROOTFS $PKG_REQUIRED --ignore $PKG_IGNORE
-	expect {
-		-exact "anyway? \[Y/n\] " { send -- "n\r"; exp_continue }
-		-exact "(default=all): " { send -- "\r"; exp_continue }
-		-exact "installation? \[Y/n\]" { send -- "y\r"; exp_continue }
-		-exact "delete it? \[Y/n\]" { send -- "y\r"; exp_continue }
-	}
+expect <<EOF
+    set send_slow {1 .1}
+    proc send {ignore arg} {
+        sleep .1
+        exp_send -s -- \$arg
+    }
+    set timeout 90
+
+    spawn pacstrap -C /tmp/pacman.conf -c -d -G -i $ROOTFS ${PKG_REQUIRED[*]} --ignore $PKG_IGNORE
+    expect {
+        -exact "anyway? \[Y/n\] " { send -- "n\r"; exp_continue }
+        -exact "(default=all): " { send -- "\r"; exp_continue }
+        -exact "installation? \[Y/n\]" { send -- "y\r"; exp_continue }
+        -exact "delete it? \[Y/n\]" { send -- "y\r"; exp_continue }
+    }
 EOF
 
 # if copied
@@ -124,18 +133,20 @@ PACMAN_MIRRORLIST='Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch'
 export PACMAN_MIRRORLIST
 arch-chroot $ROOTFS /bin/sh -c 'echo $PACMAN_MIRRORLIST > /etc/pacman.d/mirrorlist'
 
-
-# clean-up
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/man/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/info/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/doc/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/zoneinfo/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/i18n/*'
-arch-chroot $ROOTFS /bin/sh -c "haveged -w 1024; pacman-key --init; pkill haveged; pacman -Rs --noconfirm haveged; pacman-key --populate archlinux; pkill gpg-agent"
 # arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
 # echo 'en_US.UTF-8 UTF-8' > $ROOTFS/etc/locale.gen
 # arch-chroot $ROOTFS locale-gen
 
+# cleaning up
+arch-chroot $ROOTFS /bin/sh -c "haveged -w 1024; pacman-key --init; pkill haveged; pacman-key --populate archlinux"
+arch-chroot $ROOTFS /bin/sh -c "pacman -Rcsu --noconfirm ${PKG_REMOVE[*]}"
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/doc/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/i18n/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/info/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/licenses/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/locale/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/man/*'
+arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/zoneinfo/*'
 
 ## clean unneeded services
 arch-chroot $ROOTFS /bin/sh -c 'for i in /lib/systemd/system/sysinit.target.wants/*; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done'
@@ -167,5 +178,5 @@ mknod -m 600 $DEV/initctl p
 mknod -m 666 $DEV/ptmx c 5 2
 ln -sf /proc/self/fd $DEV/fd
 
-tar --numeric-owner --xattrs --acls -C $ROOTFS -c . | docker import - local/arch
-docker run --rm -t local/arch pacman --version
+echo "run to add to docker"
+echo "tar --numeric-owner --xattrs --acls -C $ROOTFS -c . | docker import - local/arch"
