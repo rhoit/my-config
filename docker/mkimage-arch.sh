@@ -1,8 +1,9 @@
 #!/usr/bin/bash
 
 # based on
+## official : https://github.com/archlinux/archlinux-docker
 ## docker: https://github.com/docker/docker/blob/master/contrib/mkimage-arch.sh
-## blog:  http://ebalaskas.gr/wiki/archlinux/installation_for_docker
+## blog: http://ebalaskas.gr/wiki/archlinux/installation_for_docker
 
 set -e
 set -u
@@ -36,24 +37,23 @@ umask 022 # reset umask to default
 export LANG="C.UTF-8"
 export LC_ALL="C"
 
-# shortcut
-mkdir -pv $ROOTFS/var/lib/pacman/sync
-cp /var/lib/pacman/sync/{community,core,extra}.db $ROOTFS/var/lib/pacman/sync
+# bootstrap
+mkdir -pv "${ROOTFS}/var/lib/pacman/sync"
+mkdir -pv "${ROOTFS}/etc/pacman.d"
+cp /var/lib/pacman/sync/{community,core,extra}.db "${ROOTFS}/var/lib/pacman/sync"
+cp /etc/pacman.d/mirrorlist "${ROOTFS}/etc/pacman.d/mirrorlist"
 
 chmod 755 $ROOTFS
 
 # required packages
 PKG_REQUIRED=(
-    base
-	haveged
-	pacman
-	pacman-mirrorlist
+    grep
     mg
+    pacman
 )
 
 # packages to ignore
 PKG_IGNORE=(
-    # systemd-sysvcompat # for installing systemd
     dhcpcd
     diffutils
     inetutils
@@ -80,18 +80,22 @@ PKG_IGNORE="${PKG_IGNORE[*]}"
 unset IFS
 
 PKG_REMOVE=(
-	haveged
-	less
+    base
+    cryptsetup
+    device-mapper
     file
     gettext
+    gzip
     iproute2
     iputils
+    linux
     pciutils
     psmisc
     tar
 )
 
-cat > /tmp/pacman.conf <<EOF
+# man pacman.conf
+cat > /tmp/pm.conf <<EOF
 [options]
 HoldPkg      = pacman glibc
 Architecture = auto
@@ -106,59 +110,36 @@ Include = /etc/pacman.d/mirrorlist
 
 [community]
 Include = /etc/pacman.d/mirrorlist
+
+[options]
+NoExtract = usr/share/doc/*
+NoExtract = usr/share/gtk-doc/*
+NoExtract = usr/share/help/*
+NoExtract = usr/share/i18n/*
+NoExtract = usr/share/info/*
+NoExtract = usr/share/licenses/*
+NoExtract = usr/share/locale/*
+NoExtract = usr/share/man/*
+NoExtract = usr/share/vim/*
+NoExtract = usr/share/zoneinfo/*
+NoExtract = usr/share/common-lisp/*
+NoExtract = usr/share/fish/*
+NoExtract = usr/share/gdb/*
+NoExtract = usr/share/vala/*
+NoExtract = usr/share/zsh/*
+NoExtract = usr/share/zoneinfo-leaps/*
 EOF
 
 
-expect <<EOF
-    set send_slow {1 .1}
-    proc send {ignore arg} {
-        sleep .1
-        exp_send -s -- \$arg
-    }
-    set timeout 90
-
-    spawn pacstrap -C /tmp/pacman.conf -c -d -G -i $ROOTFS ${PKG_REQUIRED[*]} --ignore $PKG_IGNORE
-    expect {
-        -exact "anyway? \[Y/n\] " { send -- "n\r"; exp_continue }
-        -exact "(default=all): " { send -- "\r"; exp_continue }
-        -exact "installation? \[Y/n\]" { send -- "y\r"; exp_continue }
-        -exact "delete it? \[Y/n\]" { send -- "y\r"; exp_continue }
-    }
-EOF
-
-# if copied
-# sed -i '0,/#.*Server/s/#//' $path_img/etc/pacman.d/mirrorlist
-# sed -i 's/^SigLevel.*/SigLevel = Never/g' $path_img/etc/pacman.conf
-PACMAN_MIRRORLIST='Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch'
-export PACMAN_MIRRORLIST
-arch-chroot $ROOTFS /bin/sh -c 'echo $PACMAN_MIRRORLIST > /etc/pacman.d/mirrorlist'
-
+env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]} --ignore $PKG_IGNORE
 # arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
 # echo 'en_US.UTF-8 UTF-8' > $ROOTFS/etc/locale.gen
 # arch-chroot $ROOTFS locale-gen
 
 # cleaning up
-arch-chroot $ROOTFS /bin/sh -c "haveged -w 1024; pacman-key --init; pkill haveged; pacman-key --populate archlinux"
-arch-chroot $ROOTFS /bin/sh -c "pacman -Rcsu --noconfirm ${PKG_REMOVE[*]}"
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/doc/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/i18n/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/info/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/licenses/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/locale/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/man/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -r /usr/share/zoneinfo/*'
-
-## clean unneeded services
-arch-chroot $ROOTFS /bin/sh -c 'for i in /lib/systemd/system/sysinit.target.wants/*; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/multi-user.target.wants/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/graphical.target.wants/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /etc/systemd/system/*.wants/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/local-fs.target.wants/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/sockets.target.wants/*udev*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/sockets.target.wants/*initctl*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/basic.target.wants/*'
-arch-chroot $ROOTFS /bin/sh -c 'rm -f /lib/systemd/system/anaconda.target.wants/*'
-
+arch-chroot $ROOTFS /bin/sh -c "pacman-key --init"
+arch-chroot $ROOTFS /bin/sh -c "pacman-key --populate archlinux"
+arch-chroot $ROOTFS /bin/sh -c "for pkg in ${PKG_REMOVE[*]}; do pacman -Qi \$pkg && pacman -Rs --noconfirm \$pkg; done"
 
 # udev doesn't work in containers, rebuild /dev
 DEV=$ROOTFS/dev
@@ -179,4 +160,4 @@ mknod -m 666 $DEV/ptmx c 5 2
 ln -sf /proc/self/fd $DEV/fd
 
 echo "run to add to docker"
-echo "tar --numeric-owner --xattrs --acls -C $ROOTFS -c . | docker import - local/arch"
+echo "tar --numeric-owner --xattrs --acls -C $ROOTFS -c . -f archlinux.tar"
