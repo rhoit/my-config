@@ -1,0 +1,21 @@
+.dockerenv
+.dockerinit
+etc/hostname
+etc/machine-id
+etc/pacman.d/gnupg/S.*
+etc/pacman.d/gnupg/openpgp-revocs.d/*
+etc/pacman.d/gnupg/private-keys-v1.d/*
+etc/pacman.d/gnupg/pubring.gpg~
+etc/systemd/system/*.wants/*
+lib/systemd/system/anaconda.target.wants/*
+lib/systemd/system/basic.target.wants/*
+lib/systemd/system/graphical.target.wants/*
+lib/systemd/system/local-fs.target.wants/*
+lib/systemd/system/multi-user.target.wants/*
+lib/systemd/system/sockets.target.wants/*initctl*
+lib/systemd/system/sockets.target.wants/*udev*
+root/*
+tmp/*
+var/cache/pacman/pkg/*
+# var/lib/pacman/sync/*
+var/tmp/*
