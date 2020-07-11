@@ -77,7 +77,7 @@ function arch-build-iso {
 }
 
 
-function arch-docker-image-build {
+function arch-build-docker-image {
     >&2 echo "before building update the system"
     >&2 echo "   # pacman -Sy"
     systemctl is-active docker --quiet || {
