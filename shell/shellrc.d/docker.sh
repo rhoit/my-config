@@ -13,7 +13,8 @@ function docker_fit {
         s/ hours\?/h/g;
         s/ days\?/d/g;
         s/ weeks\?/w/g;
-        s/ months\?/m/g;
+        s/ months\?/M/g;
+        s/ years\?/Y/g;
         s/About an\?/1/g;
         s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/; # for ps
         s/->/→/g
