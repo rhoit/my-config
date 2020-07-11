@@ -88,8 +88,10 @@ function arch-docker-image-build {
     cd ~/Documents/my-config/docker/
     ROOTFS="/tmp/docker-archlinux"
     sudo ./mkimage-arch.sh $ROOTFS
-    sudo tar --numeric-owner --xattrs --acls -C $ROOTFS -c . | docker import - local/arch
-    docker run --rm -t local/arch pacman --version
+    sudo tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $ROOTFS -c . |\
+        docker import -c 'CMD ["/usr/bin/bash"]' - rhoit/arch
+    docker run --rm -t rhoit/arch pacman --version
+    echo "$ docker push rhoit/arch"
 }
 
 
