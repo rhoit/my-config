@@ -77,10 +77,19 @@ function arch-build-iso {
 }
 
 
-function arch-build-docker-image {
-    cd ~/docker/builder/
-    # cp /etc/pacman.conf ./mkimage-arch-pacman.conf
-    sudo ./mkimage-arch.sh
+function arch-docker-image-build {
+    >&2 echo "before building update the system"
+    >&2 echo "   # pacman -Sy"
+    systemctl is-active docker --quiet || {
+        >&2 echo "docker is not running"
+        >&2 echo "    # systemctl start docker"
+        return
+    }
+    cd ~/Documents/my-config/docker/
+    ROOTFS="/tmp/docker-archlinux"
+    sudo ./mkimage-arch.sh $ROOTFS
+    sudo tar --numeric-owner --xattrs --acls -C $ROOTFS -c . | docker import - local/arch
+    docker run --rm -t local/arch pacman --version
 }
 
 
