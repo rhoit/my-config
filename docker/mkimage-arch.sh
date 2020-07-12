@@ -57,7 +57,12 @@ Include = /etc/pacman.d/mirrorlist
 Include = /etc/pacman.d/mirrorlist
 
 [options]
+NoExtract = etc/systemd/*
+NoExtract = lib/systemd/*
+NoExtract = usr/share/common-lisp/*
 NoExtract = usr/share/doc/*
+NoExtract = usr/share/fish/*
+NoExtract = usr/share/gdb/*
 NoExtract = usr/share/gtk-doc/*
 NoExtract = usr/share/help/*
 NoExtract = usr/share/i18n/*
@@ -65,19 +70,14 @@ NoExtract = usr/share/info/*
 NoExtract = usr/share/licenses/*
 NoExtract = usr/share/locale/*
 NoExtract = usr/share/man/*
-NoExtract = usr/share/vim/*
-NoExtract = usr/share/zoneinfo/*
-NoExtract = usr/share/common-lisp/*
-NoExtract = usr/share/fish/*
-NoExtract = usr/share/gdb/*
 NoExtract = usr/share/vala/*
-NoExtract = usr/share/zsh/*
+NoExtract = usr/share/vim/*
 NoExtract = usr/share/zoneinfo-leaps/*
+NoExtract = usr/share/zoneinfo/*
+NoExtract = usr/share/zsh/*
 EOF
 
 PKG_REQUIRED=(
-    grep
-    mg
     pacman
 )
 
