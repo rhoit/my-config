@@ -17,7 +17,8 @@ function docker_fit {
         s/ years\?/Y/g;
         s/About an\?/1/g;
         s/Exited (\([0-9]\+\)) \(.*\)ago/exit(\1)~\2/; # for ps
-        s/->/→/g
+        s/->/→/g;
+        s/\/bin\/sh -c #(nop) *//g;
         ' |
     sed "s/  \+/;/g" |
     column -s\; -t |
@@ -73,4 +74,7 @@ alias dtop='docker_fit top'
 alias dimg='docker_fit images'
 alias dll='docker_fit ps --latest'
 alias dps='docker_fit ps --all'
+alias dhist='docker_fit history'
+alias dvol='docker_fit volume ls'
+
 alias docker-clean-exited-containers='docker ps --all --quiet --filter status=exited | xargs -n1 docker rm'
