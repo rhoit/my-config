@@ -1,0 +1,22 @@
+#+TITLE: systemctl in docker
+#+DATE: 2020 Jul 12, Sunday
+
+
+* INTRO
+
+  Image is based archlinux.
+
+  Configuration for for running systemd in *privileged* container.
+
+  For docker-compose add
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC yaml :results output
+    cap_add:
+      - all
+  #+END_SRC
+
+* REFERENCE
+
+  - https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/
+  - https://developers.redhat.com/blog/2016/09/13/running-systemd-in-a-non-privileged-container/
