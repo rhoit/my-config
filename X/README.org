@@ -2,6 +2,14 @@
 #+DATE: 2017 Aug 23, Wednesday
 
 
+* Trouble shoot
+
+  permission
+
+  add user to group video
+
+  add Xwrapper.conf to /etc/X11
+
 * sessions
 
   #+HEADER: :results output :eval no-export
