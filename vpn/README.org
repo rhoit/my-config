@@ -1,0 +1,9 @@
+#+TITLE: vpn
+#+DATE: 2020 Jul 13, Monday
+
+
+* intro
+
+  running vpn via shell
+
+  sudo openvpn --config vpn-config.ovpn
