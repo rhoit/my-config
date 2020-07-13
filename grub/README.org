@@ -1,0 +1,15 @@
+#+DATE: 2019 Jan 19, Saturday
+
+
+arch wiki [[https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate][Suspend_and_hibernate]]
+
+The kernel parameter
+
+#+BEGIN_EXAMPLE
+  resume=swap_partition
+#+END_EXAMPLE
+
+has to be used.
+
+for grub
+edit /etc/default/grub
