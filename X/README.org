@@ -1,3 +1,11 @@
+* Trouble shoot
+
+  permission
+
+  add user to group video
+
+  add Xwrapper.conf to /etc/X11
+
 * sessions
 
   ALT + CTRL + Function key (F1-F6)

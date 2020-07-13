@@ -3,6 +3,7 @@
 ! $ xrdb ~/.Xresources #
 xft.antialias: true
 
+xterm*background: gray
 xterm*bellIsUrgent: true
 xterm*borderWidth: 0
 xterm*faceName: DejaVu Sans Mono:style=Book
