@@ -132,7 +132,9 @@ function mtp-device-enable-udev {
 
 # ** password-generator
 function passwd-gen {
-    #random password of desired length
+    echo "use: pwgen"
+    echo "use: openssl -rand -base64 30"
+    # random password of desired length
     < /dev/urandom tr -dc '_A-Z-a-z-0-9+-~!@#$%^&*()_+=-'| head -c${1:-16};echo;
     # openssl rand -base64 |head -c${1:-16};echo;
 }
