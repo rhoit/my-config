@@ -223,7 +223,7 @@ function randpass {
 }
 
 
-function audible {
+function audible-remove-drm {
     (( $# == 0 )) && {
         echo "Usage:"
         echo "  $ audible admhelper"
