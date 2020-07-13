@@ -2,6 +2,19 @@
 #+DATE: 2017 Aug 23, Wednesday
 
 
+* TROUBLESHOOT
+
+** permission
+
+   xf86OpenConsole: Cannot open virtual console 1 (Permission denied)
+
+   #+HEADER: :results output :eval no-export
+   #+BEGIN_SRC sh :exports both
+     usermod --append $(logname) --groups tty
+   #+END_SRC
+
+   add Xwrapper.conf to /etc/X11
+
 * sessions
 
   #+HEADER: :results output :eval no-export
