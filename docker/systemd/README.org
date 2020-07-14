@@ -16,6 +16,8 @@
       - all
   #+END_SRC
 
+  enabling multi-user login, by starting systemd-user-sessions.
+
 * REFERENCE
 
   - https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/

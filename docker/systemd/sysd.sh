@@ -19,6 +19,16 @@ rm -f /lib/systemd/system/multi-user.target.wants/*
 rm -f /lib/systemd/system/sockets.target.wants/*initctl*
 rm -f /lib/systemd/system/sockets.target.wants/*udev*
 
+
+# enable multi-user login
+SERVICE="/usr/lib/systemd/system/systemd-user-sessions.service"
+echo >> $SERVICE
+echo "[Install]" >> $SERVICE
+echo "WantedBy=default.target" >> $SERVICE
+systemctl enable systemd-user-sessions.service
+
+
+# install ssh
 pacman --noconfirm --needed --sync openssh
 systemctl enable sshd.service
 mkdir -p /root/.ssh/

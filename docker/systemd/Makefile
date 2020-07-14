@@ -5,7 +5,7 @@ sysd-image-build: is-docker-service-up
 
 
 sysd-run-test: is-docker-service-up
-	docker run –-privileged ---rm -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
+	docker run --privileged --rm -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
 	@echo ssh is exposed
 
 
