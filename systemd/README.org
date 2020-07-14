@@ -3,10 +3,105 @@
 
 * units
 
-  #+BEGIN_SRC sh :results output
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC python :results output
     systemctl list-unit-files
-    systemctl list-unit-files --state=disabled|
+    systemctl list-unit-files --state=disabled
   #+END_SRC
+
+  #+RESULTS:
+
+** dependencies of unit
+
+   #+HEADER: :exports both :eval no-export
+   #+BEGIN_SRC sh :results output
+     systemctl list-dependencies
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   default.target
+   ● ├─display-manager.service
+   ● └─multi-user.target
+   ●   ├─dbus.service
+   ●   ├─ModemManager.service
+   ●   ├─NetworkManager.service
+   ●   ├─systemd-ask-password-wall.path
+   ●   ├─systemd-logind.service
+   ●   ├─systemd-user-sessions.service
+   ●   ├─basic.target
+   ●   │ ├─-.mount
+   ●   │ ├─tmp.mount
+   ●   │ ├─var.mount
+   ●   │ ├─paths.target
+   ●   │ ├─slices.target
+   ●   │ │ ├─-.slice
+   ●   │ │ └─system.slice
+   ●   │ ├─sockets.target
+   ●   │ │ ├─dbus.socket
+   ●   │ │ ├─dm-event.socket
+   ●   │ │ ├─systemd-coredump.socket
+   ●   │ │ ├─systemd-initctl.socket
+   ●   │ │ ├─systemd-journald-audit.socket
+   ●   │ │ ├─systemd-journald-dev-log.socket
+   ●   │ │ ├─systemd-journald.socket
+   ●   │ │ ├─systemd-udevd-control.socket
+   ●   │ │ └─systemd-udevd-kernel.socket
+   ●   │ ├─sysinit.target
+   ●   │ │ ├─dev-hugepages.mount
+   ●   │ │ ├─dev-mqueue.mount
+   ●   │ │ ├─kmod-static-nodes.service
+   ●   │ │ ├─ldconfig.service
+   ●   │ │ ├─lvm2-lvmetad.socket
+   ●   │ │ ├─lvm2-lvmpolld.socket
+   ●   │ │ ├─lvm2-monitor.service
+   ●   │ │ ├─proc-sys-fs-binfmt_misc.automount
+   ●   │ │ ├─sys-fs-fuse-connections.mount
+   ●   │ │ ├─sys-kernel-config.mount
+   ●   │ │ ├─sys-kernel-debug.mount
+   ●   │ │ ├─sys-kernel-tracing.mount
+   ●   │ │ ├─systemd-ask-password-console.path
+   ●   │ │ ├─systemd-binfmt.service
+   ●   │ │ ├─systemd-boot-system-token.service
+   ●   │ │ ├─systemd-firstboot.service
+   ●   │ │ ├─systemd-hwdb-update.service
+   ●   │ │ ├─systemd-journal-catalog-update.service
+   ●   │ │ ├─systemd-journal-flush.service
+   ●   │ │ ├─systemd-journald.service
+   ●   │ │ ├─systemd-machine-id-commit.service
+   ●   │ │ ├─systemd-modules-load.service
+   ●   │ │ ├─systemd-random-seed.service
+   ●   │ │ ├─systemd-sysctl.service
+   ●   │ │ ├─systemd-sysusers.service
+   ●   │ │ ├─systemd-timesyncd.service
+   ●   │ │ ├─systemd-tmpfiles-setup-dev.service
+   ●   │ │ ├─systemd-tmpfiles-setup.service
+   ●   │ │ ├─systemd-udev-trigger.service
+   ●   │ │ ├─systemd-udevd.service
+   ●   │ │ ├─systemd-update-done.service
+   ●   │ │ ├─systemd-update-utmp.service
+   ●   │ │ ├─cryptsetup.target
+   ●   │ │ ├─local-fs.target
+   ●   │ │ │ ├─-.mount
+   ●   │ │ │ ├─boot.mount
+   ●   │ │ │ ├─home.mount
+   ●   │ │ │ ├─systemd-fsck-root.service
+   ●   │ │ │ ├─systemd-remount-fs.service
+   ●   │ │ │ ├─tmp.mount
+   ●   │ │ │ └─var.mount
+   ●   │ │ └─swap.target
+   ●   │ │   └─dev-sda9.swap
+   ●   │ └─timers.target
+   ●   │   ├─logrotate.timer
+   ●   │   ├─man-db.timer
+   ●   │   ├─shadow.timer
+   ●   │   ├─systemd-tmpfiles-clean.timer
+   ●   │   └─updatedb.timer
+   ●   ├─getty.target
+   ●   │ └─getty@tty1.service
+   ●   └─remote-fs.target
+   ●     └─var-lib-machines.mount
+   #+end_example
 
 * Enable getty
 
