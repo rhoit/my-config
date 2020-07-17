@@ -57,15 +57,32 @@ Include = /etc/pacman.d/mirrorlist
 Include = /etc/pacman.d/mirrorlist
 
 [options]
+NoExtract = !usr/share/i18n/locales/en_GB
+NoExtract = !usr/share/i18n/locales/en_US
+NoExtract = !usr/share/i18n/locales/i18n
+NoExtract = !usr/share/i18n/locales/i18n_ctype
+NoExtract = !usr/share/i18n/locales/iso14651_t1
+NoExtract = !usr/share/i18n/locales/iso14651_t1_common
+NoExtract = !usr/share/i18n/locales/translit_circle
+NoExtract = !usr/share/i18n/locales/translit_cjk_compat
+NoExtract = !usr/share/i18n/locales/translit_combining
+NoExtract = !usr/share/i18n/locales/translit_compat
+NoExtract = !usr/share/i18n/locales/translit_font
+NoExtract = !usr/share/i18n/locales/translit_fraction
+NoExtract = !usr/share/i18n/locales/translit_narrow
+NoExtract = !usr/share/i18n/locales/translit_neutral
+NoExtract = !usr/share/i18n/locales/translit_small
+NoExtract = !usr/share/i18n/locales/translit_wide
 NoExtract = etc/systemd/*
 NoExtract = lib/systemd/*
+NoExtract = usr/share/X11/locale/*
 NoExtract = usr/share/common-lisp/*
 NoExtract = usr/share/doc/*
 NoExtract = usr/share/fish/*
 NoExtract = usr/share/gdb/*
-NoExtract = usr/share/gtk-doc/*
 NoExtract = usr/share/help/*
-NoExtract = usr/share/i18n/*
+NoExtract = usr/share/i18n/charmaps/* !usr/share/i18n/charmaps/UTF-8.gz
+NoExtract = usr/share/i18n/locales/*
 NoExtract = usr/share/info/*
 NoExtract = usr/share/licenses/*
 NoExtract = usr/share/locale/*
@@ -79,19 +96,21 @@ EOF
 
 PKG_REQUIRED=(
     pacman
+    gzip
+    sed
 )
 
 PKG_REMOVE=(
 )
 
 env -i pacstrap -C /tmp/pm.conf -cdGM $ROOTFS ${PKG_REQUIRED[*]}
-# arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
-# echo 'en_US.UTF-8 UTF-8' > $ROOTFS/etc/locale.gen
-# arch-chroot $ROOTFS locale-gen
-
-# cleaning up
 arch-chroot $ROOTFS /bin/sh -c "pacman-key --init"
 arch-chroot $ROOTFS /bin/sh -c "pacman-key --populate archlinux"
+
+# arch-chroot $ROOTFS /bin/sh -c "ln -s /usr/share/zoneinfo/UTC /etc/localtime"
+echo 'en_US.UTF-8 UTF-8' > $ROOTFS/etc/locale.gen
+arch-chroot $ROOTFS locale-gen
+
 arch-chroot $ROOTFS /bin/sh -c "for pkg in ${PKG_REMOVE[*]}; do pacman -Qi \$pkg && pacman -Rs --noconfirm \$pkg; done"
 
 echo "run to add to docker"
