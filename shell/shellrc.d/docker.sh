@@ -26,10 +26,6 @@ function docker_fit {
     tput smam # line-wrap on
 }
 
-function dlc {
-    # cache docker last container id DOCKER_CACHE
-    1>&2 docker ps --latest
-    export DOCKER_CACHE=$(docker ps --latest --quiet)
 }
 
 function dlog {
@@ -49,26 +45,11 @@ function dlog {
 }
 
 
-function dins {
-    docker inspect $1 | jq
-}
-
-
-
-alias dpull='docker pull'
-alias dinfo='docker info'
 alias drun='docker run'
 alias drace='docker run --rm'
 alias dstop='docker stop'
 alias dexec='docker exec'
-alias dl='docker ps --latest --quiet'
 alias dtty='docker run --interactive --tty'
-
-# alias dlins="docker inspect $(dl) | jq"
-
-
-
-alias dc='docker-compose'
 
 alias dtop='docker_fit top'
 alias dimg='docker_fit images'
@@ -78,3 +59,4 @@ alias dhist='docker_fit history'
 alias dvol='docker_fit volume ls'
 
 alias docker-clean-exited-containers='docker ps --all --quiet --filter status=exited | xargs -n1 docker rm'
+alias dc='docker-compose'
