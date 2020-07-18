@@ -18,6 +18,18 @@
 
   enabling multi-user login, by starting systemd-user-sessions.
 
+
+** image
+
+   Pre-build image can be pulled from [[https://hub.docker.com/repository/docker/rhoit/sysd][hub.docker]] using
+
+   #+HEADER: :exports both :eval no-export
+   #+BEGIN_SRC sh :results output
+     docker pull rhoit/sysd
+   #+END_SRC
+
+   *user*: =root= *pass*: =toor=
+
 * REFERENCE
 
   - https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/

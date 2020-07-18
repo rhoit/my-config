@@ -1,6 +1,6 @@
 FROM rhoit/arch:latest
 
-COPY id_rsa.pub sysd.sh /tmp/
+COPY sysd.sh /tmp/
 
 # pre-change, post-volume-declaration changes are discarded
 VOLUME /var/cache/pacman/pkg
