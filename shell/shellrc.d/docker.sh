@@ -33,6 +33,12 @@ function dlc {
     export DOCKER_CACHE=$(docker ps --latest --quiet)
 }
 
+
+function docker-clean-exited-containers {
+    docker ps --all --quiet --filter status=exited | xargs -n1 docker rm
+}
+
+
 function dlog {
     # docker logs
     if [[ -t 1 ]]; then
@@ -63,5 +69,4 @@ alias dps='docker_fit ps --all'
 alias dhist='docker_fit history'
 alias dvol='docker_fit volume ls'
 
-alias docker-clean-exited-containers='docker ps --all --quiet --filter status=exited | xargs -n1 docker rm'
 alias dc='docker-compose'
