@@ -30,7 +30,8 @@ systemctl enable systemd-user-sessions.service
 
 # install ssh
 pacman --noconfirm --needed --sync openssh
+echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl enable sshd.service
 mkdir -p /root/.ssh/
-cp /tmp/id_rsa.pub /root/.ssh/authorized_keys
-chmod 600 /root/.ssh/authorized_keys
+echo 'root:toor' | chpasswd
+
