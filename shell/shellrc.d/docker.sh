@@ -27,6 +27,11 @@ function docker_fit {
 }
 
 
+function docker-none-tag-image-drop {
+    docker images --format='{{.ID}}\t{{.Tag}}' | grep '<none>' | cut -f1 | xargs docker rmi
+}
+
+
 function docker-clean-exited-containers {
     docker ps --all --quiet --filter status=exited | xargs -n1 docker rm
 }
