@@ -39,6 +39,12 @@ function docker-clean-exited-containers {
 }
 
 
+alias dip="docker-get-ip-latest"
+function docker-get-ip-latest () {
+    docker ps --quiet | xargs docker inspect --format '{{.NetworkSettings.IPAddress}} {{.Config.Hostname}} {{.Name}}'
+}
+
+
 function dlog {
     # docker logs
     if [[ -t 1 ]]; then
