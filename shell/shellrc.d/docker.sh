@@ -27,10 +27,8 @@ function docker_fit {
 }
 
 
-function dlc {
-    # cache docker last container id DOCKER_CACHE
-    1>&2 docker ps --latest
-    export DOCKER_CACHE=$(docker ps --latest --quiet)
+function docker-none-tag-image-drop {
+    docker images --format='{{.ID}}\t{{.Tag}}' | grep '<none>' | cut -f1 | xargs docker rmi
 }
 
 
