@@ -2,8 +2,8 @@ build-image: is-docker-service-up
 	docker build --tag="rhoit/sysd" ./
 
 
-sysd-run-test: is-docker-service-up
-	docker run --privileged --rm -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
+test-run: is-docker-service-up
+	docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
 	@echo ssh is exposed
 
 

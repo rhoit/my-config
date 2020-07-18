@@ -10,4 +10,4 @@ RUN /tmp/sysd.sh
 EXPOSE 22
 
 VOLUME [ "/sys/fs/cgroup" ]
-CMD [ "/usr/sbin/init" ]
+CMD [ "/usr/sbin/init", "--default-standard-output=tty", "--default-standard-error=tty" ]
