@@ -32,17 +32,17 @@ systemctl enable systemd-user-sessions.service
 pacman --noconfirm --needed --sync openssh
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl enable sshd.service
-mkdir -p /root/.ssh/
+mkdir -m 700 -p /root/.ssh/
 echo 'root:toor' | chpasswd
 
 # show ip
 cat > /etc/systemd/system/ipshow.service <<EOF
 [Unit]
 Description=show the host ip
-Type=idle
 Requires=network-online.target
 
 [Service]
+Type=idle
 ExecStart=/usr/bin/tail -1 /etc/hosts
 
 [Install]
