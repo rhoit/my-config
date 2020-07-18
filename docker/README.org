@@ -1,0 +1,24 @@
+#+TITLE: docker
+#+DATE: 2020 Jul 18, Saturday
+
+docker a lightweight container!
+
+* IMAGE
+
+  Pre-build image of =mkimage-arch.sh= can be pulled from [[https://hub.docker.com/repository/docker/rhoit/arch][hub.docker]]
+  using
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    docker pull rhoit/arch
+  #+END_SRC
+
+* REFERENCE
+
+  - logging
+    + https://sematext.com/guides/docker-logs/
+    + https://www.loggly.com/blog/top-5-docker-logging-methods-to-fit-your-container-deployment-strategy/
+  - config
+    + https://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
+  - distroless
+    + https://www.youtube.com/watch?v=lviLZFciDv4
