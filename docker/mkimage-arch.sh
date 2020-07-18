@@ -4,6 +4,7 @@
 ## official : https://github.com/archlinux/archlinux-docker
 ## docker: https://github.com/docker/docker/blob/master/contrib/mkimage-arch.sh
 ## blog: http://ebalaskas.gr/wiki/archlinux/installation_for_docker
+## locale: https://wiki.archlinux.org/index.php/Locale#LC_ALL:_troubleshooting
 
 set -e
 set -u
