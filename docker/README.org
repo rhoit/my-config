@@ -21,6 +21,20 @@ docker a lightweight container!
         docker import -c 'CMD ["/usr/bin/bash"]' -c 'ENV LANG=en_US.UTF-8' - rhoit/arch
   #+END_SRC
 
+* SYSTEMD
+
+  Configuration for for running systemd in *privileged* container.
+
+  multi-user login has been enable modifing
+  *systemd-user-sessions.services*
+
+  Pre-build image can be pulled from [[https://hub.docker.com/repository/docker/rhoit/sysd][hub.docker]] using
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
+  #+END_SRC
+
 * REFERENCE
 
   - logging
@@ -30,3 +44,6 @@ docker a lightweight container!
     + https://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/
   - distroless
     + https://www.youtube.com/watch?v=lviLZFciDv4
+  - systemd
+    + https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/
+    + https://developers.redhat.com/blog/2016/09/13/running-systemd-in-a-non-privileged-container/
