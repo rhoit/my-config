@@ -46,7 +46,7 @@ Requires=network-online.target
 
 [Service]
 Type=idle
-ExecStartPre=echo "open using 'ssh root@<ip>'"
+ExecStartPre=cat /proc/1/cpuset
 ExecStart=/usr/bin/tail -1 /etc/hosts
 
 [Install]
