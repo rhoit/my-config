@@ -1,12 +1,22 @@
-#+TITLE: systemctl in docker
+#+TITLE: systemd in docker
 #+DATE: 2020 Jul 12, Sunday
 
 
-* INTRO
+Image is based archlinux.
 
-  Image is based archlinux.
+Configuration for for running systemd in *privileged* container.
 
-  Configuration for for running systemd in *privileged* container.
+multi-user login has been enable modifing
+*systemd-user-sessions.services*
+
+* RUNNING
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
+  #+END_SRC
+
+* COMPOSE
 
   For docker-compose add
 
@@ -16,26 +26,16 @@
       - all
   #+END_SRC
 
-  enabling multi-user login, by starting systemd-user-sessions.
+* IMAGE
 
+  Pre-build image can be pulled from [[https://hub.docker.com/repository/docker/rhoit/sysd][hub.docker]] using
 
-** image
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    docker pull rhoit/sysd
+  #+END_SRC
 
-   Pre-build image can be pulled from [[https://hub.docker.com/repository/docker/rhoit/sysd][hub.docker]] using
-
-   #+HEADER: :exports both :eval no-export
-   #+BEGIN_SRC sh :results output
-     docker pull rhoit/sysd
-   #+END_SRC
-
-   *user*: =root= *pass*: =toor=
-
-** running
-
-   #+HEADER: :exports both :eval no-export
-   #+BEGIN_SRC sh :results output
-     docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
-   #+END_SRC
+  *user*: =root= *pass*: =toor=
 
 * REFERENCE
 
