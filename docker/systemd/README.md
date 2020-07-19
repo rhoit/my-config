@@ -16,7 +16,7 @@ docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sys
 
 default ssh credentials:
 
-*user*: =root= *pass*: =toor=
+*user*: `root` *pass*: `toor`
 
 ## COMPOSE
 
