@@ -13,6 +13,14 @@ docker a lightweight container!
     docker pull rhoit/arch
   #+END_SRC
 
+* BUILD
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    sudo tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $ROOTFS -c . |\
+        docker import -c 'CMD ["/usr/bin/bash"]' -c 'ENV LANG=en_US.UTF-8' - rhoit/arch
+  #+END_SRC
+
 * REFERENCE
 
   - logging
