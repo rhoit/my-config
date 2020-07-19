@@ -34,7 +34,8 @@ pacman --noconfirm --needed --sync openssh
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl enable sshd.service
 mkdir -m 700 -p /root/.ssh/
-echo 'root:toor' | chpasswd
+USER='root' PASS='toor'
+echo "$USER:$PASS" | chpasswd
 
 # show ip
 cat > /etc/systemd/system/ipshow.service <<EOF
@@ -44,6 +45,7 @@ Requires=network-online.target
 
 [Service]
 Type=idle
+ExecStartPre=echo "Default: USER='$USER'\tPASS='$PASS'"
 ExecStart=/usr/bin/tail -1 /etc/hosts
 
 [Install]
