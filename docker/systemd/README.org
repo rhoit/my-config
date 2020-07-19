@@ -30,6 +30,13 @@
 
    *user*: =root= *pass*: =toor=
 
+** running
+
+   #+HEADER: :exports both :eval no-export
+   #+BEGIN_SRC sh :results output
+     docker run --privileged --rm --tty -v /sys/fs/cgroup:/sys/fs/cgroup:ro rhoit/sysd
+   #+END_SRC
+
 * REFERENCE
 
   - https://developers.redhat.com/blog/2019/04/24/how-to-run-systemd-in-a-container/
