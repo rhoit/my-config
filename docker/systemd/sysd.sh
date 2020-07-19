@@ -3,6 +3,7 @@
 # Based on
 ## https://developers.redhat.com/blog/2014/05/05/running-systemd-within-docker-container/
 
+pacman --noconfirm --sync --refresh --sysupgrade # long form of -Syu
 pacman --noconfirm --needed --sync systemd systemd-sysvcompat
 rm -f /etc/systemd/system/*.wants/*
 (
@@ -38,7 +39,7 @@ echo 'root:toor' | chpasswd
 # show ip
 cat > /etc/systemd/system/ipshow.service <<EOF
 [Unit]
-Description=show the host ip
+Description=show the continer IP
 Requires=network-online.target
 
 [Service]
