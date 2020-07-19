@@ -1,6 +1,7 @@
 FROM rhoit/arch:latest
 
 COPY sysd.sh /tmp/
+COPY ssh-banner /etc/ssh-banner
 
 # pre-change, post-volume-declaration changes are discarded
 VOLUME /var/cache/pacman/pkg
