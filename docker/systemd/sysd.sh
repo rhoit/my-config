@@ -32,6 +32,7 @@ systemctl enable systemd-user-sessions.service
 # install ssh
 pacman --noconfirm --needed --sync openssh
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+echo 'Banner /etc/ssh-banner' >> /etc/ssh/sshd_config
 systemctl enable sshd.service
 mkdir -m 700 -p /root/.ssh/
 USER='root' PASS='toor'
@@ -45,7 +46,7 @@ Requires=network-online.target
 
 [Service]
 Type=idle
-ExecStartPre=echo "Default: USER='$USER'\tPASS='$PASS'"
+ExecStartPre=echo "open using 'ssh root@<ip>'"
 ExecStart=/usr/bin/tail -1 /etc/hosts
 
 [Install]
