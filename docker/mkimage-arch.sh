@@ -88,8 +88,6 @@ NoExtract = usr/share/locale/* !usr/share/locale/locale.alias
 NoExtract = usr/share/man/*
 NoExtract = usr/share/vala/*
 NoExtract = usr/share/vim/*
-NoExtract = usr/share/zoneinfo-leaps/*
-NoExtract = usr/share/zoneinfo/*
 NoExtract = usr/share/zsh/*
 EOF
 
