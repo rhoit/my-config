@@ -85,10 +85,12 @@ function ssh-sftp-wrapper {
         return $exitcode
     fi
 
-    echo -n "\nDo you wanna fix and continue? "
+    local domain=$(sed -n 's/.*Connecting to.*\[\(.*\)\].*/\1/p' /tmp/ssh_key_error)
+    echo -n "\nDo you wanna change ~/.ssh/known_hosts:$line for $domain ?"
     read -r reply
     if [[ ${reply[0]} == 'y' || ${reply[0]} == 'Y' || $reply == '' ]]; then
         sed -i "${line}d" ~/.ssh/known_hosts
+        ssh-keyscan -t ecdsa $domain >> ~/.ssh/known_hosts
         $CMD $@
         return $?
     fi
