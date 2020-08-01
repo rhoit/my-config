@@ -8,6 +8,14 @@ Pre-build image at [rhoit/pg](https://hub.docker.com/repository/docker/rhoit/pg)
 
 ## RUNNING
 
+run **psql**
+
+``` bash
+docker run -it --rm rhoit/pg psql
+```
+
+run as server
+
 ``` bash
 docker run -it --rm rhoit/pg
 ```
