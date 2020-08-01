@@ -3,7 +3,7 @@
 
 Image is based archlinux.
 
-Configuration for for running systemd in *privileged* container.
+Configuration for running systemd in *privileged* container.
 
 multi-user login has been enable modifing
 *systemd-user-sessions.services*
