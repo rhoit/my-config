@@ -2,10 +2,10 @@
 
 initdb --username='postgres' --locale en_US.UTF-8 --pgdata /var/lib/postgres/data
 
-if [[ "$1" == psql ]]; then
-    pg_ctl --wait --pgdata=/var/lib/postgres/data start
-    psql
-else
-    echo "host all all all trust" >> "/var/lib/postgres/data/pg_hba.conf"
+echo "host all all all trust" >> "/var/lib/postgres/data/pg_hba.conf"
+if [[ "$1" == 'server' ]]; then
     postgres -h '*' -D /var/lib/postgres/data
+else
+    pg_ctl --wait --options="-c listen_addresses='*'" --pgdata=/var/lib/postgres/data start
+    psql
 fi
