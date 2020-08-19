@@ -15,14 +15,14 @@ function arch-yaourt-from-aur-makepkg {
     tar xzf package-query.tar.gz
     cd /tmp/package-query
     makepkg
-    sudo pacman -U package-query*pkg.tar.xz
+    sudo pacman -U package-query*pkg.tar.*
 
     cd /tmp
     curl -L https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz -o yaourt.tar.gz
     tar xzf yaourt.tar.gz
     cd /tmp/yaourt
     makepkg
-    sudo pacman -U yaourt*pkg.tar.xz
+    sudo pacman -U yaourt*pkg.tar.*
     set +v
 }
 
