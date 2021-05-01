@@ -8,3 +8,12 @@
   #+BEGIN_EXAMPLE
     # apt install lamp-server^
   #+END_EXAMPLE
+
+* package file belongs to
+
+  dpkg -S
+
+  apt-file
+  apt-file update
+
+  apt-file search filename
