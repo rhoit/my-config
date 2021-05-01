@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "Changing keyboardlayout to dvorak (dv103)"
-sed -i 's/keyboardlayout=auto/keyboardlayout=dv103/' ~/.dosbox/dosbox-0.74-2.conf
+mkdir -p "~/.dosbox"
+ln -s "$PWD/config.ini" "~/.dosbox/dosbox-0.74-3.conf"
