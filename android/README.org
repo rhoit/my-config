@@ -1,0 +1,7 @@
+#+TITLE: android
+#+DATE: 2021 May 01, Saturday
+
+* screen mirror
+
+  android-to-pc: scrcpy
+  pc-to-android:
