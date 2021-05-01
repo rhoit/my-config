@@ -4,6 +4,7 @@
 ## archlinux scripts
 
 alias pm='pacman'
+alias yaourt="echo 'use yay if you can or \yaourt to escape'"
 
 
 function arch-rho-pkg-download-outsource {
