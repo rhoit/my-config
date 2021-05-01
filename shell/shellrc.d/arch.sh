@@ -5,6 +5,7 @@
 
 alias pm='pacman'
 alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
+alias yaourt="echo 'use yay if you can or \yaourt to escape'"
 
 
 function arch-outsource-pkg-download {
