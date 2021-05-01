@@ -31,7 +31,12 @@ test -e /usr/bin/exa && {
 alias df='df -h -x tmpfs '
 
 # cat as bat is less than more
-test -e /usr/bin/bat && alias less='bat'
+if test -e /usr/bin/bat; then
+    alias less='bat'
+else
+    # show colors
+    alias less='/usr/bin/less --raw-control-chars'
+fi
 
 # cd
 alias ..='cd ..'
