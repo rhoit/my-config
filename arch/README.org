@@ -19,6 +19,19 @@
     # pacman -S base-devel
   #+END_EXAMPLE
 
+* keys
+
+  https://rtfm.co.ua/en/arch-linux-key-could-not-be-imported-required-key-missing-from-keyring-2/
+
+  package =archlinux-keyring=
+
+  #+HEADER: :exports both :eval no-export
+  #+BEGIN_SRC sh :results output
+    pacman-key --init
+    pacman-key --populate archlinux
+    pacman-key --refresh-keys
+  #+END_SRC
+
 * search package
 
 ** contain as file/binary
