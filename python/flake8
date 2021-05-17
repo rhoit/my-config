@@ -1,0 +1,17 @@
+[flake8]
+jobs = 16
+indent-style = space
+indent-size = 4
+continuation-style = aligned
+max-line-length = 75
+max-complexity = 16
+
+extend-ignore =
+    E203,  # whitespace before ':'
+    E221,  # multiple spaces before operator
+    E251,  # unexpected spaces around keyword / parameter equals
+
+
+# Local Variables:
+# mode: conf
+# End:
