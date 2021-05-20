@@ -6,7 +6,8 @@ continuation-style = aligned
 max-line-length = 75
 max-complexity = 10
 ignore =
-    E203,  # whitespace before ':'
+    E201,  # whitespace after '['
+    E202,  # whitespace before ']'
     E221,  # multiple spaces before operator
-    E402,  # module level import not at top of file
     E251,  # unexpected spaces around keyword / parameter equals
+    E701,  # multiple statements on one line (colon)
