@@ -1,4 +1,10 @@
 #!/usr/bin/bash
 
-cp ./issue /etc/issue
-cp ./issue-shh /etc/banner-ssh
+for FILE in "issue" "banner-ssh"; do
+    if [[ -e "/etc/$FILE" ]]; then
+        echo "skip: '/etc/$FILE' already exisits"
+        continue
+    fi
+    echo "installing $FILE"
+    cp "$FILE" /etc/
+done
