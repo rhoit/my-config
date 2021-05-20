@@ -82,6 +82,17 @@ function nautilus {
 }
 
 
+# ** mount
+function mount {
+    if [[ $# -eq 0 ]]; then
+        /usr/bin/mount | column -t | less -S
+        return
+    fi
+
+    /usr/bin/mount $*
+}
+
+
 # * HELPERS
 # bundle up commands for operation
 
