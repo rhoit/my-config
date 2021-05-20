@@ -53,8 +53,14 @@ alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pysp
 
 # ** mount
 
-# alias mount="mount | column -t | less -S"
+function mount {
+    if [[ $# -eq 0 ]]; then
+        /usr/bin/mount | column -t | less -S
+        return
+    fi
 
+    /usr/bin/mount $*
+}
 
 # ** gdb
 
