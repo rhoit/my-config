@@ -145,3 +145,16 @@ function audible-remove-drm {
     wget -c "http://cdl.audible.com/cgi-bin/aw_assemble_title_dynamic.aa?$(cat $1)" -O "/tmp/$1.aax"
     ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.aax" -c:a copy -vn "$1.m4a"
 }
+
+# * NOTES
+# command usages notes
+
+# ** ffmpeg
+
+function ffmpeg-samples {
+    echo re-encode
+    echo ffmpeg -i input.file -codec:a aac -codec:v libx264  output.mp4
+    echo
+    echo png to webm
+    echo ffmpeg -i input%04d.png output.webm
+}
