@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-for FILE in "issue" "banner-ssh"; do
+for FILE in "issue"; do
     if [[ -e "/etc/$FILE" ]]; then
         echo "skip: '/etc/$FILE' already exisits"
         continue
