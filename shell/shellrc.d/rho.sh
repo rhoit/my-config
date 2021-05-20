@@ -73,6 +73,8 @@ function emacs {
 # * WRAPPERS
 # extend application options
 
+alias gdb="gdb -q"
+
 # ** nautilus
 
 function nautilus {
