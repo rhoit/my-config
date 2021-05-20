@@ -4,22 +4,22 @@
 # My personal preference
 #
 
-# My ways
-# alias startx='startx &> ~/.xlog'
+# * CONFIGS
+# ** default apps
 
-# default apps
 export EDITOR="mg"
 export VISUAL="mg"
 export SCREEN="tmux"
 export BROWSER="chromium"
 
+# ** wine
+# the standard env variable
 
-# Stupid stuffs
-alias rc.d='systemctl'
-alias git-unstage='git reset'
+export WIN="~/.wine/dosdevices/c:"
+alias c:="cd $WIN"
 
+# * PYTHON
 
-# python
 alias py3="python3"
 alias pyhost="python3 -m http.server"
 alias py2host="/usr/bin/python2 -m SimpleHTTPServer"
@@ -41,53 +41,26 @@ function py {
     python $@
 }
 
+# ** spark
 
 export SPARK_HOME="/usr/share/apache-spark/"
 export PYSPARK_SUBMIT_ARGS="--master local[4]"
 alias pyspark="/usr/share/apache-spark/bin/pyspark"
 alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pyspark"
 
-# mount
+# * WRAPPERS
+# extend application options
+
+# ** mount
+
 # alias mount="mount | column -t | less -S"
 
-# gdb
+
+# ** gdb
+
 alias gdb="gdb -q"
 
-# WINE is the standard env variable
-export WIN="~/.wine/dosdevices/c:"
-alias c:="cd $WIN"
-
-
-function xdg-give-me-damn-exec {
-    (( $# == 0 )) && {
-        echo "Usage:"
-        echo "  $ xdg-give-me-damn-exec text/x-python"
-        return
-    }
-
-    local name=$(xdg-mime query default $1)
-
-    for prefix in ~/.local /user /usr/local; do
-        local mime="$prefix/share/applications/$name"
-        if [[ -f "$mime" ]]; then
-            grep "^Exec" $mime
-            return
-        fi
-    done
-    >&2 echo "GTFO no mime"
-    return 9000
-}
-
-
-function mtp-device-enable-udev {
-    local LSUSB=($(lsusb))
-    for ((i=0; i < ${#LSUSB}; i++)); do
-        echo -e "$i\t${LSUSB[i]}"
-    done
-    # read -r choice
-    # re insert your device
-}
-
+# ** readlink
 
 function readlink {
     if [[ -t 1 ]]; then
@@ -101,6 +74,13 @@ function readlink {
     if [[ $# -gt 0 ]]; then
         /usr/bin/readlink $@
     fi
+}
+
+
+# ** emacs
+
+function emacs-doom {
+    env HOME=/home/rho/.emacs.d/doom emacs
 }
 
 
@@ -136,6 +116,7 @@ function emacs {
     setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
 }
 
+# ** file manager
 
 function nemo {
     ##
@@ -147,10 +128,9 @@ function nemo {
     fi
 }
 
-
 function nautilus {
     ##
-    ### nemo (file browser) wrapper
+    ### nautilus (file browser) wrapper
     if [[ $# -eq 0 ]]; then
         setsid /usr/bin/nautilus . # "nemo" is function, will cause recursion
     else
@@ -158,14 +138,7 @@ function nautilus {
     fi
 }
 
-
-function bluetooth-turn-it-on {
-    sudo modprobe btusb
-    sudo modprobe bluetooth
-    sudo systemctl start bluetooth.service
-    setsid blueman-manager
-}
-
+# ** media-server
 
 function dlna {
     cp /etc/minidlna.conf /tmp/dlna.conf
@@ -174,16 +147,7 @@ function dlna {
     sudo minidlnad -R -d -f /tmp/dlna.conf
 }
 
-
-function frontmacs {
-    env HOME=/home/rho/.emacs.d/frontmacs emacs
-}
-
-
-function doomemacs {
-    env HOME=/home/rho/.emacs.d/doom emacs
-}
-
+# ** youtube-dl
 
 function ydl {
     local list=$(youtube-dl --list-formats $1)
@@ -213,6 +177,44 @@ function ydl {
     youtube-dl --format "${video}${audio}" $@
 }
 
+# * HELPERS
+# bundle up commands for operation
+
+# ** xdg
+
+function xdg-give-me-damn-exec {
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ xdg-give-me-damn-exec text/x-python"
+        return
+    }
+
+    local name=$(xdg-mime query default $1)
+
+    for prefix in ~/.local /user /usr/local; do
+        local mime="$prefix/share/applications/$name"
+        if [[ -f "$mime" ]]; then
+            grep "^Exec" $mime
+            return
+        fi
+    done
+    >&2 echo "GTFO no mime"
+    return 9000
+}
+
+
+# ** mtp
+
+function mtp-device-enable-udev {
+    local LSUSB=($(lsusb))
+    for ((i=0; i < ${#LSUSB}; i++)); do
+        echo -e "$i\t${LSUSB[i]}"
+    done
+    # read -r choice
+    # re insert your device
+}
+
+# ** randpass
 
 function randpass {
     echo "use: pwgen"
@@ -222,6 +224,7 @@ function randpass {
     # openssl rand -base64 |head -c${1:-16};echo;
 }
 
+# ** drm
 
 function audible-remove-drm {
     (( $# == 0 )) && {
@@ -235,8 +238,18 @@ function audible-remove-drm {
     ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.aax" -c:a copy -vn "$1.m4a"
 }
 
+# ** ffmpeg
 
 function ffmpeg-samples {
     echo re-encode
     echo ffmpeg -i input.file -codec:a aac -codec:v libx264  output.mp4
+}
+
+# ** bluetooth
+
+function bluetooth-turn-it-on {
+    sudo modprobe btusb
+    sudo modprobe bluetooth
+    sudo systemctl start bluetooth.service
+    setsid blueman-manager
 }
