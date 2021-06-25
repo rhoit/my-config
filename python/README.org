@@ -1,0 +1,13 @@
+#+TITLE: python stuffs
+#+DATE: 2021 Jun 25, Friday
+
+
+* linter
+** pylint
+
+   to create the basic =pylintrc= file you can
+
+   #+HEADER: :exports both :eval no-export
+   #+BEGIN_SRC sh :results output
+     pylint --generate-rcfile > vomit
+   #+END_SRC
