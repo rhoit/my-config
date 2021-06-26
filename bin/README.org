@@ -1,0 +1,5 @@
+#+TITLE: bin override and fix
+#+DATE: 2021 Jun 26, Saturday
+
+
+Don't irritate me or I will replace you will small shell script!
