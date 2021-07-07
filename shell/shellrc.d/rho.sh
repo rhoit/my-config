@@ -81,6 +81,11 @@ function nautilus {
 }
 
 
+# ** pgcli
+# https://www.pgcli.com/pager
+alias psql='pgcli'
+
+
 # ** mount
 function mount {
     if [[ $# -eq 0 ]]; then
