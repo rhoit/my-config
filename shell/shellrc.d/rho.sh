@@ -51,6 +51,10 @@ alias pyspark-notebook="IPYTHON_OPTS='notebook' /usr/share/apache-spark/bin/pysp
 # * WRAPPERS
 # extend application options
 
+# ** psql
+
+alias psql='pgcli'
+
 # ** mount
 
 function mount {
