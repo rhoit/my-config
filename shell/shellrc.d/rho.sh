@@ -90,7 +90,7 @@ function readlink {
 # ** emacs
 
 function emacs-doom {
-    env HOME=/home/rho/.emacs.d/doom emacs
+    env HOME=/home/rho/.config/emacs-doom emacs
 }
 
 
