@@ -82,6 +82,10 @@ function nautilus {
 }
 
 
+# ** pgcli
+alias psql='pgcli'
+
+
 # ** mount
 function mount {
     if [[ $# -eq 0 ]]; then
