@@ -50,6 +50,7 @@ function emacs-doom {
 # extend application options
 
 alias gdb="gdb -q"
+alias psql='pgcli'
 
 # ** nautilus
 
