@@ -12,6 +12,13 @@ export SCREEN="tmux"
 export BROWSER="chromium"
 
 
+# * WINE
+# the standard env variable
+
+export WIN="~/.wine/dosdevices/c:"
+alias c:="cd $WIN"
+
+
 # * PYTHON
 
 alias py3="python3"
