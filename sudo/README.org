@@ -1,0 +1,31 @@
+#+TITLE: sudo stuff
+#+DATE: 2021 Sep 27, Monday
+
+
+Caution these thing should be done manually!
+
+* VISUDO
+
+  =/etc/sudoers=
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    EDITOR=mg visudo
+  #+END_SRC
+
+  #+BEGIN_EXAMPLE
+    Defaults insults
+
+    # Run X11 apps using sudo
+    Defaults env_keep += "HOME"
+
+    # org.gtk.vfs.file-operations auth error
+    rho rho=NOPASSWD:/usr/lib/gvfsd-admin
+  #+END_EXAMPLE
+* SHELL
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    # enable sudo log
+    add alias "sudo -E "
+  #+END_SRC
