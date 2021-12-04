@@ -1,5 +1,11 @@
 # postgres server
 
+
+Starting systemd 248 (as host systemd), mounting /sys/fs/cgroup
+read-only is not possible anymore.
+
+https://github.com/systemd/systemd/issues/19245
+
 Image is based archlinux.
 
 This is bare image for running postgresql server and getting psql shell.
