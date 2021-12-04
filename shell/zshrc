@@ -25,6 +25,8 @@ bindkey -s '^[[1;5A' '^Ucd ..^M'  # C-up
 bindkey -s '^[[1;5B' '^Ucd -^M'   # C-down
 bindkey -s '\ei' '$(!!)^M'        # Get last command output hackish edition
 
+zstyle ':completion:*:*:make:*' tag-order 'targets'
+
 source $ZSH/oh-my-zsh.sh
 source ~/.shellrc  # unified shell config
 
