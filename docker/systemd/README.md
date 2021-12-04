@@ -1,6 +1,11 @@
 # systemd in docker
 
 
+Starting systemd 248 (as host systemd), mounting /sys/fs/cgroup
+read-only is not possible anymore.
+
+https://github.com/systemd/systemd/issues/19245
+
 Image is based archlinux.
 
 Configuration for running systemd in *privileged* container.
