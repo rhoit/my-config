@@ -72,7 +72,9 @@ function ssh-sftp-wrapper {
 
     $CMD $@
     local exitcode=$?
-    if [[ $exitcode -eq 0 ]]; then
+
+    echo "exitcode $exitcode"
+    if [[ $exitcode -eq 0 || $exitcode -eq 130 ]]; then
         return 0
     fi
 
