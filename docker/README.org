@@ -3,6 +3,10 @@
 
 docker a lightweight container!
 
+* DISCLAIMER
+
+  <2021-08-26 Thu> I have stop building the docker images.
+
 * IMAGE
 
   Pre-build image of =mkimage-arch.sh= can be pulled from [[https://hub.docker.com/repository/docker/rhoit/arch][hub.docker]]
