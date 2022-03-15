@@ -82,7 +82,7 @@ function ssh-sftp-wrapper {
     $CMD -v $@ 2> /tmp/ssh_key_error >/dev/null
 
     # check if its REMOTE HOST IDENTIFICATION CHANGE!
-    local line=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
+    local line=$(sed -n 's/Offending.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
     if [[ $line == '' ]]; then
         return $exitcode
     fi
