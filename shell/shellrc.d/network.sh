@@ -82,17 +82,16 @@ function ssh-sftp-wrapper {
     /usr/bin/$command -v $* 2> /tmp/ssh_key_error >/dev/null
 
     # check if its REMOTE HOST IDENTIFICATION CHANGE!
-    local line=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
+    local line=$(sed -n 's/Offending.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
     if [[ $line == "" ]]; then
         return $exitcode
     fi
 
     local domain=$(sed -n 's/.*Connecting to.*\[\(.*\)\].*/\1/p' /tmp/ssh_key_error)
-    echo -n "\nDo you wanna change ~/.ssh/know_host:$line for $domain ?"
+    echo -n "\nDo you wanna change ~/.ssh/known_hosts:$line for $domain ? "
     read reply
     if [[ ${reply[0]} == "y" || ${reply[0]} == "Y" || $reply == "" ]]; then
-        local v=$(sed -n 's/.*known_hosts:\([0-9]*\).*/\1/p' /tmp/ssh_key_error)
-        sed -i "${v}d" $HOME/.ssh/known_hosts
+        sed -i "${line}d" $HOME/.ssh/known_hosts
         ssh-keyscan -t ecdsa $domain >> ~/.ssh/known_hosts
         /usr/bin/$command $*
         return $?
