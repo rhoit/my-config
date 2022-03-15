@@ -57,6 +57,7 @@ function emacs-doom {
 function emacs {
     ##
     ### emacs wrapper for mulitplexing
+    export LSP_USE_PLISTS=true
     if [[ $# -eq 0 ]]; then
         /usr/bin/emacs # "emacs" is function, will cause recursion
         return
