@@ -8,6 +8,17 @@ alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 alias yaourt="echo 'use yay if you can or \yaourt to escape'"
 
 
+function arch-paru-from-aur-makepkg {
+    set -v
+    sudo pacman --sync --refresh --needed fakeroot git pacman debugedit
+    curl --location https://aur.archlinux.org/cgit/aur.git/snapshot/paru-bin.tar.gz -o /tmp/paru-bin.tar.gz
+    tar xzf /tmp/paru-bin.tar.gz
+    cd /tmp/paru-bin
+    makepkg --install
+    set +v
+}
+
+
 function arch-outsource-pkg-download {
     REMOTE="${1}"; test -n "$REMOTE" || {
         echo "Usage:"
