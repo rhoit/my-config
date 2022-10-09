@@ -28,6 +28,18 @@ function arch-yaourt-from-aur-makepkg {
 }
 
 
+function arch-paru-from-aur-makepkg {
+    set -v
+    sudo pacman --needed -Sy fakeroot git pacman
+    cd /tmp
+    curl --location https://aur.archlinux.org/cgit/aur.git/snapshot/paru-bin.tar.gz -o paru-bin.tar.gz
+    tar xzf paru-bin.tar.gz
+    cd /tmp/paru-bin
+    makepkg --install
+    set +v
+}
+
+
 function arch-outsource-pkg-download {
     (( $# == 0 )) && {
         echo "Usage:"
