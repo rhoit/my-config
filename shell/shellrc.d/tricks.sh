@@ -93,3 +93,24 @@ function mic2speaker {
     # wanna save it too
     # arecord -f cd - | tee output.wav | aplay -
 }
+
+
+function xdg-give-me-damn-exec {
+    (( $# == 0 )) && {
+        echo "Usage:"
+        echo "  $ xdg-give-me-damn-exec text/x-python"
+        return
+    }
+
+    local name=$(xdg-mime query default $1)
+
+    for prefix in ~/.local /user /usr/local; do
+        local mime="$prefix/share/applications/$name"
+        if [[ -f "$mime" ]]; then
+            grep "^Exec" $mime
+            return
+        fi
+    done
+    >&2 echo "GTFO no mime"
+    return 9000
+}
