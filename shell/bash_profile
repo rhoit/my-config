@@ -7,6 +7,9 @@
 if [[ -z "$DISPLAY" ]] && [[ "$XDG_VTNR" == 1 ]]; then
     # vt offset
     exec startx -- vt$((XDG_VTNR+6))
+
+    # direct startxfce4 but I do more in xinitrc
+    # exec startxfce4
 fi
 
 
