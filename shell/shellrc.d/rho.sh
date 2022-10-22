@@ -96,6 +96,18 @@ function mtp-device-enable-udev {
     # re insert your device
 }
 
+# ** vdi
+
+function vmnt-attach {
+    sudo modprobe nbd
+    sudo qemu-nbd -c /dev/nbd0 $1
+}
+
+
+function vmnt-detach {
+    sudo qemu-nbd -d /dev/nbd0
+}
+
 # ** bluetooth
 
 function bluetooth-turn-it-on {
