@@ -12,6 +12,7 @@ extend-ignore =
     E203,  # whitespace before ':'
     E221,  # multiple spaces before operator
     E251,  # unexpected spaces around keyword / parameter equals
+    E266,  # too many leading '#' for block comment
     E701,  # multiple statements on one line (colon)
     E702,  # multiple statements on one line (semicolon)
     E731,  # do not assign a lambda expression, use a def
