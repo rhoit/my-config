@@ -48,6 +48,22 @@ export WIN="~/.wine/dosdevices/c:"
 alias c:="cd $WIN"
 
 
+# * VIRTUAL DISK MOUNT
+# mount vdi image files
+
+# ** mount
+function vmnt-attach {
+    sudo modprobe nbd
+    sudo qemu-nbd -c /dev/nbd0 $1
+}
+
+
+# ** unmount
+function vmnt-detach {
+    sudo qemu-nbd -d /dev/nbd0
+}
+
+
 # * WRAPPERS
 # extend application options
 
