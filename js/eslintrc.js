@@ -8,8 +8,10 @@ module.exports = {
         'eslint:recommended',
     ],
 
+    // https://eslint.org/docs/latest/use/configure/language-options
     env : {
         browser : true,
+        es6     : true,  // for Promise
     },
 
     parserOptions : {
