@@ -22,6 +22,8 @@ alias c:="cd $WIN"
 
 alias py3="python3"
 alias py2="PYTHONSTARTUP="$HOME/.py2rc" /usr/bin/python2.7"
+alias pyhost="python3 -m http.server"
+
 
 function py {
     ##
