@@ -15,8 +15,9 @@ module.exports = {
     },
 
     parserOptions : {
-        sourceType  : 'module',
-        ecmaVersion : 2018,
+        sourceType : 'module',
+        ecmaVersion : 2020,
+        allowImportExportEverywhere : true,
     },
 
     // https://eslint.org/docs/latest/rules/
