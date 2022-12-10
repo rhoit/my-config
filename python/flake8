@@ -6,17 +6,28 @@ continuation-style = aligned
 max-line-length = 75
 max-complexity = 16
 
+# https://github.com/PyCQA/flake8/issues/1689
 extend-ignore =
-    E201,  # whitespace after '['
-    E202,  # whitespace before ']'
-    E203,  # whitespace before ':'
-    E221,  # multiple spaces before operator
-    E251,  # unexpected spaces around keyword / parameter equals
-    E266,  # too many leading '#' for block comment
-    E701,  # multiple statements on one line (colon)
-    E702,  # multiple statements on one line (semicolon)
-    E731,  # do not assign a lambda expression, use a def
-    E741,  # ambiguous variable name {I, O, l}
+    # whitespace after '['
+    E201,
+    # whitespace before ']'
+    E202,
+    # whitespace before ':'
+    E203,
+    # multiple spaces before operator
+    E221,
+    # unexpected spaces around keyword / parameter equals
+    E251,
+    # too many leading '#' for block comment
+    E266,
+    # multiple statements on one line (colon)
+    E701,
+    # multiple statements on one line (semicolon)
+    E702,
+    # do not assign a lambda expression, use a def
+    E731,
+    # ambiguous variable name {I, O, l}
+    E741,
 
 
 # Local Variables:
