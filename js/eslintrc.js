@@ -2,6 +2,8 @@
 // json-config-generator: https://eslint.org/play/
 
 
+/* eslint-env node */
+
 module.exports = {
     extends : [
         // 'eslint:all',
