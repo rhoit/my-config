@@ -218,3 +218,21 @@ function ffmpeg-samples {
     echo png to webm
     echo ffmpeg -i input%04d.png output.webm
 }
+
+
+# * AWS 💩
+
+function aws-ps {
+    _id='.Reservations[].Instances[].InstanceId'
+    _ip='.Reservations[].Instances[].PrivateIpAddress'
+    _name='.Reservations[].Instances[].Tags[] | select(.Key == "Name").Value'
+
+    query="[[($_name)], [$_ip], [$_id]] | transpose"
+    aws ec2 describe-instances | jq $query
+}
+
+
+function aws-exec {
+    echo aws ssm start-session --target $1
+    aws ssm start-session --target $1
+}
