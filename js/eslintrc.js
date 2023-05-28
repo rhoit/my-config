@@ -24,5 +24,10 @@ module.exports = {
 
     // https://eslint.org/docs/latest/rules/
     rules : {
+        // Possible Problems
+        'no-constant-condition'       : 'off',
+        'no-duplicate-imports'        : ['error', { includeExports : true }],
+        'no-self-compare'             : 'error',
+        'no-unused-vars'              : ['error', { args : 'none' }],  // recommended-override
     },
 }
