@@ -180,3 +180,21 @@ function audible-remove-drm {
     wget -c "http://cdl.audible.com/cgi-bin/aw_assemble_title_dynamic.aa?$(cat $1)" -O "/tmp/$1.aax"
     ffmpeg -y -activation_bytes $KEY_AUDIBLE -i "/tmp/$1.aax" -c:a copy -vn "$1.m4a"
 }
+
+
+# * AWS 💩
+
+function aws-ps {
+    _id='.Reservations[].Instances[].InstanceId'
+    _ip='.Reservations[].Instances[].PrivateIpAddress'
+    _name='.Reservations[].Instances[].Tags[] | select(.Key == "Name").Value'
+
+    query="[[($_name)], [$_ip], [$_id]] | transpose"
+    aws ec2 describe-instances | jq "$query"
+}
+
+
+function aws-exec {
+    echo aws ssm start-session --target "$1"
+    aws ssm start-session --target "$1"
+}
