@@ -29,5 +29,21 @@ module.exports = {
         'no-duplicate-imports'        : ['error', { includeExports : true }],
         'no-self-compare'             : 'error',
         'no-unused-vars'              : ['error', { args : 'none' }],  // recommended-override
+
+        // Suggestions
+        'complexity'                  : ['error', 20],  // default:20
+        'func-name-matching'          : ['error', 'always'],
+        'func-style'                  : ['error', 'declaration', { allowArrowFunctions : false }],
+        'max-depth'                   : ['error', 5],
+        'max-lines'                   : ['error', { max : 999, skipBlankLines : true, skipComments : true }],
+        'max-lines-per-function'      : ['error', { max : 256, skipBlankLines : true, skipComments : true }],
+        'no-console'                  : 'error',
+        'no-eval'                     : 'error',
+        'no-restricted-syntax'        : ['error', 'ArrowFunctionExpression'],
+        'no-var'                      : 'error',
+        'one-var'                     : ['error', 'never'],
+        'quote-props'                 : ['error', 'consistent'],
+        'spaced-comment'              : ['error', 'always'],
+        'yoda'                        : ['error', 'always'],
     },
 }
