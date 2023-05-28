@@ -1,6 +1,12 @@
 #!/usr/bin/bash
 
 
+FILE=/usr/local/bin/chromium
+cat > $FILE <<EOF
+exec /usr/bin/chromium --incognito --allow-file-access-from-file "\$@"
+EOF
+chmod +x $FILE
+
 
 FILE=/usr/local/bin/emacs
 cat > $FILE <<EOF
