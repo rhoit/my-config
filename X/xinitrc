@@ -20,6 +20,13 @@ fi
 /usr/bin/setxkbmap dvorak
 
 
+# ibus
+export IBUS_ENABLE_SYNC_MODE=1
+export XMODIFIERS=@im=ibus
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+
+
 case $1 in
     none) exec xterm;;
     gnome) exec gnome-session;;
