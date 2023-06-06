@@ -37,6 +37,7 @@ module.exports = {
         'max-depth'                   : ['error', 5],
         'max-lines'                   : ['error', { max : 999, skipBlankLines : true, skipComments : true }],
         'max-lines-per-function'      : ['error', { max : 256, skipBlankLines : true, skipComments : true }],
+        'max-statements'              : ['error', { max : 25 }],  // default:20
         'no-console'                  : 'error',
         'no-eval'                     : 'error',
         'no-restricted-syntax'        : ['error', 'ArrowFunctionExpression'],
