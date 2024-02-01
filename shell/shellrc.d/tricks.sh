@@ -114,3 +114,10 @@ function xdg-give-me-damn-exec {
     >&2 echo "GTFO no mime"
     return 9000
 }
+
+
+function notes {
+    echo wifi-qr
+    echo nmcli dev wifi show-password
+    echo qrencode -t ANSI "WIFI:S:SSID;T:{WPA|WEP};P:PASSWORD;;"
+}
