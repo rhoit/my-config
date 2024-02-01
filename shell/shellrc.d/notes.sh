@@ -23,3 +23,10 @@ function notes-ffmpeg {
     echo ffmpeg -i input%04d.png output.webm
     echo
 }
+
+
+function notes-wifi {
+    echo "* wifi-qr"
+    echo nmcli dev wifi show-password
+    echo qrencode -t ANSI "WIFI:S:SSID;T:{WPA|WEP};P:PASSWORD;;"
+}
