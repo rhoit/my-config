@@ -181,7 +181,7 @@ alias wacom-touch-off='xsetwacom set "Wacom Bamboo 16FG 4x5 Finger pad" touch of
 
 # ** youtube-dl
 function ydl {
-    local list=$(youtube-dl --list-formats $1)
+    local list=$(yt-dlp --list-formats $1)
 
     echo $list | sed -n '/[0-9]x[0-9]/p'
     echo -n "video format (default=244, skip=0): "; read video
@@ -204,8 +204,8 @@ function ydl {
         fi
     fi
 
-    echo youtube-dl --format "${video}${audio}" $@
-    youtube-dl --format "${video}${audio}" $@
+    echo yt-dlp --format "${video}${audio}" $@
+    yt-dlp --format "${video}${audio}" $@
 }
 
 
