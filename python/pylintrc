@@ -1,0 +1,35 @@
+[MASTER]
+jobs = 16
+ignore = CVS
+
+
+[FORMAT]
+# max-line-length = 75  # handle by flake8
+expected-line-ending-format = LF
+
+
+[BASIC]
+variable-naming-style = any
+function-naming-style = any
+method-naming-style = any
+argument-naming-style = any
+module-naming-style = any
+
+
+[MESSAGES CONTROL]
+disable =
+    consider-using-f-string,
+    invalid-name,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
+    multiple-statements,
+    superfluous-parens,
+    unused-import,
+    use-dict-literal,
+    use-list-literal,
+
+
+# Local Variables:
+# mode: conf
+# End:
