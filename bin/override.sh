@@ -15,6 +15,13 @@ EOF
 chmod +x $FILE
 
 
+FILE=/usr/local/bin/emacsclient
+cat > $FILE <<EOF
+/usr/bin/emacsclient --no-wait --alternate-editor=emacs "\$@"
+EOF
+chmod +x $FILE
+
+
 FILE=/usr/local/bin/gitg
 cat > $FILE <<EOF
 GTK_THEME=Adwaita:light exec /usr/bin/gitg "\$@"
