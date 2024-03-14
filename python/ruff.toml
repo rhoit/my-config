@@ -1,0 +1,50 @@
+# https://docs.astral.sh/ruff/rules/
+
+target-version = 'py312'  # minimum version to target
+indent-width = 4
+line-length = 75
+
+builtins = ['_']
+extend-exclude = [
+    '.vscode',
+]
+
+
+[lint]
+extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
+    'YTT',         # flake8-2020
+    'S',           # flake8-bandit
+    'COM',         # flake8-commas
+    'C4',          # flake8-comprehensions
+    'RET',         # flake8-return
+    'SIM',         # flake8-simplify
+    'C90',         # mccabe
+    'N',           # pep8-naming
+    'E',           # pycodestyle
+    'PGH',         # pygrep-hooks
+    'PL',          # pylint
+    'UP',          # pyupgrade
+]
+
+ignore = [
+    'S101',        # flake8-bandit.assert
+
+    'RET502',      # flake8-return.implicit-return-value
+    'RET503',      # flake8-return.implicit-return
+
+    'SIM300',      # flake8-simplify.yoda-conditions
+    'SIM102',      # flake8-simplify.collapsible-if
+
+    'N802',        # pep8-naming.invalid-function-name
+    'N803',        # pep8-naming.invalid-argument-name
+    'N806',        # pep8-naming.non-lowercase-variable-in-function
+    'N815',        # pep8-naming.mixed-case-variable-in-class-scope
+    'N816',        # pep8-naming.mixed-case-variable-in-global-scope
+
+    'E701',        # pycodestyle.multiple-statements-on-one-line-colon
+
+    'PLR0911',     # pylint.too-many-return-statements
+    'PLR2004',     # pylint.magic-value-comparison
+
+    'UP032',       # pyupgrade.f-string : prefer f-string over format
+]
