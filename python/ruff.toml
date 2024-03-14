@@ -1,0 +1,67 @@
+# https://docs.astral.sh/ruff/rules/
+
+target-version = 'py311'
+indent-width = 4
+line-length = 75
+
+builtins = ['_']
+extend-exclude = [
+    '.vscode',
+]
+
+[lint]
+extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
+    'E',           # pycodestyle
+
+    'N',           # pep8-naming
+
+    'C4',          # flake8-comprehensions
+    'COM',         # flake8-commas
+    'RET',         # flake8-return
+    'S',           # flake8-bandit
+    'SIM',         # flake8-simplify
+    'YTT',         # flake8-2020
+
+    'C90',         # mccabe
+
+    'PGH',         # pygrep-hooks
+    'PL',          # pylint
+    'UP',          # pyupgrade
+    'RUF',         # ruff-specific
+]
+
+ignore = [
+    'E701',     # multiple-statements-on-one-line-colon
+
+    'N802',     # invalid-function-name
+    'N803',     # invalid-argument-name
+    'N806',     # non-lowercase-variable-in-function
+    'N815',     # mixed-case-variable-in-class-scope
+
+    'PLR0911',  # too-many-return-statements
+    'PLR2004',  # magic-value-comparison
+
+    'S101',     # assert
+
+    'RET502',   # implicit-return-value
+
+    'UP032',    # f-string : prefer f-string over format
+
+    'SIM300',   # yoda-conditions
+
+    'RUF012',   # mutable-class-default
+]
+
+
+[lint.per-file-ignores]
+'__init__.py' = ['F401']
+
+
+[lint.isort]
+force-single-line = true  # Forces all from imports to appear on their own line.
+
+
+[format]
+quote-style = 'single'
+indent-style = 'space'
+line-ending = 'lf'
