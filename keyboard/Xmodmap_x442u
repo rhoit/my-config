@@ -1,0 +1,18 @@
+! man xmodmap
+! $ xmodmap -pke  # list current map table
+
+
+!!! Key codes !!!
+! keycode 119 = Insert
+! keycode 110 = Delete
+! keycode 117 = Home
+! keycode  82 = Prior
+! keycode  86 = Next
+! keycode 104 = End
+
+
+!!! ASUS x442u !!!
+! remap Power as Delete
+keycode 124 = Delete NoSymbol Delete
+! remap Insert as Delete
+keycode 119 = Delete NoSymbol Delete
