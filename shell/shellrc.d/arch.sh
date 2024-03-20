@@ -30,7 +30,7 @@ function arch-yaourt-from-aur-makepkg {
 
 function arch-paru-from-aur-makepkg {
     set -v
-    sudo pacman --needed -Sy fakeroot git pacman
+    sudo pacman --needed -Sy fakeroot git pacman debugedit
     cd /tmp
     curl --location https://aur.archlinux.org/cgit/aur.git/snapshot/paru-bin.tar.gz -o paru-bin.tar.gz
     tar xzf paru-bin.tar.gz
