@@ -6,6 +6,11 @@ continuation-style = aligned
 max-line-length = 75
 max-complexity = 16
 
+per-file-ignores =
+    # F401:imported but unused
+    __init__.py: F401
+
+
 # https://github.com/PyCQA/flake8/issues/1689
 extend-ignore =
     # whitespace after '['
