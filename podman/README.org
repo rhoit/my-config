@@ -1,0 +1,22 @@
+#+TITLE: podman
+#+DATE: 2021 Jul 27, Tuesday
+
+
+* ARCH IMAGE
+
+  Official Arch Linux container images are available [[https://hub.docker.com][DockerHub]] as
+  [[https://hub.docker.com/_/archlinux][library/archlinux]] and [[https://hub.docker.com/r/archlinux/archlinux][archlinux/archlinux]],
+
+  Our container image is closely base on the Official image with few
+  tweaks of our own.
+
+  moving from packstrap
+  - devtools
+  - fakechroot
+  - fakeroot
+
+* REFERENCE
+
+  https://podman.io/getting-started/
+  https://wiki.archlinux.org/title/Podman
+  https://gitlab.archlinux.org/archlinux/archlinux-docker/blob/master/README.md
