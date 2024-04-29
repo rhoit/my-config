@@ -1,0 +1,10 @@
+#+TITLE: git
+#+DATE: 2020 Mar 30, Monday
+
+
+* TOOLS
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    pacman -Ss git-delta
+  #+END_SRC
