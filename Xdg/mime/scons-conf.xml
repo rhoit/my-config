@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="text/scons">
+    <comment>SCons: A software construction tool</comment>
+    <glob pattern="SConstruct"/>
+  </mime-type>
+</mime-info>
