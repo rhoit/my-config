@@ -23,6 +23,9 @@ git config --global pull.rebase true
 
 git config --global core.attributesfile "${PWD}/gitattributes"
 
+# * GIT TOOL
+
+pacman -Ss git-delta
 
 # * GIT USER SETUP
 echo "* GIT USER SETUP"
