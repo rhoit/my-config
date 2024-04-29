@@ -1,0 +1,12 @@
+#+TITLE: git
+#+DATE: 2020 Mar 30, Monday
+
+
+* CONFIG
+
+  ~/.config/git/ignore
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    git config --global core.excludeFiles 'path/to/global/git/ignore'
+  #+END_SRC
