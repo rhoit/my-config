@@ -1,0 +1,17 @@
+#+TITLE: rofi
+#+DATE: 2024 Apr 28, Sunday
+
+
+* INTRO
+
+  Rofi is a window switcher, run dialog, ssh-launcher and dmenu
+  replacement.
+
+  https://wiki.archlinux.org/title/rofi
+
+* THEME
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    pacman -S papirus-icon-theme
+  #+END_SRC
