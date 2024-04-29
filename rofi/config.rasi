@@ -2,7 +2,16 @@ configuration {
     modi        : "run,window,drun,keys,ssh";
     font        : "inconsolata 16";
     combi-modi  : "run,drun,window";
-    show-icons  : false;
+    show-icons  : true;
+    icon-theme  : "Papirus";
 }
 
+
+// https://github.com/davatorium/rofi/blob/next/doc/rofi-theme.5.markdown
+
 @theme "Arc-Dark"
+
+element-icon {
+    size    : 2ch;
+    padding : 0 0.5ch;
+}
