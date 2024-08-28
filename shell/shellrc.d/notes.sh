@@ -30,3 +30,8 @@ function notes-wifi {
     echo nmcli dev wifi show-password
     echo qrencode -t ANSI "WIFI:S:SSID;T:{WPA|WEP};P:PASSWORD;;"
 }
+
+
+function notes-input {
+    echo /usr/share/X11/locale/en_US.UTF-8/Compose
+}
