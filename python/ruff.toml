@@ -1,6 +1,6 @@
 # https://docs.astral.sh/ruff/rules/
 
-target-version = 'py311'
+target-version = 'py312'  # minimum version to target
 indent-width = 4
 line-length = 75
 
@@ -37,6 +37,7 @@ ignore = [
     'N803',     # invalid-argument-name
     'N806',     # non-lowercase-variable-in-function
     'N815',     # mixed-case-variable-in-class-scope
+    'N816',     # mixed-case-variable-in-global-scope
 
     'PLR0911',  # too-many-return-statements
     'PLR2004',  # magic-value-comparison
@@ -44,10 +45,12 @@ ignore = [
     'S101',     # assert
 
     'RET502',   # implicit-return-value
+    'RET503',   # implicit-return
 
     'UP032',    # f-string : prefer f-string over format
 
     'SIM300',   # yoda-conditions
+    'SIM102',   # collapsible-if
 
     'RUF012',   # mutable-class-default
 ]
@@ -65,3 +68,4 @@ force-single-line = true  # Forces all from imports to appear on their own line.
 quote-style = 'single'
 indent-style = 'space'
 line-ending = 'lf'
+docstring-code-format = true
