@@ -1,0 +1,101 @@
+#+TITLE: keyboard
+#+DATE: 2024 Nov 07, Thursday
+#+OPTIONS: num:t toc:1
+#+STARTUP: overview
+
+
+* xkb layouts
+
+  add the keyboard [[xkb/new]]
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    install --mode 644 xkb/new /usr/share/X11/xkb/symbols
+  #+END_SRC
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    setxkbmap new  # switch to nepalbhasa layout
+    setxkbmap us   # switch to us english layout
+    setxkbmap us dvorak # switch to us dvorak varient
+  #+END_SRC
+
+  Registered by adding `<layout>` block as show in below inside
+  `<layout List>` in file [[/usr/share/X11/xkb/rules/evdev.xml]] for
+  Desktop Environments to detect it. Tested in xfce4
+
+  #+NAME: newari-layout
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC html :exports both
+    <layout>
+        <configItem>
+            <name>new</name>
+            <!-- Keyboard indicator for Nepalbhasa layouts -->
+            <shortDescription>newa</shortDescription>
+            <description>Nepal Bhasa(Nepal)</description>
+            <countryList>
+                <iso3166Id>NP</iso3166Id>
+            </countryList>
+            <languageList>
+                <iso639Id>new</iso639Id>
+            </languageList>
+        </configItem>
+    </layout>
+  #+END_SRC
+
+* setxkbmap
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    setxkbmap -query
+  #+END_SRC
+
+  #+RESULTS:
+  : rules:      evdev
+  : model:      pc105
+  : layout:     us,np,new
+  : variant:    dvorak,,
+  : options:    compose:caps,grp:win_space_toggle
+  current setup
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    setxkbmap -print
+  #+END_SRC
+
+  #+RESULTS:
+  : xkb_keymap {
+  : 	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
+  : 	xkb_types     { include "complete"	};
+  : 	xkb_compat    { include "complete"	};
+  : 	xkb_symbols   { include "pc+us(dvorak)+np:2+inet(evdev)+compose(caps)+group(win_space_toggle):1+group(win_space_toggle):2"	};
+  : 	xkb_geometry  { include "pc(pc105)"	};
+  : };
+
+** compose key list
+
+   #+HEADER: :results output :eval no-export
+   #+BEGIN_SRC sh :exports both
+     head /usr/share/X11/locale/${LANG}/Compose
+   #+END_SRC
+
+   #+RESULTS:
+   #+begin_example
+   # UTF-8 (Unicode) Compose sequences
+   #
+   # Spacing versions of accents (mostly)
+   <dead_tilde> <space>			: "~"	asciitilde # TILDE
+   <dead_tilde> <dead_tilde>		: "~"	asciitilde # TILDE
+   <Multi_key> <minus> <space>		: "~"	asciitilde # TILDE
+   <Multi_key> <space> <minus>		: "~"	asciitilde # TILDE
+   <dead_acute> <space>			: "'"	apostrophe # APOSTROPHE
+   <dead_acute> <dead_acute>		: "´"	acute # ACUTE ACCENT
+   <Multi_key> <apostrophe> <apostrophe>	: "´"	acute # ACUTE ACCENT
+   #+end_example
+
+* ibus
+
+  #+HEADER: :results output :eval no-export
+  #+BEGIN_SRC sh :exports both
+    pacman -S ibus
+  #+END_SRC
