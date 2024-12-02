@@ -35,3 +35,9 @@ function notes-wifi {
 function notes-input {
     echo /usr/share/X11/locale/en_US.UTF-8/Compose
 }
+
+
+function notes-bootable {
+    echo https://wiki.archlinux.org/title/USB_flash_installation_medium
+    echo dd status=progress bs=4M conv=fsync oflag=direct if=archlinux-2024.12.01-x86_64.iso of=/dev/sda
+}
