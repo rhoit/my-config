@@ -94,7 +94,9 @@ function ssh-sftp-wrapper {
         # sed -i "${line}d" ~/.ssh/known_hosts
         ssh-keygen -R $domain
         ssh-keyscan -t ecdsa $domain >> ~/.ssh/known_hosts
-        $CMD $@
+        echo 'Press ENTER to retry'
+        read -r reply
+        $CMD $@  # retry once
         return $?
     fi
 }
