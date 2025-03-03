@@ -99,7 +99,8 @@ function nautilus {
 
 
 # ** pgcli
-alias psql='pgcli'
+# https://www.pgcli.com/pager
+alias psql='LESS="-SRXF" pgcli'
 
 
 # ** mount
