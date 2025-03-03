@@ -185,21 +185,21 @@ function ydl {
     local list=$(yt-dlp --list-formats $1)
 
     echo $list | sed -n '/[0-9]x[0-9]/p'
-    echo -n "video format (default=244, skip=0): "; read video
+    echo -n "video format (default=136, skip=0): "; read video
     if [[ "$video" == 0 ]]; then
         video=""
     else
-        video="${video:-244}"
+        video="${video:-136}"
     fi
 
     echo $list | sed -n '/audio only/p'
     total=$(echo $list | sed -n '/audio only/p' | wc -l)
     # TODO: check 250 is in or not
-    echo -n "audio format (default=250, skip=0): "; read audio
+    echo -n "audio format (default=140, skip=0): "; read audio
     if [[ "$audio" == 0 ]]; then
         audio=""
     else
-        audio="${audio:-250}"
+        audio="${audio:-140}"
         if [[ "$video" != "" ]]; then
             audio="+$audio"
         fi
