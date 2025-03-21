@@ -4,8 +4,16 @@
 ## application related to archlinux
 
 alias pm='pacman'
-alias abs="echo 'abs is depreciated, use asp (Arch Source Package)' args:"
 alias yaourt="echo 'use yay if you can or \yaourt to escape'"
+
+function arch-pkgctl-help {
+    echo "$1 is depreciated"
+    echo "    pkgctl repo clone <package-name>"
+    echo "    make sure to add the key to https://gitlab.archlinux.org"
+}
+
+alias abs='arch-pkgctl-help abs'
+alias asp='arch-pkgctl-help asp'
 
 
 function arch-paru-from-aur-makepkg {
