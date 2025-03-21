@@ -6,6 +6,13 @@
 alias pm='pacman'
 alias yaourt="echo 'use yay if you can or \yaourt to escape'"
 
+function arch-rho-pkgctl-help {
+    # https://wiki.archlinux.org/title/Arch_build_system
+    echo "$1 is depreciated"
+    echo "    pkgctl repo clone <package-name>"
+    echo "    make sure to add the key to https://gitlab.archlinux.org"
+}
+
 
 function arch-rho-paru-from-aur-makepkg {
     set -v
