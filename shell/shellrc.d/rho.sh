@@ -27,7 +27,8 @@ function py {
 
     # detect virtual env
     local VER=$(python -c "import sys; print('{v.major}.{v.minor}'.format(v=sys.version_info))")
-    export PYTHONPATH="$(dirname `which python`)/../lib/python${VER}/site-packages/"
+    local which_python="$(which python)"  # handel path with spaces
+    export PYTHONPATH="$(dirname ${which_python})/../lib/python${VER}/site-packages/"
     echo "venv: $PYTHONPATH"
 
     which bpython && bpython || python
