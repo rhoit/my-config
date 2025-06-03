@@ -10,6 +10,14 @@ extend-exclude = [
 ]
 
 
+[format]  # usless as black
+docstring-code-format = true
+indent-style = 'space'
+line-ending = 'lf'
+quote-style = 'single'
+skip-magic-trailing-comma = false
+
+
 [lint]
 extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'YTT',         # flake8-2020
