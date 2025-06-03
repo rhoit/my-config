@@ -18,12 +18,17 @@ quote-style = 'single'
 skip-magic-trailing-comma = false
 
 
+[lint.flake8-quotes]
+inline-quotes = 'single'
+
+
 [lint]
 extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'YTT',         # flake8-2020
     'S',           # flake8-bandit
     'COM',         # flake8-commas
     'C4',          # flake8-comprehensions
+    'Q',           # flake8-quote
     'RET',         # flake8-return
     'SIM',         # flake8-simplify
     'C90',         # mccabe
@@ -39,6 +44,8 @@ ignore = [
 
     'RET502',      # flake8-return.implicit-return-value
     'RET503',      # flake8-return.implicit-return
+
+    'Q003',        # flake8-quote.avoidable-escaped-quote
 
     'SIM300',      # flake8-simplify.yoda-conditions
     'SIM102',      # flake8-simplify.collapsible-if
