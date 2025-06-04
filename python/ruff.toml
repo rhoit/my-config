@@ -22,6 +22,10 @@ skip-magic-trailing-comma = false
 inline-quotes = 'single'
 
 
+[lint.flake8-import-conventions.extend-aliases]
+'datetime' = 'dt'
+
+
 [lint.isort]
 force-single-line = true  # Forces all from imports to appear on their own line.
 length-sort-straight = true
@@ -35,6 +39,7 @@ extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'S',           # flake8-bandit
     'COM',         # flake8-commas
     'C4',          # flake8-comprehensions
+    'ICN',         # flake8-import-conventions
     'Q',           # flake8-quote
     'RET',         # flake8-return
     'SIM',         # flake8-simplify
