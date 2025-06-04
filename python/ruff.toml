@@ -22,6 +22,13 @@ skip-magic-trailing-comma = false
 inline-quotes = 'single'
 
 
+[lint.isort]
+force-single-line = true  # Forces all from imports to appear on their own line.
+length-sort-straight = true
+lines-after-imports = 2
+lines-between-types = 1  # Use a single line between direct and from import.
+
+
 [lint]
 extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'YTT',         # flake8-2020
@@ -31,6 +38,7 @@ extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'Q',           # flake8-quote
     'RET',         # flake8-return
     'SIM',         # flake8-simplify
+    'I',           # isort
     'C90',         # mccabe
     'N',           # pep8-naming
     'E',           # pycodestyle
@@ -49,6 +57,8 @@ ignore = [
 
     'SIM300',      # flake8-simplify.yoda-conditions
     'SIM102',      # flake8-simplify.collapsible-if
+
+    'I001',        # isort.unsorted-imports
 
     'N802',        # pep8-naming.invalid-function-name
     'N803',        # pep8-naming.invalid-argument-name
