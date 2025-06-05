@@ -33,6 +33,10 @@ lines-after-imports = 2
 lines-between-types = 1  # Use a single line between direct and from import.
 
 
+[lint.per-file-ignores]
+'__init__.py' = ['F401', 'F403']
+
+
 [lint]
 extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'YTT',         # flake8-2020
