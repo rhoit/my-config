@@ -14,7 +14,7 @@ ZSH_THEME="rho"
 
 DISABLE_AUTO_UPDATE="true"
 
-plugins=(git colored-man-pages zsh-syntax-highlighting ipinfo)
+plugins=(git colored-man-pages zsh-syntax-highlighting zsh-autosuggestions ipinfo)
 
 set -k  # INTERACTIVE_COMMENTS allow to add comments
 
