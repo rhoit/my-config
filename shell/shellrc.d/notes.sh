@@ -41,3 +41,11 @@ function notes-bootable {
     echo https://wiki.archlinux.org/title/USB_flash_installation_medium
     echo dd status=progress bs=4M conv=fsync oflag=direct if=archlinux-2024.12.01-x86_64.iso of=/dev/sda
 }
+
+
+function notes-x2x {
+    echo "echo 'X11Forwarding yes' > /etc/ssh/ssh_config.d/X11Forward "
+    echo " west north east"
+    echo "    ←   ↑   →   "
+    echo "ssh [username]@[hostname] -Y x2x -to :0 -east"
+}
