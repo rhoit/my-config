@@ -38,6 +38,7 @@ lines-between-types = 1  # Use a single line between direct and from import.
 
 
 [lint]
+preview = true
 extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
     'YTT',         # flake8-2020
     'S',           # flake8-bandit
