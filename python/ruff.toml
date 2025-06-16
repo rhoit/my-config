@@ -87,7 +87,16 @@ ignore = [
     'N815',        # pep8-naming.mixed-case-variable-in-class-scope
     'N816',        # pep8-naming.mixed-case-variable-in-global-scope
 
+    'E201',        # pycodestyle.whitespace-after-open-bracket '['
+    'E202',        # pycodestyle.whitespace-before-close-bracket ']'
+    'E203',        # pycodestyle.whitespace-before-punctuation
+    'E221',        # pycodestyle.multiple-spaces-before-operator
+    'E251',        # pycodestyle.unexpected-spaces-around-keyword-parameter-equals
+    'E266',        # pycodestyle.multiple-leading-hashes-for-block-comment
+    'E271',        # pycodestyle.multiple-spaces-after-keyword
     'E701',        # pycodestyle.multiple-statements-on-one-line-colon
+    'E702',        # pycodestyle.multiple-statements-on-one-line-semicolon
+    'E741',        # pycodestyle.ambiguous-variable-name {I, O, l}
 
     'PLR0911',     # pylint.too-many-return-statements
     'PLR2004',     # pylint.magic-value-comparison
