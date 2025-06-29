@@ -98,6 +98,7 @@ ignore = [
     'E702',        # pycodestyle.multiple-statements-on-one-line-semicolon
     'E741',        # pycodestyle.ambiguous-variable-name {I, O, l}
 
+    'PLC1901',     # pylint.compare-to-empty-string
     'PLR0911',     # pylint.too-many-return-statements
     'PLR2004',     # pylint.magic-value-comparison
 
