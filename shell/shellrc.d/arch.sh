@@ -4,7 +4,7 @@
 ## archlinux scripts
 
 alias pm='pacman'
-alias yaourt="echo 'use yay if you can or \yaourt to escape'"
+alias yaourt="echo 'use paru or https://wiki.archlinux.org/title/AUR_helpers'"
 
 function arch-rho-pkgctl-help {
     # https://wiki.archlinux.org/title/Arch_build_system
