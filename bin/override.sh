@@ -4,9 +4,13 @@ set -e
 set -v
 
 
+# --incognito PRIVACY MODE
+# --disable-web-security DISABLE CORS
+# --user-data-dir REQUIRED FOR --disable-web-security
+# --allow-file-access-from-file
 FILE=/usr/local/bin/chromium
 cat > $FILE <<EOF
-exec /usr/bin/chromium --incognito --allow-file-access-from-file "\$@"
+exec /usr/bin/chromium --incognito --user-data-dir=\$(mktemp) --disable-web-security --allow-file-access-from-file "\$@"
 EOF
 chmod +x $FILE
 
