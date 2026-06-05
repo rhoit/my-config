@@ -49,3 +49,9 @@ function notes-x2x {
     echo "    ←   ↑   →   "
     echo "ssh [username]@[hostname] -Y x2x -to :0 -east"
 }
+
+
+function notes-ssh {
+    echo "ssh -ND <port> <host>  # create SOCK5 tunnel on localhost:<port>"
+    echo "ssh -N -f -L 3389:localhost:3389 telescope.fqdn  # reverse Tunnel"
+}
