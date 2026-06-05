@@ -29,6 +29,7 @@ zstyle ':completion:*:*:make:*' tag-order 'targets'
 
 source $ZSH/oh-my-zsh.sh
 source ~/.shellrc  # unified shell config
+source /usr/share/doc/git-extras/git-extras-completion.zsh
 
 # Local Variables:
 # mode: Shell-Script
