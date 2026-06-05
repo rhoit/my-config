@@ -17,7 +17,9 @@ function arch-rho-pkgctl-help {
 function arch-rho-paru-from-aur-makepkg {
     set -v
     sudo pacman --sync --refresh --needed fakeroot git pacman debugedit
-    curl --location https://aur.archlinux.org/cgit/aur.git/snapshot/paru-bin.tar.gz -o /tmp/paru-bin.tar.gz
+    test -f /tmp/paru-bin.tar.gz || curl --location https://aur.archlinux.org/cgit/aur.git/snapshot/paru-bin.tar.gz --output /tmp/paru-bin.tar.gz || {
+        echo "please download manually it is Protected by Anubis"
+    }
     tar xzf /tmp/paru-bin.tar.gz
     cd /tmp/paru-bin
     makepkg --install
