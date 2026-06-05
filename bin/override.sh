@@ -4,9 +4,14 @@ set -e
 set -v
 
 
+# --incognito PRIVACY MODE
+# --disable-web-security DISABLE CORS
+# --user-data-dir=\$(mktemp) REQUIRED FOR --disable-web-security
+# --unsafely-disable-devtools-self-xss-warnings allow paste in devtool console
+# --allow-file-access-from-file
 FILE=/usr/local/bin/chromium
 cat > $FILE <<EOF
-exec /usr/bin/chromium --incognito --allow-file-access-from-file "\$@"
+exec /usr/bin/chromium --incognito --unsafely-disable-devtools-self-xss-warnings --allow-file-access-from-file "\$@"
 EOF
 chmod +x $FILE
 
