@@ -55,3 +55,9 @@ function notes-ssh {
     echo "ssh -ND <port> <host>  # create SOCK5 tunnel on localhost:<port>"
     echo "ssh -N -f -L 3389:localhost:3389 telescope.fqdn  # reverse Tunnel"
 }
+
+
+function notes-pacman {
+    echo "pacman --sync|-S --clean|-c --clean|-c  # clean cache"
+    echo "pacman --query|-Q --foreign|-m  # helpful to find aur packages"
+}
