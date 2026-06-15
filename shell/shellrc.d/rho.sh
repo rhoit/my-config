@@ -9,6 +9,12 @@ export EDITOR='mg'
 export VISUAL='mg'
 export SCREEN='tmux'
 
+
+# * WARNINGS
+
+alias neofetch="echo 'use fastfetch, neofetch development stopped https://github.com/dylanaraps/neofetch"
+
+
 # * PHP
 
 alias phphost='php -S localhost:8000'  # web-srv since 5.4
