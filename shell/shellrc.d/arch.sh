@@ -13,6 +13,9 @@ function arch-rho-pkgctl-help {
     echo "    make sure to add the key to https://gitlab.archlinux.org"
 }
 
+alias abs='arch-rho-pkgctl-help abs'
+alias asp='arch-rho-pkgctl-help asp'
+
 
 function arch-rho-paru-from-aur-makepkg {
     set -v
