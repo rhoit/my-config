@@ -95,6 +95,7 @@ ignore = [
     'E271',        # pycodestyle.multiple-spaces-after-keyword
     'E701',        # pycodestyle.multiple-statements-on-one-line-colon
     'E702',        # pycodestyle.multiple-statements-on-one-line-semicolon
+    'E712',        # pycodestyle.true-false-comparison
     'E741',        # pycodestyle.ambiguous-variable-name {I, O, l}
 
     'PLC1901',     # pylint.compare-to-empty-string
