@@ -69,6 +69,8 @@ extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
 ]
 
 ignore = [
+    'suspicious-non-cryptographic-random-usage',          # S311 flake8-bandit
+
     'unnecessary-collection-call',                        # C408 flake8-comprehensions.unnecessary-collection-call
 
     'boolean-default-value-positional-argument',          # FBT002 flake8-boolean-trap.boolean-default-value-positional-argument
