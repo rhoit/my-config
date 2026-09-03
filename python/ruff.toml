@@ -34,7 +34,10 @@ lines-between-types = 1  # Use a single line between direct and from import.
 
 
 [lint.per-file-ignores]
-'__init__.py' = ['F401', 'F403']
+'__init__.py' = [
+    'unused-import',                    # F401
+    'undefined-local-with-import-star'  # F403
+]
 
 
 [lint]
@@ -66,45 +69,45 @@ extend-select = [  # default [ 'E4', 'E7', 'E9', 'F' ]
 ]
 
 ignore = [
-    'C408',        # flake8-comprehensions.unnecessary-collection-call
+    'unnecessary-collection-call',                        # C408 flake8-comprehensions.unnecessary-collection-call
 
-    'FBT002',      # flake8-boolean-trap.boolean-default-value-positional-argument
+    'boolean-default-value-positional-argument',          # FBT002 flake8-boolean-trap.boolean-default-value-positional-argument
 
-    'RET502',      # flake8-return.implicit-return-value
-    'RET503',      # flake8-return.implicit-return
+    'implicit-return-value',                              # RET502 flake8-return.implicit-return-value
+    'implicit-return',                                    # RET503 flake8-return.implicit-return
 
-    'Q003',        # flake8-quote.avoidable-escaped-quote
+    'avoidable-escaped-quote',                            # Q003 flake8-quote.avoidable-escaped-quote
 
-    'SIM300',      # flake8-simplify.yoda-conditions
-    'SIM102',      # flake8-simplify.collapsible-if
+    'yoda-conditions',                                    # SIM300 flake8-simplify.yoda-conditions
+    'collapsible-if',                                     # SIM102 flake8-simplify.collapsible-if
 
-    'I001',        # isort.unsorted-imports
+    'unsorted-imports',                                   # I001 isort.unsorted-imports
 
-    'N802',        # pep8-naming.invalid-function-name
-    'N803',        # pep8-naming.invalid-argument-name
-    'N806',        # pep8-naming.non-lowercase-variable-in-function
-    'N815',        # pep8-naming.mixed-case-variable-in-class-scope
-    'N816',        # pep8-naming.mixed-case-variable-in-global-scope
+    'invalid-function-name',                              # N802 pep8-naming.invalid-function-name
+    'invalid-argument-name',                              # N803 pep8-naming.invalid-argument-name
+    'non-lowercase-variable-in-function',                 # N806 pep8-naming.non-lowercase-variable-in-function
+    'mixed-case-variable-in-class-scope',                 # N815 pep8-naming.mixed-case-variable-in-class-scope
+    'mixed-case-variable-in-global-scope',                # N816 pep8-naming.mixed-case-variable-in-global-scope
 
-    'E201',        # pycodestyle.whitespace-after-open-bracket '['
-    'E202',        # pycodestyle.whitespace-before-close-bracket ']'
-    'E203',        # pycodestyle.whitespace-before-punctuation
-    'E221',        # pycodestyle.multiple-spaces-before-operator
-    'E251',        # pycodestyle.unexpected-spaces-around-keyword-parameter-equals
-    'E266',        # pycodestyle.multiple-leading-hashes-for-block-comment
-    'E271',        # pycodestyle.multiple-spaces-after-keyword
-    'E701',        # pycodestyle.multiple-statements-on-one-line-colon
-    'E702',        # pycodestyle.multiple-statements-on-one-line-semicolon
-    'E712',        # pycodestyle.true-false-comparison
-    'E741',        # pycodestyle.ambiguous-variable-name {I, O, l}
+    'whitespace-after-open-bracket',                      # E201 pycodestyle.whitespace-after-open-bracket '['
+    'whitespace-before-close-bracket',                    # E202 pycodestyle.whitespace-before-close-bracket ']'
+    'whitespace-before-punctuation',                      # E203 pycodestyle.whitespace-before-punctuation
+    'multiple-spaces-before-operator',                    # E221 pycodestyle.multiple-spaces-before-operator
+    'unexpected-spaces-around-keyword-parameter-equals',  # E251 pycodestyle.unexpected-spaces-around-keyword-parameter-equals
+    'multiple-leading-hashes-for-block-comment',          # E266 pycodestyle.multiple-leading-hashes-for-block-comment
+    'multiple-spaces-after-keyword',                      # E271 pycodestyle.multiple-spaces-after-keyword
+    'multiple-statements-on-one-line-colon',              # E701 pycodestyle.multiple-statements-on-one-line-colon
+    'multiple-statements-on-one-line-semicolon',          # E702 pycodestyle.multiple-statements-on-one-line-semicolon
+    'true-false-comparison',                              # E712 pycodestyle.true-false-comparison
+    'ambiguous-variable-name',                            # E741 pycodestyle.ambiguous-variable-name {I, O, l}
 
-    'PLC1901',     # pylint.compare-to-empty-string
-    'PLR0911',     # pylint.too-many-return-statements
-    'PLR2004',     # pylint.magic-value-comparison
+    'compare-to-empty-string',                            # PLC1901 pylint.compare-to-empty-string
+    'too-many-return-statements',                         # PLR0911 pylint.too-many-return-statements
+    'magic-value-comparison',                             # PLR2004 pylint.magic-value-comparison
 
-    'UP032',       # pyupgrade.f-string : prefer f-string over format
+    'f-string',                                           # UP032 pyupgrade.f-string : prefer f-string over format
 
-    'RUF012',      # ruff-specific.mutable-class-default
-    'RUF022',      # ruff-specific.unsorted-dunder-all
-    'RUF105',      # ruff-specific.noqa-comments
+    'mutable-class-default',                              # RUF012 ruff-specific.mutable-class-default
+    'unsorted-dunder-all',                                # RUF022 ruff-specific.unsorted-dunder-all
+    'noqa-comments',                                      # RUF105 ruff-specific.noqa-comments
 ]
