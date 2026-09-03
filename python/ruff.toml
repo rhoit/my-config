@@ -106,4 +106,5 @@ ignore = [
 
     'RUF012',      # ruff-specific.mutable-class-default
     'RUF022',      # ruff-specific.unsorted-dunder-all
+    'RUF105',      # ruff-specific.noqa-comments
 ]
