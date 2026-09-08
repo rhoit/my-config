@@ -4,7 +4,7 @@
 
 \encoding unicode
 \pset numericlocale on
-\pset null ∅
+\pset null Ø
 \pset linestyle unicode
 
 \set COMP_KEYWORD_CASE upper
